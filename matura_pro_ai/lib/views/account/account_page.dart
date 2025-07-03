@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../../core/constants.dart';
 import '../../routes/app_routes.dart';
 import '../../models/account.dart';
 
@@ -30,7 +31,7 @@ class _AccountPageState extends State<AccountPage> {
     });
 
     ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(content: Text("Name updated successfully")),
+      const SnackBar(content: Text(AppStrings.nameUpdateSucess)),
     );
   }
 
@@ -45,28 +46,28 @@ class _AccountPageState extends State<AccountPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text("Account")),
+      appBar: AppBar(title: const Text(AppStrings.account)),
       body: Padding(
-        padding: const EdgeInsets.all(16.0),
+        padding: const EdgeInsets.all(AppStyles.padding),
         child: Column(
           children: [
-            Text("Email: ${account.email}", style: const TextStyle(fontSize: 16)),
+            Text("${AppStrings.email}: ${account.email}", style: AppStyles.paragraph),
             const SizedBox(height: 16),
             TextField(
               controller: _nameController,
-              decoration: const InputDecoration(labelText: "Name"),
+              decoration: const InputDecoration(labelText: AppStrings.name),
             ),
             const SizedBox(height: 10),
             ElevatedButton(
               onPressed: _onSave,
-              child: const Text("Save Name"),
+              child: const Text(AppStrings.saveName),
             ),
-            Text("Last Placement Test: ${account.lastPlacementTestResult.toStringAsFixed(1)}%", style: const TextStyle(fontSize: 16)),
             const SizedBox(height: 16),
+            Text("${AppStrings.lastTest}: ${account.lastPlacementTestResult.toStringAsFixed(1)}%", style: AppStyles.paragraph),
             const SizedBox(height: 30),
             ElevatedButton(
               onPressed: _onLogout,
-              child: const Text("Logout"),
+              child: const Text(AppStrings.logout),
             ),
           ],
         ),

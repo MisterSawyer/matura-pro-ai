@@ -10,6 +10,7 @@ import '../views/home/home_page.dart';
 import '../views/account/account_page.dart';
 import '../views/placement_test/placement_test_page.dart';
 import '../views/placement_test/placement_test_result_page.dart';
+import '../core/theme.dart';
 
 class App extends StatelessWidget {
   const App({super.key});
@@ -19,6 +20,9 @@ class App extends StatelessWidget {
     return MaterialApp(
       title: 'Matura Pro AI',
       debugShowCheckedModeBanner: false,
+      theme: AppTheme.light,
+      darkTheme: AppTheme.dark,
+      themeMode: ThemeMode.system,
       initialRoute: AppRoutes.login,
       routes: {
         AppRoutes.register: (context) => const RegisterPage(),

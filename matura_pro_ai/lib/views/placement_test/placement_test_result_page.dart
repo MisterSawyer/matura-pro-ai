@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+
+import '../../core/constants.dart';
+
 import '../../models/account.dart';
 
 class PlacementTestResultPage extends StatelessWidget {
@@ -14,23 +17,23 @@ class PlacementTestResultPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text("Test Result")),
+      appBar: AppBar(title: const Text(AppStrings.testResult)),
       body: Padding(
-        padding: const EdgeInsets.all(20.0),
+        padding: const EdgeInsets.all(AppStyles.padding),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Text("Well done, ${account.name}!",
-                style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold)),
+            Text("${AppStrings.wellDone}, ${account.name}!",
+                style: AppStyles.subHeader),
             const SizedBox(height: 20),
-            Text("Your score: ${score.toStringAsFixed(1)}%",
-                style: const TextStyle(fontSize: 20)),
+            Text("${AppStrings.testResult}: ${score.toStringAsFixed(1)}%",
+                style: AppStyles.subHeader),
             const SizedBox(height: 40),
             ElevatedButton(
               onPressed: () {
                 Navigator.pop(context, score);
               },
-              child: const Text("Back to Home"),
+              child: const Text(AppStrings.backHome),
             ),
           ],
         ),

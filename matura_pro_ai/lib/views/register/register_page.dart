@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../../core/constants.dart';
 import '../../routes/app_routes.dart';
 
 import '../../controllers/register_controller.dart';
@@ -24,12 +25,12 @@ class _RegisterPageState extends State<RegisterPage> {
 
     if (success) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text("Registration successful")),
+        const SnackBar(content: Text(AppStrings.registrationSuccess)),
       );
       Navigator.pushReplacementNamed(context, AppRoutes.login);
     } else {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text("User already exists")),
+        const SnackBar(content: Text(AppStrings.userExists)),
       );
     }
   }
@@ -37,15 +38,15 @@ class _RegisterPageState extends State<RegisterPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text("Register")),
+      appBar: AppBar(title: const Text(AppStrings.register)),
       body: Padding(
-        padding: const EdgeInsets.all(16.0),
+        padding: const EdgeInsets.all(AppStyles.padding),
         child: Column(
           children: [
-            TextField(controller: _emailController, decoration: const InputDecoration(labelText: "Email")),
-            TextField(controller: _passwordController, decoration: const InputDecoration(labelText: "Password"), obscureText: true),
+            TextField(controller: _emailController, decoration: const InputDecoration(labelText: AppStrings.email)),
+            TextField(controller: _passwordController, decoration: const InputDecoration(labelText: AppStrings.password), obscureText: true),
             const SizedBox(height: 20),
-            ElevatedButton(onPressed: _onRegister, child: const Text("Register")),
+            ElevatedButton(onPressed: _onRegister, child: const Text(AppStrings.register)),
           ],
         ),
       ),

@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+
+import '../../core/constants.dart';
+
 import '../../models/account.dart';
 import '../../routes/app_routes.dart';
 
@@ -29,7 +32,7 @@ class _HomePageState extends State<HomePage> {
 
     if (result is double) {
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text("Test completed! Score: ${result.toStringAsFixed(1)}%")),
+        SnackBar(content: Text("${AppStrings.testCompleted} : ${result.toStringAsFixed(1)}%")),
       );
     }
   }
@@ -37,19 +40,19 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text("Home")),
+      appBar: AppBar(title: const Text(AppStrings.home)),
       drawer: Drawer(
         child: ListView(
           padding: EdgeInsets.zero,
           children: [
             DrawerHeader(
               decoration: const BoxDecoration(color: Colors.blue),
-              child: Text("Welcome, ${account.name}",
-                  style: const TextStyle(color: Colors.white, fontSize: 20)),
+              child: Text("${AppStrings.welcome} ${account.name}",
+                  style: AppStyles.header),
             ),
             ListTile(
               leading: const Icon(Icons.account_circle),
-              title: const Text("Account"),
+              title: const Text(AppStrings.account),
               onTap: () {
                 Navigator.pop(context);
                 Navigator.pushNamed(
@@ -63,14 +66,14 @@ class _HomePageState extends State<HomePage> {
         ),
       ),
       body: Padding(
-        padding: const EdgeInsets.all(16.0),
+        padding: const EdgeInsets.all(AppStyles.padding),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             const SizedBox(height: 16),
             ElevatedButton(
               onPressed: _takePlacementTest,
-              child: const Text("Take Placement Test"),
+              child: const Text(AppStrings.takeTest),
             ),
           ],
         ),

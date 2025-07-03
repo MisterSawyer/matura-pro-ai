@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../../core/constants.dart';
 import '../../routes/app_routes.dart';
 
 import '../../controllers/placement_test_controller.dart';
@@ -37,18 +38,18 @@ class _PlacementTestPageState extends State<PlacementTestPage> {
   void _submit() {
     if (_answers.contains(null)) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text("Please answer all questions")),
+        const SnackBar(content: Text(AppStrings.enterAllAnswers)),
       );
       return;
     }
-  
+
     final score = _controller.evaluate(_answers.cast<int>());
     final result = (score / _controller.total) * 100;
-  
+
     setState(() {
       RegisterController.updateLastPlacementTestResult(widget.account.email, result);
     });
-  
+
     Navigator.pushReplacementNamed(
       context,
       AppRoutes.placementTestResult,
@@ -68,15 +69,15 @@ class _PlacementTestPageState extends State<PlacementTestPage> {
     }
 
     return Scaffold(
-      appBar: AppBar(title: const Text("Placement Test")),
+      appBar: AppBar(title: const Text(AppStrings.placementTest)),
       body: ListView.builder(
-        padding: const EdgeInsets.all(16),
+        padding: const EdgeInsets.all(AppStyles.padding),
         itemCount: _controller.questions.length + 1,
         itemBuilder: (context, index) {
           if (index == _controller.questions.length) {
             return ElevatedButton(
               onPressed: _submit,
-              child: const Text("Submit"),
+              child: const Text(AppStrings.submit),
             );
           }
 
@@ -85,7 +86,7 @@ class _PlacementTestPageState extends State<PlacementTestPage> {
           return Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text("${index + 1}. ${question.question}", style: const TextStyle(fontWeight: FontWeight.bold)),
+              Text("${index + 1}. ${question.question}", style: AppStyles.subHeader),
               ...List.generate(question.options.length, (optIndex) {
                 return RadioListTile<int>(
                   value: optIndex,
