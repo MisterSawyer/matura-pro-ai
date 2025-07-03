@@ -1,0 +1,73 @@
+# Flutter/Dart/Pub related
+.dart_tool/
+.packages
+.pub-cache/
+.buildlog/
+.flutter-plugins
+.flutter-plugins-dependencies
+.flutter-versions
+.melos_tool/
+.melos_workspace/
+
+# IntelliJ related
+.idea/
+*.iml
+
+# VS Code
+.vscode/
+.vscode-test/
+
+# macOS
+.DS_Store
+
+# Android
+android/.gradle/
+android/captures/
+android/app/build/
+*.keystore
+
+# iOS
+ios/Flutter/App.framework
+ios/Flutter/Flutter.framework
+ios/Flutter/Generated.xcconfig
+ios/Flutter/ephemeral/
+ios/Pods/
+ios/.symlinks/
+ios/Runner.xcworkspace/
+ios/build/
+ios/.generated/
+
+# Web
+build/web/
+
+# Windows
+windows/runner/Debug/
+windows/runner/Release/
+windows/runner/Profile/
+windows/flutter/ephemeral/
+
+# Linux
+linux/flutter/ephemeral/
+linux/build/
+
+# Fuchsia
+.fuchsia/
+
+# Coverage
+coverage/
+
+# Build outputs
+build/
+*.log
+
+# Dependency override
+pubspec.lock
+
+# Misc
+*.swp
+*.tmp
+*.orig
+*.bak
+
+# Firebase
+firebase-debug.log
