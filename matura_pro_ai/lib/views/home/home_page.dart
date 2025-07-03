@@ -5,6 +5,9 @@ import '../../core/constants.dart';
 import '../../models/account.dart';
 import '../../routes/app_routes.dart';
 
+import '../../widgets/main_drawer.dart';
+import '../../widgets/three_column_layout.dart';
+
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
 
@@ -32,7 +35,9 @@ class _HomePageState extends State<HomePage> {
 
     if (result is double) {
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text("${AppStrings.testCompleted} : ${result.toStringAsFixed(1)}%")),
+        SnackBar(
+            content: Text(
+                "${AppStrings.testCompleted} : ${result.toStringAsFixed(1)}%")),
       );
     }
   }
@@ -41,42 +46,40 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text(AppStrings.home)),
-      drawer: Drawer(
-        child: ListView(
-          padding: EdgeInsets.zero,
-          children: [
-            DrawerHeader(
-              decoration: const BoxDecoration(color: Colors.blue),
-              child: Text("${AppStrings.welcome} ${account.name}",
-                  style: AppStyles.header),
-            ),
-            ListTile(
-              leading: const Icon(Icons.account_circle),
-              title: const Text(AppStrings.account),
-              onTap: () {
-                Navigator.pop(context);
-                Navigator.pushNamed(
-                  context,
-                  AppRoutes.account,
-                  arguments: account,
-                );
-              },
-            ),
-          ],
-        ),
-      ),
+      drawer: MainDrawer(account: account),
       body: Padding(
         padding: const EdgeInsets.all(AppStyles.padding),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            const SizedBox(height: 16),
-            ElevatedButton(
-              onPressed: _takePlacementTest,
-              child: const Text(AppStrings.takeTest),
-            ),
-          ],
-        ),
+        child: Column(children: [
+          const SizedBox(height: 64,),
+          Expanded(child:
+          ThreeColumnLayout(
+            left: const SizedBox(),
+            center:  GridView.count(
+                  crossAxisCount: 2,
+                  mainAxisSpacing: 16,
+                  crossAxisSpacing: 16,
+                  childAspectRatio: 1.2,
+                  children: [
+                    ElevatedButton(
+                      onPressed: _takePlacementTest,
+                      child: const Text(AppStrings.takeTest),
+                    ),
+                    ElevatedButton(
+                      onPressed: () {
+                        Navigator.pushNamed(
+                          context,
+                          AppRoutes.account,
+                          arguments: account,
+                        );
+                      },
+                      child: const Text(AppStrings.account),
+                    ),
+                    // Add more grid buttons as needed
+                  ],
+                ),
+            right: const SizedBox(),
+          )),
+        ]),
       ),
     );
   }

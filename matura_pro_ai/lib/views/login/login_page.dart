@@ -4,6 +4,7 @@ import '../../core/constants.dart';
 import '../../routes/app_routes.dart';
 
 import '../../controllers/login_controller.dart';
+import '../../widgets/three_column_layout.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -39,35 +40,43 @@ class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text(AppStrings.login), automaticallyImplyLeading: false),
+      appBar: AppBar(
+          title: const Text(AppStrings.login),
+          automaticallyImplyLeading: false),
       body: Padding(
-        padding: const EdgeInsets.all(AppStyles.padding),
-        child: Column(
-          children: [
-            TextField(
-              controller: _emailController,
-              decoration: const InputDecoration(labelText: AppStrings.email),
+          padding: const EdgeInsets.all(AppStyles.padding),
+          child: ThreeColumnLayout(
+            left: const SizedBox(),
+            center: Column(
+              children: [
+                TextField(
+                  controller: _emailController,
+                  decoration:
+                      const InputDecoration(labelText: AppStrings.email),
+                ),
+                TextField(
+                  controller: _passwordController,
+                  decoration:
+                      const InputDecoration(labelText: AppStrings.password),
+                  obscureText: true,
+                ),
+                const SizedBox(height: 20),
+                ElevatedButton(
+                  onPressed: _onLogin,
+                  child: const Text(AppStrings.login),
+                ),
+                const SizedBox(height: 10),
+                TextButton(
+                  onPressed: () {
+                    Navigator.pushNamed(context, AppRoutes.register);
+                  },
+                  child: const Text(
+                      "${AppStrings.registerEntry} ${AppStrings.register}"),
+                ),
+              ],
             ),
-            TextField(
-              controller: _passwordController,
-              decoration: const InputDecoration(labelText: AppStrings.password),
-              obscureText: true,
-            ),
-            const SizedBox(height: 20),
-            ElevatedButton(
-              onPressed: _onLogin,
-              child: const Text(AppStrings.login),
-            ),
-            const SizedBox(height: 10),
-            TextButton(
-              onPressed: () {
-                Navigator.pushNamed(context, AppRoutes.register);
-              },
-              child: const Text("${AppStrings.registerEntry} ${AppStrings.register}"),
-            ),
-          ],
-        ),
-      ),
+            right: const SizedBox(),
+          )),
     );
   }
 }

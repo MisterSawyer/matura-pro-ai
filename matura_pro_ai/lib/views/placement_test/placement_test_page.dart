@@ -7,6 +7,8 @@ import '../../controllers/placement_test_controller.dart';
 import '../../models/account.dart';
 import '../../controllers/register_controller.dart';
 
+import '../../widgets/three_column_layout.dart';
+
 class PlacementTestPage extends StatefulWidget {
   final Account account;
 
@@ -44,10 +46,11 @@ class _PlacementTestPageState extends State<PlacementTestPage> {
     }
 
     final score = _controller.evaluate(_answers.cast<int>());
-    final result = (score / _controller.total) * 100;
+    final result = (score.toDouble() / _controller.total) * 100.0;
 
     setState(() {
-      RegisterController.updateLastPlacementTestResult(widget.account.email, result);
+      RegisterController.updateLastPlacementTestResult(
+          widget.account.email, result);
     });
 
     Navigator.pushReplacementNamed(
@@ -69,41 +72,48 @@ class _PlacementTestPageState extends State<PlacementTestPage> {
     }
 
     return Scaffold(
-      appBar: AppBar(title: const Text(AppStrings.placementTest)),
-      body: ListView.builder(
-        padding: const EdgeInsets.all(AppStyles.padding),
-        itemCount: _controller.questions.length + 1,
-        itemBuilder: (context, index) {
-          if (index == _controller.questions.length) {
-            return ElevatedButton(
-              onPressed: _submit,
-              child: const Text(AppStrings.submit),
-            );
-          }
-
-          final question = _controller.questions[index];
-
-          return Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text("${index + 1}. ${question.question}", style: AppStyles.subHeader),
-              ...List.generate(question.options.length, (optIndex) {
-                return RadioListTile<int>(
-                  value: optIndex,
-                  groupValue: _answers[index],
-                  title: Text(question.options[optIndex]),
-                  onChanged: (value) {
-                    setState(() {
-                      _answers[index] = value;
-                    });
-                  },
-                );
-              }),
-              const Divider(),
-            ],
-          );
-        },
-      ),
-    );
+        appBar: AppBar(title: const Text(AppStrings.placementTest)),
+        body: Padding(
+            padding: const EdgeInsets.all(AppStyles.padding),
+            child: ThreeColumnLayout(
+              left: const SizedBox(),
+              center: Column(children: [
+                Expanded(
+                  child: ListView.builder(
+                    padding: const EdgeInsets.all(AppStyles.padding),
+                    itemCount: _controller.questions.length,
+                    itemBuilder: (context, index) {
+                      final question = _controller.questions[index];
+                      return Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text("${index + 1}. ${question.question}",
+                              style: AppStyles.subHeader),
+                          ...List.generate(question.options.length, (optIndex) {
+                            return RadioListTile<int>(
+                              value: optIndex,
+                              groupValue: _answers[index],
+                              title: Text(question.options[optIndex]),
+                              onChanged: (value) {
+                                setState(() {
+                                  _answers[index] = value;
+                                });
+                              },
+                            );
+                          }),
+                          const Divider(),
+                        ],
+                      );
+                    },
+                  ),
+                ),
+                const SizedBox(height: 64),
+                ElevatedButton(
+                  onPressed: _submit,
+                  child: const Text(AppStrings.submit),
+                )
+              ]),
+              right: const SizedBox(),
+            )));
   }
 }

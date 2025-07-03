@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-
+import 'theme_defaults.dart';
 class AppTheme {
   static final ThemeData light = ThemeData(
     brightness: Brightness.light,
-    primarySwatch: Colors.blue,
+    primarySwatch: ThemeDefaults.primaryColor,
     scaffoldBackgroundColor: Colors.white,
     appBarTheme: const AppBarTheme(
       backgroundColor: Colors.blue,
@@ -12,11 +12,12 @@ class AppTheme {
     drawerTheme: const DrawerThemeData(
       backgroundColor: Colors.white,
     ),
+    elevatedButtonTheme: ThemeDefaults.elevatedButtonTheme,
   );
 
   static final ThemeData dark = ThemeData(
     brightness: Brightness.dark,
-    primarySwatch: Colors.blue,
+    primarySwatch: ThemeDefaults.primaryColor,
     scaffoldBackgroundColor: const Color(0xFF121212),
     appBarTheme: const AppBarTheme(
       backgroundColor: Color(0xFF1F1F1F),
@@ -25,5 +26,6 @@ class AppTheme {
     drawerTheme: const DrawerThemeData(
       backgroundColor: Color(0xFF1F1F1F),
     ),
+    elevatedButtonTheme: ThemeDefaults.elevatedButtonTheme,
   );
 }

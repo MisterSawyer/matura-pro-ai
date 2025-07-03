@@ -4,6 +4,7 @@ import '../../core/constants.dart';
 import '../../routes/app_routes.dart';
 
 import '../../controllers/register_controller.dart';
+import '../../widgets/three_column_layout.dart';
 
 class RegisterPage extends StatefulWidget {
   const RegisterPage({super.key});
@@ -40,16 +41,28 @@ class _RegisterPageState extends State<RegisterPage> {
     return Scaffold(
       appBar: AppBar(title: const Text(AppStrings.register)),
       body: Padding(
-        padding: const EdgeInsets.all(AppStyles.padding),
-        child: Column(
-          children: [
-            TextField(controller: _emailController, decoration: const InputDecoration(labelText: AppStrings.email)),
-            TextField(controller: _passwordController, decoration: const InputDecoration(labelText: AppStrings.password), obscureText: true),
-            const SizedBox(height: 20),
-            ElevatedButton(onPressed: _onRegister, child: const Text(AppStrings.register)),
-          ],
-        ),
-      ),
+          padding: const EdgeInsets.all(AppStyles.padding),
+          child: ThreeColumnLayout(
+            left: const SizedBox(),
+            center: Column(
+              children: [
+                TextField(
+                    controller: _emailController,
+                    decoration:
+                        const InputDecoration(labelText: AppStrings.email)),
+                TextField(
+                    controller: _passwordController,
+                    decoration:
+                        const InputDecoration(labelText: AppStrings.password),
+                    obscureText: true),
+                const SizedBox(height: 20),
+                ElevatedButton(
+                    onPressed: _onRegister,
+                    child: const Text(AppStrings.register)),
+              ],
+            ),
+            right: const SizedBox(),
+          )),
     );
   }
 }
