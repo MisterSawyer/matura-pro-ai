@@ -14,15 +14,14 @@ class RegisterPage extends StatefulWidget {
 }
 
 class _RegisterPageState extends State<RegisterPage> {
-  final _controller = RegisterController();
-  final _emailController = TextEditingController();
+  final _usernameController = TextEditingController();
   final _passwordController = TextEditingController();
 
   void _onRegister() {
-    final email = _emailController.text;
+    final username = _usernameController.text;
     final password = _passwordController.text;
 
-    final success = _controller.register(email, password);
+    final success = RegisterController.register(username, password);
 
     if (success) {
       ScaffoldMessenger.of(context).showSnackBar(
@@ -47,9 +46,9 @@ class _RegisterPageState extends State<RegisterPage> {
             center: Column(
               children: [
                 TextField(
-                    controller: _emailController,
+                    controller: _usernameController,
                     decoration:
-                        const InputDecoration(labelText: AppStrings.email)),
+                        const InputDecoration(labelText: AppStrings.username)),
                 TextField(
                     controller: _passwordController,
                     decoration:

@@ -43,7 +43,7 @@ class _AccountPageState extends State<AccountPage> {
     if(account.name == _nameController.text)return;
     setState(() {
       account.name = _nameController.text;
-      RegisterController.updateName(account.email, account.name);
+      RegisterController.updateName(account.username, account.name);
     });
 
     ScaffoldMessenger.of(context).showSnackBar(
@@ -76,7 +76,7 @@ class _AccountPageState extends State<AccountPage> {
                 left: const SizedBox(),
                 center: Column(
                   children: [
-                    Text("${AppStrings.email}: ${account.email}",
+                    Text("${AppStrings.username}: ${account.username}",
                         style: AppStyles.paragraph),
                     const SizedBox(height: 16),
                     TextField(

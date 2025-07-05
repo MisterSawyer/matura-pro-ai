@@ -7,14 +7,14 @@ class RegisterController {
   static final Map<String, String> _userPasswords = {};
   static final Map<String, Account> _userAccounts = {};
 
-  bool register(String email, String password) {
-    if (_userPasswords.containsKey(email)) return false;
+  static bool register(String username, String password) {
+    if (_userPasswords.containsKey(username)) return false;
 
     final hashed = HashUtils.hashPassword(password);
-    _userPasswords[email] = hashed;
+    _userPasswords[username] = hashed;
 
-    _userAccounts[email] = Account(
-      email: email,
+    _userAccounts[username] = Account(
+      username: username,
       name: "User ${_userAccounts.length + 1}",
       lastPlacementTestResult: 0.0,
     );
@@ -22,20 +22,26 @@ class RegisterController {
     return true;
   }
 
-  static void updateName(String email, String newName) {
-    final account = _userAccounts[email];
+  static void updateName(String username, String newName) {
+    final account = _userAccounts[username];
     if (account != null) {
       account.name = newName;
     }
   }
 
-  static void updateLastPlacementTestResult(String email, double result) {
-    final account = _userAccounts[email];
+  static void updateLastPlacementTestResult(String username, double result) {
+    final account = _userAccounts[username];
     if (account != null) {
       account.lastPlacementTestResult = result;
     }
   }
 
+  // This is only for mockup development purposes
+  static void initializeDefaults() {
+    register("admin", "admin");
+  }
+
+
   static Map<String, String> get allUsers => _userPasswords;
-  static Account? getAccount(String email) => _userAccounts[email];
+  static Account? getAccount(String username) => _userAccounts[username];
 }

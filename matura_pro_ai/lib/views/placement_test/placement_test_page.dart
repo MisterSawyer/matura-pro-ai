@@ -50,7 +50,7 @@ class _PlacementTestPageState extends State<PlacementTestPage> {
 
     setState(() {
       RegisterController.updateLastPlacementTestResult(
-          widget.account.email, result);
+          widget.account.username, result);
     });
 
     Navigator.pushReplacementNamed(

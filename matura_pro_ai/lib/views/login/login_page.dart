@@ -16,13 +16,13 @@ class LoginPage extends StatefulWidget {
 class _LoginPageState extends State<LoginPage> {
   final _controller = LoginController();
 
-  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _usernameController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
 
   void _onLogin() {
-    final email = _emailController.text;
+    final username = _usernameController.text;
     final password = _passwordController.text;
-    final account = _controller.login(email, password);
+    final account = _controller.login(username, password);
 
     if (account != null) {
       Navigator.pushReplacementNamed(
@@ -50,9 +50,9 @@ class _LoginPageState extends State<LoginPage> {
             center: Column(
               children: [
                 TextField(
-                  controller: _emailController,
+                  controller: _usernameController,
                   decoration:
-                      const InputDecoration(labelText: AppStrings.email),
+                      const InputDecoration(labelText: AppStrings.username),
                 ),
                 TextField(
                   controller: _passwordController,
@@ -65,7 +65,7 @@ class _LoginPageState extends State<LoginPage> {
                   onPressed: _onLogin,
                   child: const Text(AppStrings.login),
                 ),
-                const SizedBox(height: 10),
+                const SizedBox(height: 64),
                 TextButton(
                   onPressed: () {
                     Navigator.pushNamed(context, AppRoutes.register);
