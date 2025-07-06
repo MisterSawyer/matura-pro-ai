@@ -1,10 +1,12 @@
 [
   {
+    "type": "multiple_choice",
     "question": "Choose the correct form: She ___ to the store yesterday.",
     "options": ["go", "went", "gone", "going"],
-    "correctIndex": 1
+    "correctIndexes": [1]
   },
   {
+    "type": "multiple_choice",
     "question": "Which sentence is grammatically correct?",
     "options": [
       "He don`t like coffee.",
@@ -12,24 +14,28 @@
       "He doesn`t like coffee.",
       "He not like coffee."
     ],
-    "correctIndex": 2
+    "correctIndexes": [2]
   },
   {
+    "type": "multiple_choice",
     "question": "Fill in the blank: I have lived here ___ 5 years.",
     "options": ["since", "during", "for", "from"],
-    "correctIndex": 2
+    "correctIndexes": [2]
   },
   {
+    "type": "multiple_choice",
     "question": "Choose the correct plural: One child, two ___",
     "options": ["childs", "childrens", "children", "child"],
-    "correctIndex": 2
+    "correctIndexes": [2]
   },
   {
+    "type": "multiple_choice",
     "question": "What is the past participle of 'write'?",
     "options": ["writed", "written", "wrote", "writing"],
-    "correctIndex": 1
+    "correctIndexes": [1]
   },
   {
+    "type": "multiple_choice",
     "question": "Which sentence uses the present perfect tense?",
     "options": [
       "I am going to school.",
@@ -37,19 +43,22 @@
       "I have gone to school.",
       "I go to school."
     ],
-    "correctIndex": 2
+    "correctIndexes": [2]
   },
   {
+    "type": "multiple_choice",
     "question": "Select the correct article: I saw ___ elephant at the zoo.",
     "options": ["a", "an", "the", "none"],
-    "correctIndex": 1
+    "correctIndexes": [1]
   },
   {
+    "type": "multiple_choice",
     "question": "Which word is a synonym for 'happy'?",
     "options": ["sad", "angry", "joyful", "afraid"],
-    "correctIndex": 2
+    "correctIndexes": [2]
   },
   {
+    "type": "multiple_choice",
     "question": "Which sentence uses a conditional?",
     "options": [
       "If I were you, I`d study more.",
@@ -57,9 +66,10 @@
       "He plays football.",
       "I go to the gym on Mondays."
     ],
-    "correctIndex": 0
+    "correctIndexes": [0]
   },
   {
+    "type": "multiple_choice",
     "question": "Which sentence is in the passive voice?",
     "options": [
       "They built a house.",
@@ -67,6 +77,11 @@
       "They are building a house.",
       "They have built a house."
     ],
-    "correctIndex": 1
+    "correctIndexes": [1]
+  },
+  {
+    "type": "text_input",
+    "question": "Write the plural of 'child'",
+    "acceptedAnswers": ["children"]
   }
 ]

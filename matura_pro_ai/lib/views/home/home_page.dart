@@ -9,6 +9,7 @@ import '../../widgets/main_drawer.dart';
 import '../../widgets/three_column_layout.dart';
 import '../../widgets/carousel.dart';
 import '../../widgets/no_scrollbar.dart';
+import '../../widgets/daily_challenge_card.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -93,9 +94,16 @@ class _HomePageState extends State<HomePage> {
                           },
                           child: const Text(AppStrings.account),
                         ),
-                        ElevatedButton(
-                          onPressed: () => {},
-                          child: const Text("TEMP0"),
+                        DailyChallengeCard(
+                          currentStreak:
+                              5, // Replace with actual state logic later
+                          onTap: () {
+                            // Example: Navigate to a mini test screen or show dialog
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              const SnackBar(
+                                  content: Text("Starting today's challenge!")),
+                            );
+                          },
                         ),
                         ElevatedButton(
                           onPressed: () => {},
