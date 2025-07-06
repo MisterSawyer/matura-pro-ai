@@ -7,13 +7,35 @@ class DraggableItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final chip = Chip(label: Text(label));
+
     return Draggable<String>(
       data: label,
       feedback: Material(
-        child: Chip(label: Text(label)),
+        color: Colors.transparent,
+        child: Transform.scale(
+          scale: 1.1,
+          child: Container(
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(16),
+              boxShadow: const [
+                BoxShadow(
+                  color: Colors.black26,
+                  blurRadius: 8,
+                  spreadRadius: 1,
+                  offset: Offset(2, 4),
+                ),
+              ],
+            ),
+            child: chip,
+          ),
+        ),
       ),
-      childWhenDragging: Opacity(opacity: 0.4, child: Chip(label: Text(label))),
-      child: Chip(label: Text(label)),
+      childWhenDragging: Opacity(
+        opacity: 0.3,
+        child: chip,
+      ),
+      child: chip,
     );
   }
 }

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../../core/constants.dart';
 import '../../models/text_input_question.dart';
+import 'no_scrollbar.dart';
 
 class TextInputQuestionContent extends StatefulWidget {
   final TextInputQuestion question;
@@ -23,6 +24,14 @@ class TextInputQuestionContent extends StatefulWidget {
 
 class _TextInputQuestionContentState extends State<TextInputQuestionContent> {
   final _controller = TextEditingController();
+  final _scrollController = ScrollController();
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    _scrollController.dispose();
+    super.dispose();
+  }
 
   void _submit() {
     final answer = _controller.text.trim().toLowerCase();
@@ -38,31 +47,49 @@ class _TextInputQuestionContentState extends State<TextInputQuestionContent> {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        const SizedBox(height: 64),
-        Text("Question ${widget.questionIndex + 1} of ${widget.total}",
-            style: AppStyles.subHeader),
-        const SizedBox(height: 16),
-        Text(widget.question.question, style: AppStyles.header),
-        const SizedBox(height: 48),
-        TextField(
-          controller: _controller,
-          decoration: const InputDecoration(
-            labelText: "Type your answer",
-            border: OutlineInputBorder(),
+    return ScrollConfiguration(
+      behavior: NoScrollbarBehavior(),
+      child: SingleChildScrollView(
+        controller: _scrollController,
+        physics: const AlwaysScrollableScrollPhysics(),
+        padding: const EdgeInsets.all(AppStyles.padding),
+        child: Center(
+          child: ConstrainedBox(
+            constraints: const BoxConstraints(maxWidth: 600),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                const SizedBox(height: 32),
+                Text(
+                  "Question ${widget.questionIndex + 1} of ${widget.total}",
+                  style: AppStyles.subHeader,
+                  textAlign: TextAlign.center,
+                ),
+                const SizedBox(height: 16),
+                Text(
+                  widget.question.question,
+                  style: AppStyles.header,
+                  textAlign: TextAlign.center,
+                ),
+                const SizedBox(height: 48),
+                TextField(
+                  controller: _controller,
+                  decoration: const InputDecoration(
+                    labelText: "Type your answer",
+                    border: OutlineInputBorder(),
+                  ),
+                ),
+                const SizedBox(height: 32),
+                ElevatedButton(
+                  onPressed: _submit,
+                  child: const Text("Submit"),
+                ),
+                const SizedBox(height: 64),
+              ],
+            ),
           ),
         ),
-        const SizedBox(height: 32),
-        Center(
-          child: ElevatedButton(
-            onPressed: _submit,
-            child: const Text("Submit"),
-          ),
-        ),
-        const SizedBox(height: 32),
-      ],
+      ),
     );
   }
 }

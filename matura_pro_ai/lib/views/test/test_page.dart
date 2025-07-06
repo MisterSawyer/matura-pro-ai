@@ -27,7 +27,12 @@ class TestPage extends StatefulWidget {
 
   final void Function(double) onSubmit;
 
-  const TestPage({super.key, required this.path, required this.label, required this.onSubmit, required this.account});
+  const TestPage(
+      {super.key,
+      required this.path,
+      required this.label,
+      required this.onSubmit,
+      required this.account});
 
   @override
   State<TestPage> createState() => _TestPageState();
@@ -62,14 +67,17 @@ class _TestPageState extends State<TestPage> {
 
   Future<void> _load(String path) async {
     // Load questions json
-    final jsonString =
-        await rootBundle.loadString(path);
+    final jsonString = await rootBundle.loadString(path);
     final jsonObj = json.decode(jsonString) as List<dynamic>;
 
     // Load controllers
     await _multipleChoiceQuestionsController.loadQuestions(jsonObj);
     await _textInputQuestionsController.loadQuestions(jsonObj);
     await _categoryQuestionsController.loadQuestions(jsonObj);
+
+    _multipleChoiceQuestionsController.shuffle();
+    _textInputQuestionsController.shuffle();
+    _categoryQuestionsController.shuffle();
 
     setState(() {
       _multipleChoiceAnswers =
@@ -148,19 +156,26 @@ class _TestPageState extends State<TestPage> {
     final result = await Navigator.push<List<int>>(
       context,
       MaterialPageRoute(
-        builder: (_) => Scaffold(
-          appBar: AppBar(title: Text(widget.label)),
-          body: Padding(
-            padding: const EdgeInsets.all(AppStyles.padding),
-            child: ThreeColumnLayout(
-              left: const SizedBox(),
-              center: MultipleChoiceQuestionContent(
-                question: question,
-                questionIndex: _questionIndex,
-                total: _total,
-                onAnswered: (value) => Navigator.pop(context, value),
+        builder: (_) => SafeArea(
+          child: Container(
+            width: double.infinity,
+            height: double.infinity,
+            color: Theme.of(context).scaffoldBackgroundColor,
+            child: Scaffold(
+              appBar: AppBar(title: Text(widget.label)),
+              body: Padding(
+                padding: const EdgeInsets.all(AppStyles.padding),
+                child: ThreeColumnLayout(
+                  left: const SizedBox(),
+                  center: MultipleChoiceQuestionContent(
+                    question: question,
+                    questionIndex: _questionIndex,
+                    total: _total,
+                    onAnswered: (value) => Navigator.pop(context, value),
+                  ),
+                  right: const SizedBox(),
+                ),
               ),
-              right: const SizedBox(),
             ),
           ),
         ),
@@ -202,21 +217,28 @@ class _TestPageState extends State<TestPage> {
     final result = await Navigator.push<String>(
       context,
       MaterialPageRoute(
-        builder: (_) => Scaffold(
-          appBar: AppBar(title: Text(widget.label)),
-          body: Padding(
-            padding: const EdgeInsets.all(AppStyles.padding),
-            child: ThreeColumnLayout(
-              left: const SizedBox(),
-              center: TextInputQuestionContent(
-                question: question,
-                questionIndex: _questionIndex,
-                total: _total,
-                onAnswered: (value) {
-                  Navigator.pop(context, value);
-                },
+        builder: (_) => SafeArea(
+          child: Container(
+            width: double.infinity,
+            height: double.infinity,
+            color: Theme.of(context).scaffoldBackgroundColor,
+            child: Scaffold(
+              appBar: AppBar(title: Text(widget.label)),
+              body: Padding(
+                padding: const EdgeInsets.all(AppStyles.padding),
+                child: ThreeColumnLayout(
+                  left: const SizedBox(),
+                  center: TextInputQuestionContent(
+                    question: question,
+                    questionIndex: _questionIndex,
+                    total: _total,
+                    onAnswered: (value) {
+                      Navigator.pop(context, value);
+                    },
+                  ),
+                  right: const SizedBox(),
+                ),
               ),
-              right: const SizedBox(),
             ),
           ),
         ),
@@ -258,22 +280,29 @@ class _TestPageState extends State<TestPage> {
     final result = await Navigator.push<Map<String, String>>(
       context,
       MaterialPageRoute(
-        builder: (_) => Scaffold(
-          appBar: AppBar(title: Text(widget.label)),
-          body: Padding(
-            padding: const EdgeInsets.all(AppStyles.padding),
-            child: ThreeColumnLayout(
-              left: const SizedBox(),
-              center: CategoryQuestionContent(
-                question: question,
-                questionIndex: _questionIndex,
-                total: _total,
-                onAnswered: (value) => Navigator.pop(context, value),
+        builder: (_) => SafeArea(
+            child: Container(
+              width: double.infinity,
+              height: double.infinity,
+              color: Theme.of(context).scaffoldBackgroundColor,
+              child: Scaffold(
+                appBar: AppBar(title: Text(widget.label)),
+                body: Padding(
+                  padding: const EdgeInsets.all(AppStyles.padding),
+                  child: ThreeColumnLayout(
+                    left: const SizedBox(),
+                    center: CategoryQuestionContent(
+                      question: question,
+                      questionIndex: _questionIndex,
+                      total: _total,
+                      onAnswered: (value) => Navigator.pop(context, value),
+                    ),
+                    right: const SizedBox(),
+                  ),
+                ),
               ),
-              right: const SizedBox(),
             ),
           ),
-        ),
       ),
     );
 
@@ -293,7 +322,6 @@ class _TestPageState extends State<TestPage> {
   }
 
   void _serveQuestion() async {
-    
     if (_cancelled) {
       return;
     }
@@ -330,10 +358,18 @@ class _TestPageState extends State<TestPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        appBar: AppBar(title: Text(widget.label)),
-        body: const Padding(
-            padding: EdgeInsets.all(AppStyles.padding),
-            child: Center(child: CircularProgressIndicator())));
+    final theme = Theme.of(context);
+    return SafeArea(
+      child: Container(
+        width: double.infinity,
+        height: double.infinity,
+        color: theme.scaffoldBackgroundColor,
+        child: Scaffold(
+            appBar: AppBar(title: Text(widget.label)),
+            body: const Padding(
+                padding: EdgeInsets.all(AppStyles.padding),
+                child: Center(child: CircularProgressIndicator()))),
+      ),
+    );
   }
 }
