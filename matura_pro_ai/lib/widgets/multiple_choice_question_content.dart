@@ -59,34 +59,47 @@ class _MultipleChoiceQuestionContentState
         Text(widget.question.question, style: AppStyles.header),
         const SizedBox(height: 32),
         Expanded(
-          child: GridView.count(
-            crossAxisCount: 2,
-            mainAxisSpacing: 12,
-            crossAxisSpacing: 12,
-            childAspectRatio: 2.5,
-            children: List.generate(widget.question.options.length, (index) {
-              final isSelected = _selectedIndexes.contains(index);
-              return OutlinedButton(
-                onPressed: () => _toggleSelection(index),
-                style: OutlinedButton.styleFrom(
-                  backgroundColor: isSelected
-                      ? theme.colorScheme.primary
-                      : theme.colorScheme.surface,
-                  foregroundColor: isSelected
-                      ? theme.colorScheme.onPrimary
-                      : theme.colorScheme.onSurface,
-                  side: BorderSide(
-                    color: isSelected
-                        ? theme.colorScheme.primary
-                        : theme.dividerColor,
-                  ),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(12),
-                  ),
-                ),
-                child: Text(widget.question.options[index]),
+          child: LayoutBuilder(
+            builder: (context, constraints) {
+              // Use a single column if screen is narrow
+              final isNarrow = constraints.maxWidth < 500;
+              final crossAxisCount = isNarrow ? 1 : 2;
+
+              return GridView.count(
+                crossAxisCount: crossAxisCount,
+                mainAxisSpacing: 12,
+                crossAxisSpacing: 12,
+                childAspectRatio:
+                    isNarrow ? 4.5 : 2.5, // taller on narrow screens
+                children:
+                    List.generate(widget.question.options.length, (index) {
+                  final isSelected = _selectedIndexes.contains(index);
+                  return OutlinedButton(
+                    onPressed: () => _toggleSelection(index),
+                    style: OutlinedButton.styleFrom(
+                      backgroundColor: isSelected
+                          ? theme.colorScheme.primary
+                          : theme.colorScheme.surface,
+                      foregroundColor: isSelected
+                          ? theme.colorScheme.onPrimary
+                          : theme.colorScheme.onSurface,
+                      side: BorderSide(
+                        color: isSelected
+                            ? theme.colorScheme.primary
+                            : theme.dividerColor,
+                      ),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                    ),
+                    child: Text(
+                      widget.question.options[index],
+                      textAlign: TextAlign.center,
+                    ),
+                  );
+                }),
               );
-            }),
+            },
           ),
         ),
         const SizedBox(height: 32),

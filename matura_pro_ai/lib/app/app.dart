@@ -4,7 +4,6 @@ import '../models/account.dart';
 
 import '../routes/app_routes.dart';
 
-import '../views/register/register_page.dart';
 import '../views/login/login_page.dart';
 import '../views/home/home_page.dart';
 import '../views/account/account_page.dart';
@@ -25,7 +24,6 @@ class App extends StatelessWidget {
       themeMode: ThemeMode.system,
       initialRoute: AppRoutes.login,
       routes: {
-        AppRoutes.register: (context) => const RegisterPage(),
         AppRoutes.login: (context) => const LoginPage(),
         AppRoutes.home: (context) => const HomePage(),
         AppRoutes.account: (context) => const AccountPage(),
