@@ -25,12 +25,19 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   Future<String?> _signupUser(SignupData data) async {
-    if (data.name == null || data.name!.isEmpty) return 'Enter a username';
+    if (data.name == null || data.name!.isEmpty)
+      return AppStrings.usernameMissing;
+    if (data.password == null || data.password!.isEmpty)
+      return AppStrings.passwordError;
     final success = RegisterController.register(
       data.name!,
-      data.password ?? '',
+      data.password!,
     );
     return success ? null : AppStrings.userExists;
+  }
+
+  Future<String?> _recoverPassword(String name) async {
+    return 'Password recovery not supported.';
   }
 
   @override
@@ -39,38 +46,41 @@ class _LoginPageState extends State<LoginPage> {
     return FlutterLogin(
       title: AppStrings.appName,
       logo: const AssetImage('assets/images/logo.png'),
-      userType: LoginUserType.name, // accept usernames like "admin"
+      userType: LoginUserType.name,
       onLogin: _authUser,
       onSignup: _signupUser,
-      onRecoverPassword: (email) async => 'Password recovery not supported.',
+      onRecoverPassword: _recoverPassword,
       onSubmitAnimationCompleted: () {
         if (!mounted || _loggedInAccount == null) return;
         Navigator.pushReplacementNamed(
           context,
           AppRoutes.home,
-          arguments: _loggedInAccount,
+          arguments: 
+          {
+            'account': _loggedInAccount
+          },
         );
       },
       userValidator: (value) =>
-          (value == null || value.isEmpty) ? 'Enter a username' : null,
-      passwordValidator: (value) => (value == null) ? 'Invalid password' : null,
+          (value == null || value.isEmpty) ? AppStrings.usernameMissing : null,
+      passwordValidator: (value) =>
+          (value == null || value.isEmpty) ? AppStrings.passwordError : null,
       loginAfterSignUp: false,
       hideForgotPasswordButton: true,
-
       messages: LoginMessages(
         userHint: AppStrings.username,
         passwordHint: AppStrings.password,
         loginButton: AppStrings.login,
         signupButton: AppStrings.register,
         signUpSuccess: AppStrings.registrationSuccess,
-        confirmPasswordError: 'Passwords do not match',
-        flushbarTitleError: 'Error',
-        flushbarTitleSuccess: 'Success',
+        confirmPasswordError: AppStrings.passwordMismatch,
+        flushbarTitleError: AppStrings.error,
+        flushbarTitleSuccess: AppStrings.success,
       ),
       theme: LoginTheme(
         primaryColor: theme.primaryColor,
         accentColor: theme.highlightColor,
-        errorColor: Colors.redAccent,
+        errorColor: theme.colorScheme.error, 
         cardTheme: const CardTheme(margin: EdgeInsets.only(top: 100)),
         authButtonPadding: const EdgeInsets.all(AppStyles.padding),
         providerButtonPadding: const EdgeInsets.all(AppStyles.padding),
@@ -79,7 +89,6 @@ class _LoginPageState extends State<LoginPage> {
           highlightColor: theme.buttonTheme.colorScheme?.onPrimary,
         ),
       ),
-
       children: const [],
     );
   }

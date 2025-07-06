@@ -6,11 +6,11 @@ import '../../models/account.dart';
 
 import '../../widgets/three_column_layout.dart';
 
-class PlacementTestResultPage extends StatelessWidget {
+class TestResultPage extends StatelessWidget {
   final Account account;
   final double score;
 
-  const PlacementTestResultPage({
+  const TestResultPage({
     super.key,
     required this.account,
     required this.score,

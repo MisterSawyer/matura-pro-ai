@@ -5,6 +5,8 @@ import '../models/multiple_choice_question.dart';
 class MultipleChoiceQuestionController {
   late final List<MultipleChoiceQuestion> questions;
 
+  int get total => questions.length;
+
   Future<void> loadQuestions(List<dynamic> jsonObj) async {
     questions = [];
     for (final obj in jsonObj) {
@@ -14,6 +16,10 @@ class MultipleChoiceQuestionController {
       questions
           .add(MultipleChoiceQuestion.fromJson(obj as Map<String, dynamic>));
     }
+  }
+
+  void shuffle() {
+    questions.shuffle();
   }
 
   double evaluate(List<List<int>> answers) {
@@ -42,6 +48,4 @@ class MultipleChoiceQuestionController {
     }
     return totalScore;
   }
-
-  int get total => questions.length;
 }

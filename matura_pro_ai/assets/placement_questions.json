@@ -23,10 +23,67 @@
     "correctIndexes": [2]
   },
   {
+    "type": "category",
+    "question": "Classify the verbs based on their tense.",
+    "items": ["eat", "ate", "eaten", "go", "went", "gone"],
+    "categories": ["Present", "Past", "Past Participle"],
+    "correctMatches": {
+      "eat": "Present",
+      "go": "Present",
+      "ate": "Past",
+      "went": "Past",
+      "eaten": "Past Participle",
+      "gone": "Past Participle"
+    }
+  },
+  {
+    "type": "category",
+    "question": "Identify the function of each word in the sentence: 'The cat chased the mouse.'",
+    "items": ["The", "cat", "chased", "mouse"],
+    "categories": ["Subject", "Verb", "Object"],
+    "correctMatches": {
+      "cat": "Subject",
+      "chased": "Verb",
+      "mouse": "Object",
+      "The": "Subject"
+    }
+  },
+  {
     "type": "multiple_choice",
-    "question": "Choose the correct plural: One child, two ___",
-    "options": ["childs", "childrens", "children", "child"],
-    "correctIndexes": [2]
+    "question": "Which of these sentences are in the past tense?",
+    "options": [
+      "I go to school.",
+      "She ate an apple.",
+      "They were happy.",
+      "He walks home."
+    ],
+    "correctIndexes": [1, 2]
+  },
+  {
+    "type": "category",
+    "question": "Classify the nouns by their countability.",
+    "items": ["milk", "apple", "furniture", "banana", "sand", "chair"],
+    "categories": ["Countable", "Uncountable", "Both (Contextual)"],
+    "correctMatches": {
+      "apple": "Countable",
+      "banana": "Countable",
+      "chair": "Countable",
+      "milk": "Uncountable",
+      "sand": "Uncountable",
+      "furniture": "Uncountable"
+    }
+  },
+  {
+    "type": "category",
+    "question": "Sort the words into correct and incorrect plural forms of 'child'.",
+    "items": ["childs", "childrens", "children", "child"],
+    "categories": ["Correct", "Incorrect"],
+    "correctMatches": {
+      "children": "Correct",
+      "childs": "Incorrect",
+      "childrens": "Incorrect",
+      "child": "Incorrect"
+    }
   },
   {
     "type": "multiple_choice",
@@ -80,8 +137,36 @@
     "correctIndexes": [1]
   },
   {
+    "type": "multiple_choice",
+    "question": "Which of the following are adjectives?",
+    "options": ["Blue", "Run", "Happy", "Quickly"],
+    "correctIndexes": [0, 2]
+  },
+  {
     "type": "text_input",
     "question": "Write the plural of 'child'",
     "acceptedAnswers": ["children"]
+  },
+  {
+    "type": "text_input",
+    "question": "What is a synonym for 'fast'?",
+    "acceptedAnswers": ["quick", "rapid", "swift", "speedy"]
+  },
+  {
+    "type": "text_input",
+    "question": "What is a synonym for 'smart'?",
+    "acceptedAnswers": ["intelligent", "clever", "bright", "wise"]
+  },
+  {
+    "type": "category",
+    "question": "Match the word to its part of speech",
+    "items": ["run", "blue", "jump", "happy"],
+    "categories": ["Verb", "Adjective"],
+    "correctMatches": {
+        "run": "Verb",
+        "jump": "Verb",
+        "blue": "Adjective",
+        "happy": "Adjective"
+      }
   }
 ]

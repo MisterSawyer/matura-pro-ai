@@ -12,7 +12,14 @@ class AppTheme {
     drawerTheme: const DrawerThemeData(
       backgroundColor: Colors.white,
     ),
+    colorScheme: ColorScheme.fromSeed(
+        brightness: Brightness.light,
+        seedColor: ThemeDefaults.primaryColor,
+        error: ThemeDefaults.errorColor, // ← error color here
+    ),
+
     elevatedButtonTheme: ThemeDefaults.elevatedButtonTheme,
+    
   );
 
   static final ThemeData dark = ThemeData(
@@ -26,6 +33,12 @@ class AppTheme {
     drawerTheme: const DrawerThemeData(
       backgroundColor: Color(0xFF1F1F1F),
     ),
+    colorScheme: ColorScheme.fromSeed(
+        brightness: Brightness.dark,
+        seedColor: ThemeDefaults.primaryColor,
+        error: ThemeDefaults.errorColor, // ← error color here
+    ),
+
     elevatedButtonTheme: ThemeDefaults.elevatedButtonTheme,
   );
 }

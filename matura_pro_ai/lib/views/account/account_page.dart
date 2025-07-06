@@ -8,22 +8,22 @@ import '../../controllers/register_controller.dart';
 import '../../widgets/three_column_layout.dart';
 
 class AccountPage extends StatefulWidget {
-  const AccountPage({super.key});
+  final Account account;
+  
+  const AccountPage({super.key, required this.account});
 
   @override
   State<AccountPage> createState() => _AccountPageState();
 }
 
 class _AccountPageState extends State<AccountPage> {
-  late Account account;
   late TextEditingController _nameController;
   late FocusNode _nameFocusNode;
 
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    account = ModalRoute.of(context)!.settings.arguments as Account;
-    _nameController = TextEditingController(text: account.name);
+    _nameController = TextEditingController(text: widget.account.name);
     _nameFocusNode = FocusNode();
     _nameFocusNode.addListener(() {
       if (!_nameFocusNode.hasFocus) {
@@ -40,10 +40,10 @@ class _AccountPageState extends State<AccountPage> {
   }
 
   void _onSave() {
-    if(account.name == _nameController.text)return;
+    if(widget.account.name == _nameController.text)return;
     setState(() {
-      account.name = _nameController.text;
-      RegisterController.updateName(account.username, account.name);
+      widget.account.name = _nameController.text;
+      RegisterController.updateName(widget.account.username, widget.account.name);
     });
 
     ScaffoldMessenger.of(context).showSnackBar(
@@ -76,7 +76,7 @@ class _AccountPageState extends State<AccountPage> {
                 left: const SizedBox(),
                 center: Column(
                   children: [
-                    Text("${AppStrings.username}: ${account.username}",
+                    Text("${AppStrings.username}: ${widget.account.username}",
                         style: AppStyles.paragraph),
                     const SizedBox(height: 16),
                     TextField(
@@ -87,7 +87,7 @@ class _AccountPageState extends State<AccountPage> {
                     ),
                     const SizedBox(height: 16),
                     Text(
-                        "${AppStrings.lastTest}: ${account.lastPlacementTestResult.toStringAsFixed(1)}%",
+                        "${AppStrings.lastTest}: ${widget.account.lastPlacementTestResult.toStringAsFixed(1)}%",
                         style: AppStyles.paragraph),
                     const SizedBox(height: 64),
                     ElevatedButton(

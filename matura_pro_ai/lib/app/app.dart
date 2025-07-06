@@ -7,8 +7,8 @@ import '../routes/app_routes.dart';
 import '../views/login/login_page.dart';
 import '../views/home/home_page.dart';
 import '../views/account/account_page.dart';
-import '../views/placement_test/placement_test_page.dart';
-import '../views/placement_test/placement_test_result_page.dart';
+import '../views/test/test_page.dart';
+import '../views/test/test_result_page.dart';
 import '../core/theme.dart';
 
 class App extends StatelessWidget {
@@ -25,17 +25,36 @@ class App extends StatelessWidget {
       initialRoute: AppRoutes.login,
       routes: {
         AppRoutes.login: (context) => const LoginPage(),
-        AppRoutes.home: (context) => const HomePage(),
-        AppRoutes.account: (context) => const AccountPage(),
-        AppRoutes.placementTest: (context) {
-          final account = ModalRoute.of(context)!.settings.arguments as Account;
-          return PlacementTestPage(account: account);
+        AppRoutes.home: (context) {
+          final args = ModalRoute.of(context)!.settings.arguments
+              as Map<String, dynamic>;
+          final account = args['account'] as Account;
+
+          return HomePage(account: account);
         },
-        AppRoutes.placementTestResult: (context) {
-          final args = ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>;
+        AppRoutes.account: (context) {
+          final args = ModalRoute.of(context)!.settings.arguments
+              as Map<String, dynamic>;
+          final account = args['account'] as Account;
+
+          return AccountPage(account: account);
+        },
+        AppRoutes.test: (context) {
+          final args = ModalRoute.of(context)!.settings.arguments
+              as Map<String, dynamic>;
+          final account = args['account'] as Account;
+          final path = args['path'] as String;
+          final label = args['label'] as String;
+          final onSubmit = args['onSubmit'] as Function(double);
+          return TestPage(
+              account: account, path: path, label: label, onSubmit: onSubmit);
+        },
+        AppRoutes.testResult: (context) {
+          final args = ModalRoute.of(context)!.settings.arguments
+              as Map<String, dynamic>;
           final account = args['account'] as Account;
           final score = args['score'] as double;
-          return PlacementTestResultPage(account: account, score: score);
+          return TestResultPage(account: account, score: score);
         }
       },
     );

@@ -11,28 +11,32 @@ import '../../widgets/carousel.dart';
 import '../../widgets/no_scrollbar.dart';
 import '../../widgets/daily_challenge_card.dart';
 
+import '../../controllers/register_controller.dart';
+
 class HomePage extends StatefulWidget {
-  const HomePage({super.key});
+  final Account account;
+
+  const HomePage({super.key, required this.account});
 
   @override
   State<HomePage> createState() => _HomePageState();
 }
 
 class _HomePageState extends State<HomePage> {
-  late Account account;
-
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    account = ModalRoute.of(context)!.settings.arguments as Account;
   }
 
   Future<void> _takePlacementTest() async {
-    final result = await Navigator.pushNamed(
-      context,
-      AppRoutes.placementTest,
-      arguments: account,
-    );
+    final result =
+        await Navigator.pushNamed(context, AppRoutes.test, arguments: {
+      'account': widget.account,
+      'path': AppAssets.placementQuestions,
+      'label': AppStrings.placementTest,
+      'onSubmit': (score) => RegisterController.updateLastPlacementTestResult(
+          widget.account.username, score)
+    });
 
     if (!mounted) return;
 
@@ -49,7 +53,7 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(title: const Text(AppStrings.home)),
-        drawer: MainDrawer(account: account),
+        drawer: MainDrawer(account: widget.account),
         body: Padding(
             padding: const EdgeInsets.all(AppStyles.padding),
             child: ScrollConfiguration(
@@ -89,7 +93,7 @@ class _HomePageState extends State<HomePage> {
                             Navigator.pushNamed(
                               context,
                               AppRoutes.account,
-                              arguments: account,
+                              arguments: {'account': widget.account},
                             );
                           },
                           child: const Text(AppStrings.account),

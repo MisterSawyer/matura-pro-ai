@@ -8,7 +8,6 @@ import '../../core/constants.dart';
 import '../../routes/app_routes.dart';
 
 import '../../models/account.dart';
-import '../../controllers/register_controller.dart';
 
 import '../../controllers/multiple_choice_question_controller.dart';
 import '../../widgets/multiple_choice_question_content.dart';
@@ -16,48 +15,61 @@ import '../../widgets/multiple_choice_question_content.dart';
 import '../../controllers/text_input_question_controller.dart';
 import '../../widgets/text_input_question_content.dart';
 
+import '../../controllers/category_question_controller.dart';
+import '../../widgets/category_question_content.dart';
+
 import '../../widgets/three_column_layout.dart';
 
-class PlacementTestPage extends StatefulWidget {
+class TestPage extends StatefulWidget {
+  final String path;
+  final String label;
   final Account account;
 
-  const PlacementTestPage({super.key, required this.account});
+  final void Function(double) onSubmit;
+
+  const TestPage({super.key, required this.path, required this.label, required this.onSubmit, required this.account});
 
   @override
-  State<PlacementTestPage> createState() => _PlacementTestPageState();
+  State<TestPage> createState() => _TestPageState();
 }
 
-class _PlacementTestPageState extends State<PlacementTestPage> {
+class _TestPageState extends State<TestPage> {
   final _multipleChoiceQuestionsController = MultipleChoiceQuestionController();
   final _textInputQuestionsController = TextInputQuestionController();
+  final _categoryQuestionsController = CategoryQuestionController();
 
   List<List<int?>> _multipleChoiceAnswers = [];
   List<String?> _textInputAnswers = [];
+  List<Map<String, String>> _categoryAnswers = [];
 
   bool _cancelled = false;
+
   int _questionIndex = 0;
   int _multipleChoiceQuestionIndex = 0;
   int _textInputQuestionIndex = 0;
+  int _categoryQuestionIndex = 0;
 
   int get _total =>
       _multipleChoiceQuestionsController.total +
-      _textInputQuestionsController.total;
+      _textInputQuestionsController.total +
+      _categoryQuestionsController.total;
 
   @override
   void initState() {
     super.initState();
-    _load();
+    _load(widget.path);
   }
 
-  Future<void> _load() async {
+  Future<void> _load(String path) async {
     // Load questions json
     final jsonString =
-        await rootBundle.loadString('assets/placement_questions.json');
+        await rootBundle.loadString(path);
     final jsonObj = json.decode(jsonString) as List<dynamic>;
 
     // Load controllers
     await _multipleChoiceQuestionsController.loadQuestions(jsonObj);
     await _textInputQuestionsController.loadQuestions(jsonObj);
+    await _categoryQuestionsController.loadQuestions(jsonObj);
 
     setState(() {
       _multipleChoiceAnswers =
@@ -65,6 +77,9 @@ class _PlacementTestPageState extends State<PlacementTestPage> {
 
       _textInputAnswers =
           List.filled(_textInputQuestionsController.questions.length, null);
+
+      _categoryAnswers =
+          List.filled(_categoryQuestionsController.questions.length, {});
     });
 
     // Automatically launch the first question after frame is ready
@@ -75,7 +90,8 @@ class _PlacementTestPageState extends State<PlacementTestPage> {
 
   void _submit() {
     if (_multipleChoiceAnswers.contains(null) ||
-        _textInputAnswers.contains(null)) {
+        _textInputAnswers.contains(null) ||
+        _categoryAnswers.contains({})) {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text(AppStrings.enterAllAnswers)),
       );
@@ -90,14 +106,17 @@ class _PlacementTestPageState extends State<PlacementTestPage> {
             .evaluate(_textInputAnswers.cast<String>()) /
         _total);
 
+    result += (_categoryQuestionsController
+            .evaluate(_categoryAnswers.cast<Map<String, String>>()) /
+        _total);
+
     setState(() {
-      RegisterController.updateLastPlacementTestResult(
-          widget.account.username, result * 100.0);
+      widget.onSubmit(result * 100.0);
     });
 
     Navigator.pushReplacementNamed(
       context,
-      AppRoutes.placementTestResult,
+      AppRoutes.testResult,
       arguments: {
         'account': widget.account,
         'score': result * 100.0,
@@ -130,7 +149,7 @@ class _PlacementTestPageState extends State<PlacementTestPage> {
       context,
       MaterialPageRoute(
         builder: (_) => Scaffold(
-          appBar: AppBar(title: const Text(AppStrings.placementTest)),
+          appBar: AppBar(title: Text(widget.label)),
           body: Padding(
             padding: const EdgeInsets.all(AppStyles.padding),
             child: ThreeColumnLayout(
@@ -184,7 +203,7 @@ class _PlacementTestPageState extends State<PlacementTestPage> {
       context,
       MaterialPageRoute(
         builder: (_) => Scaffold(
-          appBar: AppBar(title: const Text(AppStrings.placementTest)),
+          appBar: AppBar(title: Text(widget.label)),
           body: Padding(
             padding: const EdgeInsets.all(AppStyles.padding),
             child: ThreeColumnLayout(
@@ -227,33 +246,84 @@ class _PlacementTestPageState extends State<PlacementTestPage> {
     });
   }
 
+  Future<void> _serveCategoryQuestion() async {
+    if (_categoryQuestionIndex >=
+        _categoryQuestionsController.questions.length) {
+      return;
+    }
+
+    final question =
+        _categoryQuestionsController.questions[_categoryQuestionIndex];
+
+    final result = await Navigator.push<Map<String, String>>(
+      context,
+      MaterialPageRoute(
+        builder: (_) => Scaffold(
+          appBar: AppBar(title: Text(widget.label)),
+          body: Padding(
+            padding: const EdgeInsets.all(AppStyles.padding),
+            child: ThreeColumnLayout(
+              left: const SizedBox(),
+              center: CategoryQuestionContent(
+                question: question,
+                questionIndex: _questionIndex,
+                total: _total,
+                onAnswered: (value) => Navigator.pop(context, value),
+              ),
+              right: const SizedBox(),
+            ),
+          ),
+        ),
+      ),
+    );
+
+    if (mounted == false) {
+      return;
+    }
+    if (result == null) {
+      _onCancel();
+      return;
+    }
+
+    setState(() {
+      _categoryAnswers[_categoryQuestionIndex] = result;
+      _categoryQuestionIndex++;
+      _questionIndex++;
+    });
+  }
+
   void _serveQuestion() async {
+    
     if (_cancelled) {
       return;
     }
+
     final hasMultiple = _multipleChoiceQuestionIndex <
         _multipleChoiceQuestionsController.questions.length;
     final hasTextInput = _textInputQuestionIndex <
         _textInputQuestionsController.questions.length;
+    final hasCategory =
+        _categoryQuestionIndex < _categoryQuestionsController.questions.length;
 
-    if (!hasMultiple && !hasTextInput) {
+    // If there are no more questions, submit
+    if (!hasMultiple && !hasTextInput && !hasCategory) {
       _submit();
       return;
     }
 
-// Pick randomly if both are available
-    if (hasMultiple && hasTextInput) {
-      final random = Random().nextBool();
-      if (random) {
-        await _serveMultipleChoiceQuestion();
-      } else {
-        await _serveTextInputQuestion();
-      }
-    } else if (hasMultiple) {
-      await _serveMultipleChoiceQuestion();
-    } else {
-      await _serveTextInputQuestion();
-    }
+    // Pick randomly if available
+    // _serveCategoryQuestion
+    // _serveTextInputQuestion
+    // _serveMultipleChoiceQuestion
+
+    final available = <Future<void> Function()>[];
+    if (hasMultiple) available.add(_serveMultipleChoiceQuestion);
+    if (hasTextInput) available.add(_serveTextInputQuestion);
+    if (hasCategory) available.add(_serveCategoryQuestion);
+
+    final random = Random();
+    final selected = available[random.nextInt(available.length)];
+    await selected(); // Serve the randomly picked question
 
     _serveQuestion();
   }
@@ -261,7 +331,7 @@ class _PlacementTestPageState extends State<PlacementTestPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(title: const Text(AppStrings.placementTest)),
+        appBar: AppBar(title: Text(widget.label)),
         body: const Padding(
             padding: EdgeInsets.all(AppStyles.padding),
             child: Center(child: CircularProgressIndicator())));

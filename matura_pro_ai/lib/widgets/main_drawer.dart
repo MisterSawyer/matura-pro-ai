@@ -30,7 +30,10 @@ class MainDrawer extends StatelessWidget {
               Navigator.pushNamed(
                 context,
                 AppRoutes.account,
-                arguments: account,
+                arguments: 
+                {
+                  'account': account,
+                }
               );
             },
           ),
