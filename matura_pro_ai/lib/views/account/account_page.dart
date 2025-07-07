@@ -81,6 +81,9 @@ class _AccountPageState extends State<AccountPage> {
                   left: const SizedBox(),
                   center: Column(
                     children: [
+                      const SizedBox(height: 32),
+                      const Icon(Icons.account_circle, size: 64),
+                      const SizedBox(height: 16),
                       Text("${AppStrings.username}: ${widget.account.username}",
                           style: AppStyles.paragraph),
                       const SizedBox(height: 16),
@@ -91,11 +94,32 @@ class _AccountPageState extends State<AccountPage> {
                             const InputDecoration(labelText: AppStrings.name),
                       ),
                       const SizedBox(height: 16),
-                      Text(
-                          "${AppStrings.lastTest}: ${widget.account.lastPlacementTestResult.toStringAsFixed(1)}%",
-                          style: AppStyles.paragraph),
-                      const SizedBox(height: 64),
+                      Container(
+                        width: double.infinity,
+                        padding: const EdgeInsets.all(AppStyles.padding),
+                        margin: const EdgeInsets.symmetric(vertical: 24),
+                        decoration: BoxDecoration(
+                          border: Border.all(
+                              color: Theme.of(context).colorScheme.primary),
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            const Text("Results", style: AppStyles.header),
+                            const SizedBox(height: 12),
+                            Text(
+                              "${AppStrings.lastTest}: ${widget.account.lastPlacementTestResult.toStringAsFixed(1)}%",
+                              style: AppStyles.paragraph,
+                            ),
+                          ],
+                        ),
+                      ),
+                      const SizedBox(height: 128),
                       ElevatedButton(
+                        style: ButtonStyle(
+                          backgroundColor: WidgetStateProperty.all(Colors.red),
+                        ),
                         onPressed: _onLogout,
                         child: const Text(AppStrings.logout),
                       ),
