@@ -19,7 +19,6 @@ import '../../widgets/questions/text_input_question_content.dart';
 import '../../controllers/category_question_controller.dart';
 import '../../widgets/questions/category_question_content.dart';
 
-import '../../widgets/three_column_layout.dart';
 import '../../widgets/no_scrollbar.dart';
 
 class TestPage extends StatefulWidget {
@@ -177,15 +176,11 @@ class _TestPageState extends State<TestPage> {
               padding: const EdgeInsets.all(AppStyles.padding),
               child: Padding(
                 padding: const EdgeInsets.all(AppStyles.padding),
-                child: ThreeColumnLayout(
-                  left: const SizedBox(),
-                  center: MultipleChoiceQuestionContent(
-                    question: question,
-                    questionIndex: _questionIndex,
-                    total: _total,
-                    onAnswered: (value) => Navigator.pop(context, value),
-                  ),
-                  right: const SizedBox(),
+                child: MultipleChoiceQuestionContent(
+                  question: question,
+                  questionIndex: _questionIndex,
+                  total: _total,
+                  onAnswered: (value) => Navigator.pop(context, value),
                 ),
               ),
             ),
@@ -240,17 +235,13 @@ class _TestPageState extends State<TestPage> {
               padding: const EdgeInsets.all(AppStyles.padding),
               child: Padding(
                 padding: const EdgeInsets.all(AppStyles.padding),
-                child: ThreeColumnLayout(
-                  left: const SizedBox(),
-                  center: TextInputQuestionContent(
-                    question: question,
-                    questionIndex: _questionIndex,
-                    total: _total,
-                    onAnswered: (value) {
-                      Navigator.pop(context, value);
-                    },
-                  ),
-                  right: const SizedBox(),
+                child: TextInputQuestionContent(
+                  question: question,
+                  questionIndex: _questionIndex,
+                  total: _total,
+                  onAnswered: (value) {
+                    Navigator.pop(context, value);
+                  },
                 ),
               ),
             ),
@@ -305,15 +296,11 @@ class _TestPageState extends State<TestPage> {
               padding: const EdgeInsets.all(AppStyles.padding),
               child: Padding(
                 padding: const EdgeInsets.all(AppStyles.padding),
-                child: ThreeColumnLayout(
-                  left: const SizedBox(),
-                  center: CategoryQuestionContent(
-                    question: question,
-                    questionIndex: _questionIndex,
-                    total: _total,
-                    onAnswered: (value) => Navigator.pop(context, value),
-                  ),
-                  right: const SizedBox(),
+                child: CategoryQuestionContent(
+                  question: question,
+                  questionIndex: _questionIndex,
+                  total: _total,
+                  onAnswered: (value) => Navigator.pop(context, value),
                 ),
               ),
             ),

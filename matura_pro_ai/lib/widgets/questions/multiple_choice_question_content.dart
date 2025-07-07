@@ -59,7 +59,7 @@ class _MultipleChoiceQuestionContentState
       builder: (context, constraints) {
         return Center(
           child: ConstrainedBox(
-            constraints: const BoxConstraints(maxWidth: 600),
+            constraints: const BoxConstraints(maxWidth: 800),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [

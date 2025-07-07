@@ -48,52 +48,59 @@ class _LoginPageState extends State<LoginPage> {
     return Container(
       width: double.infinity,
       height: double.infinity,
-      color: theme.scaffoldBackgroundColor,
-      child: FlutterLogin(
-        title: AppStrings.appName,
-        logo: const AssetImage('assets/images/logo.png'),
-        userType: LoginUserType.name,
-        onLogin: _authUser,
-        onSignup: _signupUser,
-        onRecoverPassword: _recoverPassword,
-        onSubmitAnimationCompleted: () {
-          if (!mounted || _loggedInAccount == null) return;
-          Navigator.pushReplacementNamed(
-            context,
-            AppRoutes.home,
-            arguments: {'account': _loggedInAccount},
-          );
-        },
-        userValidator: (value) => (value == null || value.isEmpty)
-            ? AppStrings.usernameMissing
-            : null,
-        passwordValidator: (value) =>
-            (value == null || value.isEmpty) ? AppStrings.passwordError : null,
-        loginAfterSignUp: false,
-        hideForgotPasswordButton: true,
-        messages: LoginMessages(
-          userHint: AppStrings.username,
-          passwordHint: AppStrings.password,
-          loginButton: AppStrings.login,
-          signupButton: AppStrings.register,
-          signUpSuccess: AppStrings.registrationSuccess,
-          confirmPasswordError: AppStrings.passwordMismatch,
-          flushbarTitleError: AppStrings.error,
-          flushbarTitleSuccess: AppStrings.success,
-        ),
-        theme: LoginTheme(
-          primaryColor: theme.primaryColor,
-          accentColor: theme.highlightColor,
-          errorColor: theme.colorScheme.error,
-          cardTheme: const CardTheme(margin: EdgeInsets.only(top: 100)),
-          authButtonPadding: const EdgeInsets.all(AppStyles.padding),
-          providerButtonPadding: const EdgeInsets.all(AppStyles.padding),
-          buttonTheme: LoginButtonTheme(
-            backgroundColor: theme.buttonTheme.colorScheme?.primary,
-            highlightColor: theme.buttonTheme.colorScheme?.onPrimary,
+      color: theme.primaryColor,
+      child: Column(
+        children: [
+          const SizedBox(height: 32,),
+          Expanded(
+            child: FlutterLogin(
+              title: AppStrings.appName,
+              logo: const AssetImage('assets/images/logo.png'),
+              userType: LoginUserType.name,
+              onLogin: _authUser,
+              onSignup: _signupUser,
+              onRecoverPassword: _recoverPassword,
+              onSubmitAnimationCompleted: () {
+                if (!mounted || _loggedInAccount == null) return;
+                Navigator.pushReplacementNamed(
+                  context,
+                  AppRoutes.home,
+                  arguments: {'account': _loggedInAccount},
+                );
+              },
+              userValidator: (value) => (value == null || value.isEmpty)
+                  ? AppStrings.usernameMissing
+                  : null,
+              passwordValidator: (value) =>
+                  (value == null || value.isEmpty) ? AppStrings.passwordError : null,
+              loginAfterSignUp: false,
+              hideForgotPasswordButton: true,
+              messages: LoginMessages(
+                userHint: AppStrings.username,
+                passwordHint: AppStrings.password,
+                loginButton: AppStrings.login,
+                signupButton: AppStrings.register,
+                signUpSuccess: AppStrings.registrationSuccess,
+                confirmPasswordError: AppStrings.passwordMismatch,
+                flushbarTitleError: AppStrings.error,
+                flushbarTitleSuccess: AppStrings.success,
+              ),
+              theme: LoginTheme(
+                primaryColor: theme.primaryColor,
+                accentColor: theme.highlightColor,
+                errorColor: theme.colorScheme.error,
+                cardTheme: const CardTheme(margin: EdgeInsets.only(top: 100)),
+                authButtonPadding: const EdgeInsets.all(AppStyles.padding),
+                providerButtonPadding: const EdgeInsets.all(AppStyles.padding),
+                buttonTheme: LoginButtonTheme(
+                  backgroundColor: theme.buttonTheme.colorScheme?.primary,
+                  highlightColor: theme.buttonTheme.colorScheme?.onPrimary,
+                ),
+              ),
+              children: const [],
+            ),
           ),
-        ),
-        children: const [],
+        ],
       ),
     );
   }

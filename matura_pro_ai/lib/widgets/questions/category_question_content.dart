@@ -48,73 +48,78 @@ class _CategoruQuestionContentState extends State<CategoryQuestionContent> {
   Widget build(BuildContext context) {
     return LayoutBuilder(
       builder: (context, constraints) {
-        return Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            const SizedBox(height: 32),
-            Text("Question ${widget.questionIndex + 1} of ${widget.total}",
-                style: AppStyles.subHeader),
-            const SizedBox(height: 16),
-            Text(widget.question.question, style: AppStyles.header),
-            const SizedBox(height: 32),
-                  
-            // Unassigned items
-                  
-            Center(
-              child: Wrap(
-                spacing: 8,
-                runSpacing: 8,
-                children: widget.question.items
-                    .where((item) => !_assigned.containsKey(item))
-                    .map((item) => DraggableItem(label: item))
-                    .toList(),
-              ),
+        return Center(
+          child: ConstrainedBox(
+            constraints: const BoxConstraints(maxWidth: 800),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                const SizedBox(height: 32),
+                Text("Question ${widget.questionIndex + 1} of ${widget.total}",
+                    style: AppStyles.subHeader),
+                const SizedBox(height: 16),
+                Text(widget.question.question, style: AppStyles.header),
+                const SizedBox(height: 32),
+                      
+                // Unassigned items
+                      
+                Center(
+                  child: Wrap(
+                    spacing: 8,
+                    runSpacing: 8,
+                    children: widget.question.items
+                        .where((item) => !_assigned.containsKey(item))
+                        .map((item) => DraggableItem(label: item))
+                        .toList(),
+                  ),
+                ),
+                      
+                const SizedBox(height: 32),
+                      
+                // Drop targets with wrapping
+                Center(
+                  child: Wrap(
+                    spacing: 16,
+                    runSpacing: 16,
+                    alignment: WrapAlignment.center,
+                    children: widget.question.categories.map((category) {
+                      final itemsInCategory = _assigned.entries
+                          .where((entry) => entry.value == category)
+                          .map((entry) => entry.key)
+                          .toList();
+                      
+                      return ConstrainedBox(
+                        constraints: const BoxConstraints(
+                          maxWidth: 300,
+                          minHeight: 160,
+                        ),
+                        child: DropTarget(
+                          label: category,
+                          currentData: itemsInCategory,
+                          onAccept: (DragTargetDetails<String> item) {
+                            setState(() {
+                              _assigned.removeWhere(
+                                  (key, value) => key == item.data);
+                              _assigned[item.data] = category;
+                            });
+                          },
+                        ),
+                      );
+                    }).toList(),
+                  ),
+                ),
+                      
+                const SizedBox(height: 32),
+                Center(
+                  child: ElevatedButton(
+                    onPressed: _submit,
+                    child: const Text(AppStrings.submit),
+                  ),
+                ),
+                const SizedBox(height: 64),
+              ],
             ),
-                  
-            const SizedBox(height: 32),
-                  
-            // Drop targets with wrapping
-            Center(
-              child: Wrap(
-                spacing: 16,
-                runSpacing: 16,
-                alignment: WrapAlignment.center,
-                children: widget.question.categories.map((category) {
-                  final itemsInCategory = _assigned.entries
-                      .where((entry) => entry.value == category)
-                      .map((entry) => entry.key)
-                      .toList();
-                  
-                  return ConstrainedBox(
-                    constraints: const BoxConstraints(
-                      maxWidth: 300,
-                      minHeight: 160,
-                    ),
-                    child: DropTarget(
-                      label: category,
-                      currentData: itemsInCategory,
-                      onAccept: (DragTargetDetails<String> item) {
-                        setState(() {
-                          _assigned.removeWhere(
-                              (key, value) => key == item.data);
-                          _assigned[item.data] = category;
-                        });
-                      },
-                    ),
-                  );
-                }).toList(),
-              ),
-            ),
-                  
-            const SizedBox(height: 32),
-            Center(
-              child: ElevatedButton(
-                onPressed: _submit,
-                child: const Text(AppStrings.submit),
-              ),
-            ),
-            const SizedBox(height: 64),
-          ],
+          ),
         );
       },
     );

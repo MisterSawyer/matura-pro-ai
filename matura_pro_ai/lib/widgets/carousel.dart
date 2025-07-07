@@ -60,13 +60,12 @@ class _CarouselState extends State<Carousel> {
                 itemBuilder: (context, i) {
                   final object = widget.objects[i];
                   return Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: AppStyles.padding),
+                    padding: const EdgeInsets.symmetric(horizontal: AppStyles.padding / 2),
                     child: Container(
                       decoration: BoxDecoration(
                         color: theme.colorScheme.primaryContainer,
                         borderRadius: BorderRadius.circular(12),
                       ),
-                      padding: const EdgeInsets.all(AppStyles.padding),
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [

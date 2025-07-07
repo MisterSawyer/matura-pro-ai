@@ -46,7 +46,7 @@ class _TextInputQuestionContentState extends State<TextInputQuestionContent> {
   Widget build(BuildContext context) {
     return Center(
       child: ConstrainedBox(
-        constraints: const BoxConstraints(maxWidth: 600),
+        constraints: const BoxConstraints(maxWidth: 800),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
