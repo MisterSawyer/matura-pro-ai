@@ -1,7 +1,8 @@
 import 'dart:math';
-
-import 'package:flutter/material.dart';
 import 'dart:convert';
+
+import 'package:flutter/gestures.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 import '../../core/constants.dart';
@@ -10,15 +11,16 @@ import '../../routes/app_routes.dart';
 import '../../models/account.dart';
 
 import '../../controllers/multiple_choice_question_controller.dart';
-import '../../widgets/multiple_choice_question_content.dart';
+import '../../widgets/questions/multiple_choice_question_content.dart';
 
 import '../../controllers/text_input_question_controller.dart';
-import '../../widgets/text_input_question_content.dart';
+import '../../widgets/questions/text_input_question_content.dart';
 
 import '../../controllers/category_question_controller.dart';
-import '../../widgets/category_question_content.dart';
+import '../../widgets/questions/category_question_content.dart';
 
 import '../../widgets/three_column_layout.dart';
+import '../../widgets/no_scrollbar.dart';
 
 class TestPage extends StatefulWidget {
   final String path;
@@ -43,6 +45,8 @@ class _TestPageState extends State<TestPage> {
   final _textInputQuestionsController = TextInputQuestionController();
   final _categoryQuestionsController = CategoryQuestionController();
 
+  final ScrollController _scrollController = ScrollController();
+
   List<List<int?>> _multipleChoiceAnswers = [];
   List<String?> _textInputAnswers = [];
   List<Map<String, String>> _categoryAnswers = [];
@@ -63,6 +67,12 @@ class _TestPageState extends State<TestPage> {
   void initState() {
     super.initState();
     _load(widget.path);
+  }
+
+  @override
+  void dispose() {
+    _scrollController.dispose();
+    super.dispose();
   }
 
   Future<void> _load(String path) async {
@@ -156,14 +166,16 @@ class _TestPageState extends State<TestPage> {
     final result = await Navigator.push<List<int>>(
       context,
       MaterialPageRoute(
-        builder: (_) => SafeArea(
-          child: Container(
-            width: double.infinity,
-            height: double.infinity,
-            color: Theme.of(context).scaffoldBackgroundColor,
-            child: Scaffold(
-              appBar: AppBar(title: Text(widget.label)),
-              body: Padding(
+        builder: (_) => Scaffold(
+          appBar: AppBar(title: Text(widget.label)),
+          body: ScrollConfiguration(
+            behavior: NoScrollbarBehavior(),
+            child: SingleChildScrollView(
+              controller: _scrollController,
+              dragStartBehavior: DragStartBehavior.down,
+              physics: const AlwaysScrollableScrollPhysics(),
+              padding: const EdgeInsets.all(AppStyles.padding),
+              child: Padding(
                 padding: const EdgeInsets.all(AppStyles.padding),
                 child: ThreeColumnLayout(
                   left: const SizedBox(),
@@ -217,14 +229,16 @@ class _TestPageState extends State<TestPage> {
     final result = await Navigator.push<String>(
       context,
       MaterialPageRoute(
-        builder: (_) => SafeArea(
-          child: Container(
-            width: double.infinity,
-            height: double.infinity,
-            color: Theme.of(context).scaffoldBackgroundColor,
-            child: Scaffold(
-              appBar: AppBar(title: Text(widget.label)),
-              body: Padding(
+        builder: (_) => Scaffold(
+          appBar: AppBar(title: Text(widget.label)),
+          body: ScrollConfiguration(
+            behavior: NoScrollbarBehavior(),
+            child: SingleChildScrollView(
+              controller: _scrollController,
+              dragStartBehavior: DragStartBehavior.down,
+              physics: const AlwaysScrollableScrollPhysics(),
+              padding: const EdgeInsets.all(AppStyles.padding),
+              child: Padding(
                 padding: const EdgeInsets.all(AppStyles.padding),
                 child: ThreeColumnLayout(
                   left: const SizedBox(),
@@ -280,29 +294,31 @@ class _TestPageState extends State<TestPage> {
     final result = await Navigator.push<Map<String, String>>(
       context,
       MaterialPageRoute(
-        builder: (_) => SafeArea(
-            child: Container(
-              width: double.infinity,
-              height: double.infinity,
-              color: Theme.of(context).scaffoldBackgroundColor,
-              child: Scaffold(
-                appBar: AppBar(title: Text(widget.label)),
-                body: Padding(
-                  padding: const EdgeInsets.all(AppStyles.padding),
-                  child: ThreeColumnLayout(
-                    left: const SizedBox(),
-                    center: CategoryQuestionContent(
-                      question: question,
-                      questionIndex: _questionIndex,
-                      total: _total,
-                      onAnswered: (value) => Navigator.pop(context, value),
-                    ),
-                    right: const SizedBox(),
+        builder: (_) => Scaffold(
+          appBar: AppBar(title: Text(widget.label)),
+          body: ScrollConfiguration(
+            behavior: NoScrollbarBehavior(),
+            child: SingleChildScrollView(
+              controller: _scrollController,
+              dragStartBehavior: DragStartBehavior.down,
+              physics: const AlwaysScrollableScrollPhysics(),
+              padding: const EdgeInsets.all(AppStyles.padding),
+              child: Padding(
+                padding: const EdgeInsets.all(AppStyles.padding),
+                child: ThreeColumnLayout(
+                  left: const SizedBox(),
+                  center: CategoryQuestionContent(
+                    question: question,
+                    questionIndex: _questionIndex,
+                    total: _total,
+                    onAnswered: (value) => Navigator.pop(context, value),
                   ),
+                  right: const SizedBox(),
                 ),
               ),
             ),
           ),
+        ),
       ),
     );
 
@@ -359,17 +375,15 @@ class _TestPageState extends State<TestPage> {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    return SafeArea(
-      child: Container(
-        width: double.infinity,
-        height: double.infinity,
-        color: theme.scaffoldBackgroundColor,
-        child: Scaffold(
-            appBar: AppBar(title: Text(widget.label)),
-            body: const Padding(
-                padding: EdgeInsets.all(AppStyles.padding),
-                child: Center(child: CircularProgressIndicator()))),
-      ),
+    return Container(
+      width: double.infinity,
+      height: double.infinity,
+      color: theme.scaffoldBackgroundColor,
+      child: Scaffold(
+          appBar: AppBar(title: Text(widget.label)),
+          body: const Padding(
+              padding: EdgeInsets.all(AppStyles.padding),
+              child: Center(child: CircularProgressIndicator()))),
     );
   }
 }

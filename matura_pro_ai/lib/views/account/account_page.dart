@@ -9,7 +9,7 @@ import '../../widgets/three_column_layout.dart';
 
 class AccountPage extends StatefulWidget {
   final Account account;
-  
+
   const AccountPage({super.key, required this.account});
 
   @override
@@ -40,10 +40,11 @@ class _AccountPageState extends State<AccountPage> {
   }
 
   void _onSave() {
-    if(widget.account.name == _nameController.text)return;
+    if (widget.account.name == _nameController.text) return;
     setState(() {
       widget.account.name = _nameController.text;
-      RegisterController.updateName(widget.account.username, widget.account.name);
+      RegisterController.updateName(
+          widget.account.username, widget.account.name);
     });
 
     ScaffoldMessenger.of(context).showSnackBar(
@@ -61,50 +62,48 @@ class _AccountPageState extends State<AccountPage> {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Container(
-        color: Theme.of(context).scaffoldBackgroundColor,
-        width: double.infinity,
-        height: double.infinity,
-        child: PopScope(
-            canPop: true,
-            onPopInvokedWithResult: (didPop, result) {
-              if (didPop) {
-                _onSave(); // Save only if pop is actually happening
-              }
-            },
-            child: Scaffold(
-              appBar: AppBar(title: const Text(AppStrings.account)),
-              body: Padding(
-                  padding: const EdgeInsets.all(AppStyles.padding),
-                  child: ThreeColumnLayout(
-                    left: const SizedBox(),
-                    center: Column(
-                      children: [
-                        Text("${AppStrings.username}: ${widget.account.username}",
-                            style: AppStyles.paragraph),
-                        const SizedBox(height: 16),
-                        TextField(
-                          controller: _nameController,
-                          focusNode: _nameFocusNode,
-                          decoration:
-                              const InputDecoration(labelText: AppStrings.name),
-                        ),
-                        const SizedBox(height: 16),
-                        Text(
-                            "${AppStrings.lastTest}: ${widget.account.lastPlacementTestResult.toStringAsFixed(1)}%",
-                            style: AppStyles.paragraph),
-                        const SizedBox(height: 64),
-                        ElevatedButton(
-                          onPressed: _onLogout,
-                          child: const Text(AppStrings.logout),
-                        ),
-                      ],
-                    ),
-                    right: const SizedBox(),
-                  )),
-            )),
-      ),
+    return Container(
+      color: Theme.of(context).scaffoldBackgroundColor,
+      width: double.infinity,
+      height: double.infinity,
+      child: PopScope(
+          canPop: true,
+          onPopInvokedWithResult: (didPop, result) {
+            if (didPop) {
+              _onSave(); // Save only if pop is actually happening
+            }
+          },
+          child: Scaffold(
+            appBar: AppBar(title: const Text(AppStrings.account)),
+            body: Padding(
+                padding: const EdgeInsets.all(AppStyles.padding),
+                child: ThreeColumnLayout(
+                  left: const SizedBox(),
+                  center: Column(
+                    children: [
+                      Text("${AppStrings.username}: ${widget.account.username}",
+                          style: AppStyles.paragraph),
+                      const SizedBox(height: 16),
+                      TextField(
+                        controller: _nameController,
+                        focusNode: _nameFocusNode,
+                        decoration:
+                            const InputDecoration(labelText: AppStrings.name),
+                      ),
+                      const SizedBox(height: 16),
+                      Text(
+                          "${AppStrings.lastTest}: ${widget.account.lastPlacementTestResult.toStringAsFixed(1)}%",
+                          style: AppStyles.paragraph),
+                      const SizedBox(height: 64),
+                      ElevatedButton(
+                        onPressed: _onLogout,
+                        child: const Text(AppStrings.logout),
+                      ),
+                    ],
+                  ),
+                  right: const SizedBox(),
+                )),
+          )),
     );
   }
 }
