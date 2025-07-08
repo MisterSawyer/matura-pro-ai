@@ -15,25 +15,9 @@ class RegisterController {
 
     _userAccounts[username] = Account(
       username: username,
-      name: "User ${_userAccounts.length + 1}",
-      lastPlacementTestResult: 0.0,
     );
 
     return true;
-  }
-
-  static void updateName(String username, String newName) {
-    final account = _userAccounts[username];
-    if (account != null) {
-      account.name = newName;
-    }
-  }
-
-  static void updateLastPlacementTestResult(String username, double result) {
-    final account = _userAccounts[username];
-    if (account != null) {
-      account.lastPlacementTestResult = result;
-    }
   }
 
   // This is only for mockup development purposes

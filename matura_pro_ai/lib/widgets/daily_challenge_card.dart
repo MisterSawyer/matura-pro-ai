@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class DailyChallengeCard extends StatelessWidget {
-  final int currentStreak; // e.g., 5-day streak
+  final int currentStreak;
   final VoidCallback onTap;
 
   const DailyChallengeCard({
@@ -16,32 +16,38 @@ class DailyChallengeCard extends StatelessWidget {
 
     return InkWell(
       onTap: onTap,
-      borderRadius: BorderRadius.circular(16),
       child: Ink(
-        padding: const EdgeInsets.all(16),
-        decoration: BoxDecoration(
-          color: theme.colorScheme.secondaryContainer,
-          borderRadius: BorderRadius.circular(16),
-        ),
-        child: Column(
+        color: Colors.transparent,
+        child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            const Text('🔥', style: TextStyle(fontSize: 32)),
-            const SizedBox(height: 12),
-            Text(
-              'Daily Challenge',
-              style: theme.textTheme.titleMedium,
-              textAlign: TextAlign.center,
+            _buildSquareBox(
+              context,
+              child: Text(
+                '$currentStreak',
+                style: theme.textTheme.titleLarge!.copyWith(fontSize: 96),
+              ),
             ),
-            const SizedBox(height: 8),
-            Text(
-              'Current streak: $currentStreak days',
-              style: theme.textTheme.bodyMedium,
-              textAlign: TextAlign.center,
+            const SizedBox(width: 12),
+            _buildSquareBox(
+              context,
+              child: const Text(
+                '🔥',
+                style: TextStyle(fontSize: 32),
+              ),
             ),
           ],
         ),
       ),
+    );
+  }
+
+  Widget _buildSquareBox(BuildContext context,
+      {required Widget child}) {
+    return Container(
+      alignment: Alignment.center,
+      decoration: const BoxDecoration(color: Colors.transparent),
+      child: child,
     );
   }
 }

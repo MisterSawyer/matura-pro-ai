@@ -1,5 +1,3 @@
-import 'package:flutter/material.dart';
-
 class AppStrings {
   static const String appTitle = 'Matura Pro AI';
   static const String error = 'Error';
@@ -40,22 +38,5 @@ class AppStrings {
 }
 
 class AppAssets {
-  static const String placementQuestions = 'assets/placement_questions.json';
-}
-
-class AppStyles {
-  static const double padding = 16.0;
-
-  static const TextStyle header = TextStyle(
-    fontSize: 24,
-    fontWeight: FontWeight.bold,
-  );
-
-  static const TextStyle subHeader = TextStyle(
-    fontSize: 16,
-  );
-
-  static const TextStyle paragraph = TextStyle(
-    fontSize: 16,
-  );
+  static const String placementTest = 'assets/tests/placement_test.json';
 }

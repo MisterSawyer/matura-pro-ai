@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_login/flutter_login.dart';
 
 import '../../core/constants.dart';
+import '../../core/theme_defaults.dart';
+
 import '../../routes/app_routes.dart';
 import '../../controllers/login_controller.dart';
 import '../../controllers/register_controller.dart';
@@ -45,17 +47,18 @@ class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+
     return Container(
       width: double.infinity,
       height: double.infinity,
-      color: theme.primaryColor,
-      child: Column(
-        children: [
-          const SizedBox(height: 32,),
-          Expanded(
+      color: theme.scaffoldBackgroundColor,
+      child: Scaffold(
+        body: Center(
+          child: ConstrainedBox(
+            constraints: const BoxConstraints(maxWidth: 600),
             child: FlutterLogin(
-              title: AppStrings.appName,
-              logo: const AssetImage('assets/images/logo.png'),
+              title : AppStrings.appTitle,
+              logo: const AssetImage('assets/images/logo2.png'),
               userType: LoginUserType.name,
               onLogin: _authUser,
               onSignup: _signupUser,
@@ -71,8 +74,10 @@ class _LoginPageState extends State<LoginPage> {
               userValidator: (value) => (value == null || value.isEmpty)
                   ? AppStrings.usernameMissing
                   : null,
-              passwordValidator: (value) =>
-                  (value == null || value.isEmpty) ? AppStrings.passwordError : null,
+              passwordValidator: (value) => (value == null || value.isEmpty)
+                  ? AppStrings.passwordError
+                  : null,
+              scrollable : false,
               loginAfterSignUp: false,
               hideForgotPasswordButton: true,
               messages: LoginMessages(
@@ -86,21 +91,31 @@ class _LoginPageState extends State<LoginPage> {
                 flushbarTitleSuccess: AppStrings.success,
               ),
               theme: LoginTheme(
-                primaryColor: theme.primaryColor,
+                logoWidth: 1.0,
+                cardInitialHeight: 100.0,
+                headerMargin: 0.0,
+                pageColorDark: theme.scaffoldBackgroundColor,
+                primaryColor: theme.scaffoldBackgroundColor,
                 accentColor: theme.highlightColor,
                 errorColor: theme.colorScheme.error,
-                cardTheme: const CardTheme(margin: EdgeInsets.only(top: 100)),
-                authButtonPadding: const EdgeInsets.all(AppStyles.padding),
-                providerButtonPadding: const EdgeInsets.all(AppStyles.padding),
+                cardTheme: CardTheme(
+                  margin: const EdgeInsets.symmetric(horizontal: 0, vertical: 8),
+                  color: theme.scaffoldBackgroundColor, // matches background
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(16),
+                  ),
+                  elevation: 0, // optional: remove shadow
+                ),
+                authButtonPadding: const EdgeInsets.all(ThemeDefaults.padding),
+                providerButtonPadding: const EdgeInsets.all(ThemeDefaults.padding),
                 buttonTheme: LoginButtonTheme(
                   backgroundColor: theme.buttonTheme.colorScheme?.primary,
                   highlightColor: theme.buttonTheme.colorScheme?.onPrimary,
                 ),
               ),
-              children: const [],
             ),
           ),
-        ],
+        ),
       ),
     );
   }

@@ -1,10 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:matura_pro_ai/core/constants.dart';
 
-class DropTarget extends StatelessWidget {
+import '../../core/constants.dart';
+import '../../core/theme_defaults.dart';
+
+import 'draggable_item.dart';
+
+class DropTarget<T extends Object> extends StatelessWidget {
   final String label;
-  final void Function(DragTargetDetails<String>) onAccept;
-  final List<String> currentData;
+  final void Function(DragTargetDetails<T>) onAccept;
+  final List<DraggableItem> currentData;
 
   const DropTarget({
     super.key,
@@ -15,13 +19,13 @@ class DropTarget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return DragTarget<String>(
+    return DragTarget<T>(
       onAcceptWithDetails: onAccept,
       builder: (context, _, __) {
         return Container(
           width: double.infinity,
           margin: const EdgeInsets.symmetric(vertical: 8),
-          padding: const EdgeInsets.all(AppStyles.padding),
+          padding: const EdgeInsets.all(ThemeDefaults.padding),
           decoration: BoxDecoration(
             border: Border.all(color: Colors.grey),
             borderRadius: BorderRadius.circular(8),
@@ -30,7 +34,7 @@ class DropTarget extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(label, style: Theme.of(context).textTheme.titleMedium),
+              Text(label, style: Theme.of(context).textTheme.headlineSmall),
               const SizedBox(height: 8),
               if (currentData.isEmpty)
                 const Text(AppStrings.dropHere, style: TextStyle(fontStyle: FontStyle.italic)),
@@ -38,17 +42,7 @@ class DropTarget extends StatelessWidget {
                 spacing: 8,
                 runSpacing: 4,
                 children: currentData.map((item) {
-                  return Draggable<String>(
-                    data: item,
-                    feedback: Material(
-                      child: Chip(label: Text(item)),
-                    ),
-                    childWhenDragging: Opacity(
-                      opacity: 0.4,
-                      child: Chip(label: Text(item)),
-                    ),
-                    child: Chip(label: Text(item)),
-                  );
+                  return item;
                 }).toList(),
               ),
             ],

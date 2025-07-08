@@ -19,15 +19,16 @@ class AppTheme {
     ),
 
     elevatedButtonTheme: ThemeDefaults.elevatedButtonTheme,
-    
+    textTheme : ThemeDefaults.textTheme,
   );
 
   static final ThemeData dark = ThemeData(
+    primaryColor: ThemeDefaults.primaryColor,
     brightness: Brightness.dark,
     primarySwatch: ThemeDefaults.primaryColor,
-    scaffoldBackgroundColor: const Color(0xFF121212),
+    scaffoldBackgroundColor: const Color(0XFF0A2645),
     appBarTheme: const AppBarTheme(
-      backgroundColor: Color(0xFF1F1F1F),
+      backgroundColor: Color(0XFF0A2645),
       foregroundColor: Colors.white,
     ),
     drawerTheme: const DrawerThemeData(
@@ -38,7 +39,8 @@ class AppTheme {
         seedColor: ThemeDefaults.primaryColor,
         error: ThemeDefaults.errorColor, // ← error color here
     ),
-
+    //bodyMedium: const TextStyle(color: Colors.white),
     elevatedButtonTheme: ThemeDefaults.elevatedButtonTheme,
+    textTheme : ThemeDefaults.textTheme,
   );
 }

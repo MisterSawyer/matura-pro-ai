@@ -3,6 +3,5 @@ class AppRoutes
   static const String login = '/login';
   static const String home = '/home';
   static const String account = '/account';
-  static const String test = '/test';
-  static const String testResult = '/test/result';
+  static const String placementTest = '/placement-test';
 }

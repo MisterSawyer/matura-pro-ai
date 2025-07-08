@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 
+import '../../core/theme_defaults.dart';
 import '../../core/constants.dart';
+
 import '../../routes/app_routes.dart';
 import '../../models/account.dart';
 
-import '../../controllers/register_controller.dart';
 import '../../widgets/three_column_layout.dart';
 
 class AccountPage extends StatefulWidget {
@@ -42,9 +43,7 @@ class _AccountPageState extends State<AccountPage> {
   void _onSave() {
     if (widget.account.name == _nameController.text) return;
     setState(() {
-      widget.account.name = _nameController.text;
-      RegisterController.updateName(
-          widget.account.username, widget.account.name);
+      widget.account.setName(_nameController.text);
     });
 
     ScaffoldMessenger.of(context).showSnackBar(
@@ -62,6 +61,7 @@ class _AccountPageState extends State<AccountPage> {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
     return Container(
       color: Theme.of(context).scaffoldBackgroundColor,
       width: double.infinity,
@@ -76,7 +76,7 @@ class _AccountPageState extends State<AccountPage> {
           child: Scaffold(
             appBar: AppBar(title: const Text(AppStrings.account)),
             body: Padding(
-                padding: const EdgeInsets.all(AppStyles.padding),
+                padding: const EdgeInsets.all(ThemeDefaults.padding),
                 child: ThreeColumnLayout(
                   left: const SizedBox(),
                   center: Column(
@@ -85,7 +85,7 @@ class _AccountPageState extends State<AccountPage> {
                       const Icon(Icons.account_circle, size: 64),
                       const SizedBox(height: 16),
                       Text("${AppStrings.username}: ${widget.account.username}",
-                          style: AppStyles.paragraph),
+                          style: theme.textTheme.headlineSmall),
                       const SizedBox(height: 16),
                       TextField(
                         controller: _nameController,
@@ -96,7 +96,7 @@ class _AccountPageState extends State<AccountPage> {
                       const SizedBox(height: 16),
                       Container(
                         width: double.infinity,
-                        padding: const EdgeInsets.all(AppStyles.padding),
+                        padding: const EdgeInsets.all(ThemeDefaults.padding),
                         margin: const EdgeInsets.symmetric(vertical: 24),
                         decoration: BoxDecoration(
                           border: Border.all(
@@ -106,12 +106,8 @@ class _AccountPageState extends State<AccountPage> {
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            const Text("Results", style: AppStyles.header),
+                            Text("Results", style: theme.textTheme.titleLarge),
                             const SizedBox(height: 12),
-                            Text(
-                              "${AppStrings.lastTest}: ${widget.account.lastPlacementTestResult.toStringAsFixed(1)}%",
-                              style: AppStyles.paragraph,
-                            ),
                           ],
                         ),
                       ),

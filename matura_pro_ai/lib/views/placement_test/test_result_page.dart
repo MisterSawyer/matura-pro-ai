@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../core/constants.dart';
+import '../../core/theme_defaults.dart';
 
 import '../../models/account.dart';
 
@@ -26,17 +27,17 @@ class TestResultPage extends StatelessWidget {
       child: Scaffold(
         appBar: AppBar(title: const Text(AppStrings.testResult)),
         body: Padding(
-            padding: const EdgeInsets.all(AppStyles.padding),
+            padding: const EdgeInsets.all(ThemeDefaults.padding),
             child: ThreeColumnLayout(
               left: const SizedBox(),
               center: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Text("${AppStrings.wellDone}, ${account.name}!",
-                      style: AppStyles.subHeader),
+                      style: theme.textTheme.bodyLarge),
                   const SizedBox(height: 20),
                   Text("${AppStrings.testResult}: ${score.toStringAsFixed(1)}%",
-                      style: AppStyles.subHeader),
+                      style: theme.textTheme.titleLarge),
                   const SizedBox(height: 40),
                   ElevatedButton(
                     onPressed: () {

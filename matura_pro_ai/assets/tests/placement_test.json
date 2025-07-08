@@ -1,0 +1,117 @@
+[
+    {
+    "name" : "ROZUMIENIE TEKSTÓW PISANYCH",
+    "questions" : [
+        {
+        "type": "reading",
+        "question": "Przeczytaj krótki tekst i odpowiedz na pytania wybierając właściwą odpowiedź",
+        "text": "Sarah has been learning Spanish for two years at her local language school. She started because she wanted to travel to South America. Now she can have basic conversations with native speakers and understand most of what she reads in Spanish newspapers. However, she still struggles with listening to fast-paced movies without subtitles. Next month, she's planning to take an official exam to get a certificate.",
+        "questions": [
+            {
+                "type": "multiple_choice",
+                "question": "Sarah began learning Spanish because she wanted to:",
+                "options": [
+                  "watch movies without subtitles",
+                  "travel to South America",
+                  "read Spanish newspapers"
+                ],
+                "correctIndexes": [1]
+              },
+              {
+                "type": "multiple_choice",
+                "question": "What is Sarah's biggest challenge now?",
+                "options": [
+                  "having basic conversations",
+                  "reading Spanish texts",
+                  "understanding fast-paced movies"
+                ],
+                "correctIndexes": [2]
+              },
+              {
+                "type": "multiple_choice",
+                "question": "What is Sarah planning to do next month?",
+                "options": [
+                  "travel to South America",
+                  "take an official exam",
+                  "start watching Spanish movies"
+                ],
+                "correctIndexes": [1]
+              }
+        ]
+      },
+      {
+        "type": "category",
+        "question": "Dopasuj nagłówki do fragmentów tekstu. Jeden nagłówek nie pasuje do żadnego fragmentu.",
+        "categories": ["ENVIRONMENTAL BENEFITS", "COST CONSIDERATIONS", "HEALTH ADVANTAGES", "SOCIAL IMPACT"],
+        "items": [
+            "Regular cycling helps reduce the risk of heart disease and obesity. It's also an excellent way to strengthen leg muscles and improve overall fitness levels",
+            "Choosing a bicycle instead of a car significantly reduces carbon emissions and air pollution. Many cities are now promoting cycling as an eco-friendly transportation option.",
+            "While the initial cost of a good bicycle might seem high, it's much cheaper than maintaining a car. You save money on fuel, parking, and expensive repairs."],
+        "correctMatches": {
+          "0": 2,
+          "1": 0,
+          "2": 1
+        }
+      },
+      {
+        "type" : "missing_word",
+        "question" : "Przeczytaj tekst z lukami i wybierz właściwe słowo dla każdej luki.",
+        "text" : "Social media has become an important part of our daily lives. However, spending too much time online can be ${0} for our mental health. Experts recommend taking regular breaks from social platforms to maintain a healthy ${1} between online and offline activities.",
+        "items" : [["harmful", "useful", "exciting"], ["distance", "balance", "difference"]],
+        "correctMatches" : {"0" : 0, "1" : 1}
+      }
+    ]
+},
+{
+    "name" : "ZNAJOMOŚĆ ŚRODKÓW JĘZYKOWYCH",
+    "questions" : [
+        {
+            "type" : "missing_word",
+            "question" : "Wybierz właściwą odpowiedź uzupełniającą każde zadanie",
+            "text" : "If I ${0} rich, I would travel around the world",
+            "items" : [["am", "were", "will be"]],
+            "correctMatches" : {"0" : 0}
+        },
+        {
+            "type" : "missing_word",
+            "question" : "Wybierz właściwą odpowiedź uzupełniającą każde zadanie",
+            "text" : "She ${0} in London for five years before moving to Paris.",
+            "items" : [["lived", "has lived", "had lived"]],
+            "correctMatches" : {"0" : 0}
+        },
+        {
+            "type" : "missing_word",
+            "question" : "Wybierz właściwą odpowiedź uzupełniającą każde zadanie",
+            "text" : "This book is ${0} interesting than the one I read last week",
+            "items" : [["more", "most", "much"]],
+            "correctMatches" : {"0" : 0}
+        },
+        {
+            "type": "text_input",
+            "question": "Uzupełnij luki właściwą formą słowa podanego w nawiasie.",
+            "text": "The weather was ${0} (COMPLETE) unpredictable yesterday",
+            "acceptedAnswers": [["completely"]]
+        },
+        {
+            "type": "text_input",
+            "question": "Uzupełnij luki właściwą formą słowa podanego w nawiasie.",
+            "text": "She made a ${0} (DECIDE) to study abroad.",
+            "acceptedAnswers": [["decision"]]
+        },
+        {
+            "type": "text_input",
+            "question": "Uzupełnij luki właściwą formą słowa podanego w nawiasie.",
+            "text": "This is one of the most ${0} (BEAUTY) places I've ever visited.",
+            "acceptedAnswers": [["beautiful"]]
+        }
+    ]
+},
+{
+    "name" : "ROZUMIENIE ZE SŁUCHU",
+    "questions" : []
+},
+{
+    "name" : "PRODUKCJA PISEMNA",
+    "questions" : []
+}
+]

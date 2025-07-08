@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../core/theme.dart';
+
 import '../models/account.dart';
 
 import '../routes/app_routes.dart';
@@ -7,9 +9,7 @@ import '../routes/app_routes.dart';
 import '../views/login/login_page.dart';
 import '../views/home/home_page.dart';
 import '../views/account/account_page.dart';
-import '../views/test/test_page.dart';
-import '../views/test/test_result_page.dart';
-import '../core/theme.dart';
+import '../views/placement_test/placement_test_page.dart';
 
 class App extends StatelessWidget {
   const App({super.key});
@@ -39,23 +39,13 @@ class App extends StatelessWidget {
 
           return AccountPage(account: account);
         },
-        AppRoutes.test: (context) {
+        AppRoutes.placementTest: (context) {
           final args = ModalRoute.of(context)!.settings.arguments
               as Map<String, dynamic>;
           final account = args['account'] as Account;
-          final path = args['path'] as String;
-          final label = args['label'] as String;
-          final onSubmit = args['onSubmit'] as Function(double);
-          return TestPage(
-              account: account, path: path, label: label, onSubmit: onSubmit);
+          return PlacementTestPage(
+              account: account);
         },
-        AppRoutes.testResult: (context) {
-          final args = ModalRoute.of(context)!.settings.arguments
-              as Map<String, dynamic>;
-          final account = args['account'] as Account;
-          final score = args['score'] as double;
-          return TestResultPage(account: account, score: score);
-        }
       },
     );
   }

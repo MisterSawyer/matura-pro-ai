@@ -1,41 +1,42 @@
 import 'package:flutter/material.dart';
 
-class DraggableItem extends StatelessWidget {
+class DraggableItem<T extends Object> extends StatelessWidget {
   final String label;
+  final T data;
 
-  const DraggableItem({super.key, required this.label});
+  const DraggableItem({super.key, required this.label, required this.data});
 
   @override
   Widget build(BuildContext context) {
-    final chip = Chip(label: Text(label));
+    final widgetBox = Card(
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+      color: Theme.of(context).colorScheme.primaryContainer,
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+        child: ConstrainedBox(
+          constraints: const BoxConstraints(maxWidth: 200),
+          child: Text(
+            label,
+            softWrap: true,
+            overflow: TextOverflow.visible,
+            style: Theme.of(context).textTheme.bodyMedium,
+          ),
+        ),
+      ),
+    );
 
-    return Draggable<String>(
-      data: label,
+    return Draggable<T>(
+      data: data,
       feedback: Material(
         color: Colors.transparent,
         child: Transform.scale(
           scale: 1.1,
-          child: Container(
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(16),
-              boxShadow: const [
-                BoxShadow(
-                  color: Colors.black26,
-                  blurRadius: 8,
-                  spreadRadius: 1,
-                  offset: Offset(2, 4),
-                ),
-              ],
-            ),
-            child: chip,
-          ),
+          child: widgetBox,
         ),
       ),
-      childWhenDragging: Opacity(
-        opacity: 0.3,
-        child: chip,
-      ),
-      child: chip,
+      childWhenDragging: Opacity(opacity: 0.3, child: widgetBox),
+      child: widgetBox,
     );
   }
 }
+

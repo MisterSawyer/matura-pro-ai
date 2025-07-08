@@ -1,26 +1,27 @@
+import 'user_stats.dart';
+
 class Account {
   final String username;
-  String name;
-  double lastPlacementTestResult;
+
+  String _name;
+  final UserStats _stats = UserStats(placementTestTaken: false, placementTestResult: 0.0);
 
   Account({
     required this.username,
-    required this.name,
-    required this.lastPlacementTestResult,
-  });
+  }) : _name = username;  
 
-  // Optional: factory to create a default or anonymous account
-  factory Account.empty(String username) {
-    return Account(
-      username: username,
-      name: "User",
-      lastPlacementTestResult: 0.0,
-    );
+  String get name => _name;
+  UserStats get stats => _stats;
+
+  void setName(String name)
+  {
+    _name = name;
   }
 
-  // Optional: convert to string or map
   @override
   String toString() {
-    return 'Account(username: $username, name: $name, result: $lastPlacementTestResult)';
+    final statsStr = _stats.toString();
+    return 'Account(username: $username, name: $_name, stats: $statsStr)';
   }
+
 }
