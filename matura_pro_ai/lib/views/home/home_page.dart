@@ -44,7 +44,8 @@ class _HomePageState extends State<HomePage> {
       HomeTile(
         icon: const Icon(Icons.insert_drive_file, size: 64),
         label: 'Matura',
-        onTap: () => {},
+        onTap: () => Navigator.pushNamed(context, AppRoutes.placementTest,
+            arguments: {'account': widget.account}),
       ),
       HomeTile(
         icon: const Icon(Icons.pages, size: 64),
@@ -92,7 +93,8 @@ class _HomePageState extends State<HomePage> {
       HomeTile(
         icon: const Icon(Icons.settings, size: 64),
         label: 'Ustawienia',
-        onTap: () => {},
+        onTap: () => Navigator.pushNamed(context, AppRoutes.settings,
+            arguments: {'account': widget.account}),
       )
     ];
   }
@@ -160,12 +162,8 @@ class _HomePageState extends State<HomePage> {
                                     onPressed: () {
                                       // DAILY LESSON
                                     },
-                                    child: Text(
+                                    child: const Text(
                                       "START ➤",
-                                      style:
-                                          theme.textTheme.titleLarge!.copyWith(
-                                        color: theme.scaffoldBackgroundColor,
-                                      ),
                                       overflow: TextOverflow.fade,
                                       softWrap: false,
                                       maxLines: 1,
@@ -185,12 +183,8 @@ class _HomePageState extends State<HomePage> {
                                     onPressed: () {
                                       // DAILY LESSON
                                     },
-                                    child: Text(
+                                    child: const Text(
                                       "RAINDROP",
-                                      style:
-                                          theme.textTheme.titleLarge!.copyWith(
-                                        color: theme.scaffoldBackgroundColor,
-                                      ),
                                       overflow: TextOverflow.fade,
                                       softWrap: false,
                                       maxLines: 1,

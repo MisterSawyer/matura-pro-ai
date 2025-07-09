@@ -35,7 +35,6 @@ static const TextTheme textTheme = TextTheme(
     fontSize: 72,
     fontWeight: FontWeight.bold,
     letterSpacing: 1.0,
-    color: Colors.white,
   ),
 );
 }

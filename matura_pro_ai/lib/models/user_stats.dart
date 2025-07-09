@@ -3,7 +3,7 @@ import 'test_result.dart';
 class UserStats 
 {
   bool placementTestTaken = false;
-  TestResult placementTestResult = TestResult();
+  List<TestResult> placementTestResult = [];
 
   UserStats();
 
@@ -12,9 +12,9 @@ class UserStats
     return 'UserStats( placementTestTaken: $placementTestTaken, placementTestResult: $placementTestResult)';
   }
 
-  void setTestResult(TestResult results)
+  void addTestResult(TestResult results)
   {
     placementTestTaken = true;
-    placementTestResult = results;
+    placementTestResult.add(results);
   }
 }

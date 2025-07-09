@@ -7,6 +7,7 @@ import '../../routes/app_routes.dart';
 
 import '../../models/account.dart';
 import '../../models/test.dart';
+import '../../models/test_result.dart';
 
 import '../../services/test_loader.dart';
 
@@ -28,6 +29,8 @@ class _PlacementTestLoaderPageState extends State<PlacementTestLoaderPage> {
 
   bool _loading = true;
 
+  late final TestResult results;
+
   @override
   void initState() {
     super.initState();
@@ -38,13 +41,14 @@ class _PlacementTestLoaderPageState extends State<PlacementTestLoaderPage> {
     final test = await loadTest('placement_test.json');
     setState(() {
       _test = test;
-      _testController = TestController(test); // ← Created once
+      _testController = TestController(test);
+      results = TestResult(_test!.name);
       _loading = false;
     });
   }
 
   Future<void> _handleSubmit(BuildContext context) async {
-    widget.account.stats.placementTestTaken = true;
+    widget.account.stats.addTestResult(results);
 
     await Navigator.pushReplacementNamed(
       context,
@@ -54,7 +58,7 @@ class _PlacementTestLoaderPageState extends State<PlacementTestLoaderPage> {
   }
 
   Future<void> _handlePartExit(BuildContext context) async {
-    widget.account.stats.placementTestTaken = true;
+    widget.account.stats.addTestResult(results);
 
     await Navigator.pushReplacementNamed(
       context,
@@ -64,8 +68,8 @@ class _PlacementTestLoaderPageState extends State<PlacementTestLoaderPage> {
   }
 
   Future<bool> _handlePartFinished(BuildContext context, TestPartController part) async {
-    widget.account.stats.placementTestResult.partNames.add(part.name);
-    widget.account.stats.placementTestResult.partResults.add(part.evaluate());
+    results.partNames.add(part.name);
+    results.partResults.add(part.evaluate());
 
     return await Navigator.push<bool>(
           context,
@@ -90,7 +94,7 @@ class _PlacementTestLoaderPageState extends State<PlacementTestLoaderPage> {
 
     return TestPage(
       testController: _testController,
-      label: 'Test',
+      label: 'Test poziomujacy',
       account: widget.account,
       onSubmit: () => _handleSubmit(context),
       onPartFinished: (part) => _handlePartFinished(context, part),

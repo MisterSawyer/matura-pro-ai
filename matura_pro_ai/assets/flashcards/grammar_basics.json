@@ -1,0 +1,46 @@
+{
+    "name": "Grammar Basics",
+    "cards": [
+      {
+        "front": "What is the past tense of 'go'?",
+        "back": "Went"
+      },
+      {
+        "front": "Is 'quickly' an adjective or adverb?",
+        "back": "Adverb"
+      },
+      {
+        "front": "What is the plural form of 'child'?",
+        "back": "Children"
+      },
+      {
+        "front": "Give an example of a preposition.",
+        "back": "e.g. in, on, at, under"
+      },
+      {
+        "front": "What is the comparative form of 'good'?",
+        "back": "Better"
+      },
+      {
+        "front": "What is a noun?",
+        "back": "A person, place, thing, or idea"
+      },
+      {
+        "front": "What is a verb?",
+        "back": "A word that describes an action or state"
+      },
+      {
+        "front": "What tense is: 'She has eaten'?",
+        "back": "Present perfect"
+      },
+      {
+        "front": "What is the superlative of 'bad'?",
+        "back": "Worst"
+      },
+      {
+        "front": "Give an example of an auxiliary verb.",
+        "back": "is, are, was, were, have, has, do, does, did"
+      }
+    ]
+}
+  

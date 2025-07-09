@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import '../../models/account.dart';
 
 import '../../controllers/test_part_controller.dart';
+import '../../widgets/speedometer_gauge.dart';
 
 class PlacementTestPartResultPage extends StatelessWidget {
   final Account account;
@@ -19,11 +20,11 @@ class PlacementTestPartResultPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
     final score = part.evaluate() * 100.0;
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Part Result"),
         automaticallyImplyLeading: false, // Remove back button
       ),
       body: Padding(
@@ -32,14 +33,17 @@ class PlacementTestPartResultPage extends StatelessWidget {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
+          const SizedBox(height: 32,),
+          Center(child : Text("Podsumowanie", style : theme.textTheme.titleLarge, textAlign: TextAlign.center)),
+          const SizedBox(height: 64,),
               Text(
                 part.name,
-                style: Theme.of(context).textTheme.titleLarge,
+                style: theme.textTheme.titleMedium,
+                textAlign: TextAlign.center
               ),
               const SizedBox(height: 64),
-              Text(
-                "Your score: ${score.toStringAsFixed(1)}%",
-                style: Theme.of(context).textTheme.titleMedium,
+              SpeedometerGauge(
+                value: score,
               ),
               const SizedBox(height: 32),
               ElevatedButton(

@@ -1,0 +1,46 @@
+{
+    "name": "Basic Vocabulary",
+    "cards": [
+      {
+        "front": "Synonym of 'happy'",
+        "back": "Joyful"
+      },
+      {
+        "front": "Opposite of 'cold'",
+        "back": "Hot"
+      },
+      {
+        "front": "Meaning of 'benevolent'",
+        "back": "Well-meaning and kind"
+      },
+      {
+        "front": "Synonym of 'fast'",
+        "back": "Quick"
+      },
+      {
+        "front": "Meaning of 'fragile'",
+        "back": "Easily broken or damaged"
+      },
+      {
+        "front": "Opposite of 'strong'",
+        "back": "Weak"
+      },
+      {
+        "front": "What does 'enormous' mean?",
+        "back": "Very large"
+      },
+      {
+        "front": "Synonym of 'intelligent'",
+        "back": "Smart"
+      },
+      {
+        "front": "Meaning of 'brave'",
+        "back": "Showing courage"
+      },
+      {
+        "front": "Opposite of 'begin'",
+        "back": "End"
+      }
+    ]
+  }
+  

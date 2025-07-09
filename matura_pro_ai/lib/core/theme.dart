@@ -6,8 +6,8 @@ class AppTheme {
     primarySwatch: ThemeDefaults.primaryColor,
     scaffoldBackgroundColor: Colors.white,
     appBarTheme: const AppBarTheme(
-      backgroundColor: Colors.blue,
-      foregroundColor: Colors.white,
+      backgroundColor: Colors.white,
+      foregroundColor: Color(0XFF0A2645),
     ),
     drawerTheme: const DrawerThemeData(
       backgroundColor: Colors.white,

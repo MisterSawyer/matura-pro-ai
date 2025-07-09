@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import '../../models/account.dart';
-
+import '../../widgets/no_scrollbar.dart';
 import '../../widgets/speedometer_gauge.dart';
 
 class UserStatisticsPage extends StatelessWidget {
@@ -12,63 +12,82 @@ class UserStatisticsPage extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final stats = account.stats;
-    final results = stats.placementTestResult.partResults;
-    final labels = stats.placementTestResult.partNames;
+    final results = stats.placementTestResult;
 
     return Scaffold(
-      appBar: AppBar(
-        title: const Text("Statistics"),
-      ),
+      appBar: AppBar(),
       body: Padding(
         padding: const EdgeInsets.all(24),
-        child: Center(
-          child: ConstrainedBox(
-            constraints: const BoxConstraints(maxWidth: 400),
+        child: ScrollConfiguration(
+          behavior: NoScrollbarBehavior(),
+          child: SingleChildScrollView(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const SizedBox(height: 32),
+                const SizedBox(
+                  height: 32,
+                ),
+                Center(
+                    child: Text("Statystyki",
+                        style: theme.textTheme.titleLarge,
+                        textAlign: TextAlign.center)),
+                const SizedBox(
+                  height: 32,
+                ),
                 if (!stats.placementTestTaken)
                   const Text(
-                    "You have not taken the placement test yet.",
+                    "You have not completed any tests yet.",
                     style: TextStyle(fontSize: 16, fontStyle: FontStyle.italic),
                   )
-                else ...[
-                  Text(
-                    "Placement Test Results",
-                    style: theme.textTheme.titleLarge,
-                  ),
-                  const SizedBox(height: 16),
-                  ListView.separated(
-                    shrinkWrap: true,
-                    physics: const NeverScrollableScrollPhysics(),
-                    itemCount: results.length,
-                    separatorBuilder: (_, __) => const Divider(),
-                    itemBuilder: (context, index) {
-                      return ListTile(
-                        leading: CircleAvatar(radius: 32, child: Center(child: Text("${index + 1}" , textAlign: TextAlign.center,))),
-                        title: Text(labels[index]),
-                        trailing: Text("${(results[index] * 100.0).toStringAsFixed(1)}%", style: theme.textTheme.bodyLarge,),
+                else
+                  Column(
+                    children: List.generate(results.length, (testIndex) {
+                      final test = results[testIndex];
+
+                      return Card(
+                        margin: const EdgeInsets.symmetric(vertical: 16),
+                        child: Padding(
+                          padding: const EdgeInsets.all(16),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                test.name,
+                                style: theme.textTheme.titleMedium,
+                              ),
+                              const SizedBox(height: 12),
+                              ListView.separated(
+                                shrinkWrap: true,
+                                physics: const NeverScrollableScrollPhysics(),
+                                itemCount: test.partNames.length,
+                                separatorBuilder: (_, __) => const Divider(),
+                                itemBuilder: (context, index) {
+                                  final label = test.partNames[index];
+                                  final score = test.partResults[index];
+                                  return ListTile(
+                                    title: Text(label),
+                                    trailing: Text(
+                                      "${(score * 100).toStringAsFixed(1)}%",
+                                      style: theme.textTheme.bodyLarge,
+                                    ),
+                                  );
+                                },
+                              ),
+                              const SizedBox(height: 12),
+                              SpeedometerGauge(
+                                value: test.average * 100.0,
+                              ),
+                            ],
+                          ),
+                        ),
                       );
-                    },
+                    }),
                   ),
-                  const SizedBox(height: 24),
-                  const SizedBox(height: 24),
-            Center(
-              child: SpeedometerGauge(value: _calculateAverage(results) * 100),
-            ),
-                ],
               ],
             ),
           ),
         ),
       ),
     );
-  }
-
-  double _calculateAverage(List<double> scores) {
-    if (scores.isEmpty) return 0;
-    final total = scores.reduce((a, b) => a + b);
-    return total / scores.length;
   }
 }

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'dart:math';
 
 import '../controllers/flashcard_controller.dart';
+import '../../core/theme_defaults.dart';
 
 class FlashcardView extends StatefulWidget {
   final FlashcardController controller;
@@ -47,17 +48,41 @@ class _FlashcardViewState extends State<FlashcardView>
   void _flipCard() {
     if (_animationController.isAnimating) return;
 
-    if (_isFront) {
-      _animationController.forward(from: 0);
-    } else {
-      _animationController.reverse(from: pi);
-    }
-
     setState(() {
       _isFront = !_isFront;
     });
 
+    if (_isFront) {
+      _animationController.reverse();
+    } else {
+      _animationController.forward();
+    }
+
     widget.controller.flipCard();
+  }
+
+  Future<void> _handleAnswer(bool known) async {
+    if (!_isFront) {
+      await _animationController.reverse(); // Flip back before switching
+      setState(() {
+        _isFront = true;
+      });
+    }
+
+    if (known) {
+      widget.controller.markKnown();
+    } else {
+      widget.controller.markUnknown();
+    }
+
+    if (widget.controller.isLastCard) {
+      await widget.onFinished();
+      return;
+    }
+
+    setState(() {
+      widget.controller.nextCard();
+    });
   }
 
   @override
@@ -68,130 +93,125 @@ class _FlashcardViewState extends State<FlashcardView>
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Flashcards'),
       ),
       body: Padding(
-        padding: const EdgeInsets.all(24),
+        padding: const EdgeInsets.all(ThemeDefaults.padding),
         child: Column(
           children: [
+            Center(child : Text(widget.controller.deck.name, style : theme.textTheme.titleLarge)),
+            // Progress Bar
             Stack(
               alignment: Alignment.centerLeft,
               children: [
-                // Grey full-progress background
                 LinearProgressIndicator(
-                  value: controller.fullProgress, // e.g. answered/total
+                  value: controller.fullProgress,
                   color: Colors.grey.shade300,
                   backgroundColor: Colors.transparent,
                   minHeight: 8,
                 ),
-                // Colored known-progress foreground
                 LinearProgressIndicator(
-                  value: controller.knownProgress, // e.g. known/total
-                  color: Theme.of(context).colorScheme.primary,
+                  value: controller.knownProgress,
+                  color: theme.colorScheme.primary,
                   backgroundColor: Colors.transparent,
                   minHeight: 8,
                 ),
               ],
             ),
-            const SizedBox(height: 64),
-                        Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: [
-                ElevatedButton(
-                  onPressed: () async {
-                    setState(() {
-                      controller.markUnknown();
-                      _isFront = true;
-                      _animationController.value = 0;
-                    });
+            const SizedBox(height: 32),
 
-                    if (controller.isLastCard) {
-                      return await widget.onFinished();
-                    }
-
-                    setState(() {
-                      controller.nextCard();
-                    });
-                  },
-                  style: ElevatedButton.styleFrom(
-                    shape: const CircleBorder(),
-                    padding: const EdgeInsets.all(16),
-                  ),
-                  child: const Icon(Icons.clear),
-                ),
-                ElevatedButton(
-                  onPressed: () async {
-                    setState(() {
-                      controller.markKnown();
-                      _isFront = true;
-                      _animationController.value = 0;
-                    });
-
-                    if (controller.isLastCard) {
-                      return await widget.onFinished();
-                    }
-
-                    setState(() {
-                      controller.nextCard();
-                    });
-                  },
-                  style: ElevatedButton.styleFrom(
-                    shape: const CircleBorder(),
-                    padding: const EdgeInsets.all(16),
-                  ),
-                  child: const Icon(Icons.check),
-                ),
-              ],
-            ),
-            const SizedBox(height: 64),
+            // Card
             ConstrainedBox(
-              constraints: const BoxConstraints(maxWidth: 400),
-              child: GestureDetector(
-                onTap: _flipCard,
-                child: AnimatedBuilder(
-                  animation: _flipAnimation,
-                  builder: (context, child) {
-                    final angle = _flipAnimation.value;
-                    final isFrontVisible = angle <= pi / 2;
+              constraints: const BoxConstraints(maxWidth: 400, maxHeight: 400),
+              child: AnimatedSwitcher(
+                duration: const Duration(milliseconds: 300),
+                transitionBuilder: (child, animation) {
+                  return SlideTransition(
+                    position: Tween<Offset>(
+                      begin: const Offset(1.0, 0),
+                      end: Offset.zero,
+                    ).animate(animation),
+                    child: child,
+                  );
+                },
+                child: GestureDetector(
+                  key: ValueKey(controller.currentIndex),
+                  onTap: _flipCard,
+                  child: AnimatedBuilder(
+                    animation: _flipAnimation,
+                    builder: (context, _) {
+                      final angle = _flipAnimation.value;
+                      final isFrontVisible = angle <= pi / 2;
 
-                    final transform = Matrix4.identity()
-                      ..setEntry(3, 2, 0.001)
-                      ..rotateX(angle);
+                      final transform = Matrix4.identity()
+                        ..setEntry(3, 2, 0.001)
+                        ..rotateX(angle);
 
-                    return Transform(
-                      alignment: Alignment.center,
-                      transform: transform,
-                      child: Card(
-                        color: isFrontVisible
-                            ? theme.primaryColor
-                            : theme.cardColor,
-                        elevation: 6,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(16),
-                        ),
-                        child: Transform(
-                          alignment: Alignment.center,
-                          transform: Matrix4.identity()
-                            ..rotateX(isFrontVisible ? 0 : pi),
-                          child: Center(
-                            child: Padding(
-                              padding: const EdgeInsets.all(24),
-                              child: Text(
-                                isFrontVisible ? card.front : card.back,
-                                style:
-                                    Theme.of(context).textTheme.headlineMedium,
-                                textAlign: TextAlign.center,
+                      return Transform(
+                        alignment: Alignment.center,
+                        transform: transform,
+                        child: Card(
+                          color: isFrontVisible
+                              ? theme.primaryColor
+                              : theme.cardColor,
+                          elevation: 6,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(16),
+                          ),
+                          child: Transform(
+                            alignment: Alignment.center,
+                            transform: Matrix4.identity()
+                              ..rotateX(isFrontVisible ? 0 : pi),
+                            child: Center(
+                              child: Padding(
+                                padding: const EdgeInsets.all(24),
+                                child: Text(
+                                  isFrontVisible
+                                      ? card.front
+                                      : card.back,
+                                  style: theme.textTheme.headlineMedium?.copyWith(
+                                    color: isFrontVisible
+                                        ? Colors.white
+                                        : theme.textTheme.headlineMedium?.color,
+                                  ),
+                                  textAlign: TextAlign.center,
+                                ),
                               ),
                             ),
                           ),
                         ),
-                      ),
-                    );
-                  },
+                      );
+                    },
+                  ),
                 ),
               ),
             ),
-            const SizedBox(height: 64),
+            const SizedBox(height: 32),
+            // Buttons
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                Expanded(
+                  child: ElevatedButton(
+                    onPressed: () => _handleAnswer(false),
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.red,
+                      padding: const EdgeInsets.all(ThemeDefaults.padding),
+                    ),
+                    child: const Icon(Icons.clear),
+                  ),
+                ),
+                const SizedBox(width: 16),
+                Expanded(
+                  child: ElevatedButton(
+                    onPressed: () => _handleAnswer(true),
+                    style: ElevatedButton.styleFrom(
+                      padding: const EdgeInsets.all(ThemeDefaults.padding),
+                    ),
+                    child: const Icon(Icons.check),
+                  ),
+                ),
+              ],
+            ),
           ],
         ),
       ),

@@ -74,38 +74,43 @@ class _AccountPageState extends State<AccountPage> {
           child: Scaffold(
             appBar: AppBar(),
             body: Padding(
-                padding: const EdgeInsets.all(ThemeDefaults.padding),
-                child: 
-                   Center(
-                     child: Column(
-                      children: [
-                        const SizedBox(height: 32),
-                        const Icon(Icons.account_circle, size: 64),
-                        const SizedBox(height: 16),
-                        Text("${AppStrings.username}: ${widget.account.username}",
-                            style: theme.textTheme.headlineSmall),
-                        const SizedBox(height: 16),
-                        ConstrainedBox(
-                          constraints: const BoxConstraints(maxWidth: 400),
-                          child: TextField(
-                            controller: _nameController,
-                            focusNode: _nameFocusNode,
-                            decoration:
-                                const InputDecoration(labelText: AppStrings.name),
-                          ),
-                        ),
-                        const SizedBox(height: 128),
-                        ElevatedButton(
-                          style: ButtonStyle(
-                            backgroundColor: WidgetStateProperty.all(Colors.red),
-                          ),
-                          onPressed: _onLogout,
-                          child: const Text(AppStrings.logout),
-                        ),
-                      ],
-                                       ),
-                   ),
+              padding: const EdgeInsets.all(ThemeDefaults.padding),
+              child: Center(
+                child: Column(
+                  children: [
+                    const SizedBox(
+                      height: 32,
+                    ),
+                    Center(
+                        child: Text("Konto",
+                            style: theme.textTheme.titleLarge,
+                            textAlign: TextAlign.center)),
+                    const SizedBox(height: 32),
+                    const Icon(Icons.account_circle, size: 64),
+                    const SizedBox(height: 16),
+                    Text("${AppStrings.username}: ${widget.account.username}",
+                        style: theme.textTheme.headlineSmall),
+                    const SizedBox(height: 16),
+                    ConstrainedBox(
+                      constraints: const BoxConstraints(maxWidth: 400),
+                      child: TextField(
+                        controller: _nameController,
+                        focusNode: _nameFocusNode,
+                        decoration:
+                            const InputDecoration(labelText: AppStrings.name),
+                      ),
+                    ),
+                    const SizedBox(height: 128),
+                    TextButton(
+                      style: TextButton.styleFrom(
+                          backgroundColor: theme.colorScheme.errorContainer),
+                      onPressed: _onLogout,
+                      child: const Text(AppStrings.logout),
+                    ),
+                  ],
                 ),
+              ),
+            ),
           )),
     );
   }

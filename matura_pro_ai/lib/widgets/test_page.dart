@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/gestures.dart';
 import 'package:matura_pro_ai/controllers/questions/question_controller.dart';
+import 'package:matura_pro_ai/core/constants.dart';
 
 import '../models/questions/question_type.dart';
 
@@ -144,7 +145,7 @@ class _TestPageState extends State<TestPage> {
       height: double.infinity,
       color: theme.scaffoldBackgroundColor,
       child: Scaffold(
-        appBar: AppBar(title: Center(child: Text(widget.label))),
+        appBar: AppBar(automaticallyImplyLeading: false,),
         body: _currentQuestionWidget == null
             ? const Padding(
                 padding: EdgeInsets.all(ThemeDefaults.padding),
@@ -158,6 +159,10 @@ class _TestPageState extends State<TestPage> {
                   padding: const EdgeInsets.all(ThemeDefaults.padding),
                   child: Column(
                     children: [
+          const SizedBox(height: 32,),
+          Center(child : Text(widget.label, style : theme.textTheme.titleLarge, textAlign: TextAlign.center)),
+          const SizedBox(height: 64,),
+
                       Padding(
                         padding: const EdgeInsets.all(ThemeDefaults.padding),
                         child: _currentQuestionWidget!,
@@ -166,7 +171,7 @@ class _TestPageState extends State<TestPage> {
                       Center(
                         child: ElevatedButton(
                           onPressed: _submitAnswer,
-                          child: const Text("Submit"),
+                          child: const Text(AppStrings.submit),
                         ),
                       ),
                       const SizedBox(height: 32),

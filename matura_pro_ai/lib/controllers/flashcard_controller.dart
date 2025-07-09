@@ -15,7 +15,8 @@ class FlashcardController {
   bool get isLastCard => _currentIndex == deck.cards.length - 1;
   double get knownProgress => deck.cards.where((c) => c.isKnown).length / deck.cards.length;
   double get fullProgress => _currentIndex / deck.cards.length;
-
+  int get correctAnswers => deck.cards.where((c) => c.isKnown).length;
+  
   void flipCard() {
     _isFrontVisible = !_isFrontVisible;
   }
