@@ -62,28 +62,41 @@ class _TextInputQuestionContentState extends State<TextInputQuestionContent> {
               style: theme.textTheme.headlineMedium,
               textAlign: TextAlign.center,
             ),
-            const SizedBox(height: 48),
+            const SizedBox(height: 64),
             Wrap(
               alignment: WrapAlignment.start,
               spacing: 8,
               runSpacing: 12,
               children: question.segments.map((segment) {
                 if (!segment.isGap) {
-                  return Text(
-                    segment.text!,
-                    style: theme.textTheme.bodyLarge,
+                  return Baseline(
+                    baseline: 20, // Adjust if needed for your font
+                    baselineType: TextBaseline.alphabetic,
+                    child: Text(
+                      segment.text!,
+                      style: theme.textTheme.bodyLarge,
+                    ),
                   );
                 }
 
                 final index = segment.gapIndex!;
-                return SizedBox(
-                  width: 160,
-                  child: TextField(
-                    controller: _controllers[index],
-                    focusNode: _focusNodes[index],
-                    decoration: const InputDecoration(
-                      labelText: 'write answer',
-                      border: OutlineInputBorder(),
+                return Baseline(
+                  baseline: 20, // Same baseline as text
+                  baselineType: TextBaseline.alphabetic,
+                  child: SizedBox(
+                    width: 160,
+                    child: TextField(
+                      controller: _controllers[index],
+                      focusNode: _focusNodes[index],
+                      style: theme
+                          .textTheme.bodyLarge, // ensure text style matches
+                      decoration: const InputDecoration(
+                        labelText: 'write answer',
+                        border: OutlineInputBorder(),
+                        isDense: true,
+                        contentPadding:
+                            EdgeInsets.symmetric(vertical: 8, horizontal: 12),
+                      ),
                     ),
                   ),
                 );

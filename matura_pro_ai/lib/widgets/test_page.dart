@@ -162,7 +162,7 @@ class _TestPageState extends State<TestPage> {
                     padding: const EdgeInsets.all(ThemeDefaults.padding),
                     child: questionWidget,
                   ),
-                  const SizedBox(height: 32),
+                  const SizedBox(height: 64),
                   Center(
                     child: ElevatedButton(
                       onPressed: () {

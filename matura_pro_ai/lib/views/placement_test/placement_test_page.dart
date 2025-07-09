@@ -39,7 +39,7 @@ class PlacementTestPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return TestPage(
       filename: 'placement_test.json',
-      label: 'Placement Test',
+      label: 'Test',
       account: account,
       onSubmit: (score) => _handleSubmit(context, score),
       onPartFinished: (part) => _handlePartFinished(context, part),

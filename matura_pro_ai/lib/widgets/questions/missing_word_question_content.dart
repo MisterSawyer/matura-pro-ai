@@ -17,7 +17,6 @@ class MissingWordQuestionContent extends StatefulWidget {
 
 class _MissingWordQuestionContentState
     extends State<MissingWordQuestionContent> {
-
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
@@ -36,38 +35,48 @@ class _MissingWordQuestionContentState
                 style: theme.textTheme.headlineMedium,
                 textAlign: TextAlign.center,
               ),
-              const SizedBox(height: 32),
+              const SizedBox(height: 64),
               Wrap(
                 spacing: 8,
                 runSpacing: 16,
                 alignment: WrapAlignment.center,
+                crossAxisAlignment: WrapCrossAlignment.center,
                 children: question.segments.map((segment) {
                   if (!segment.isGap) {
-                    return Text(
-                      segment.text!,
-                      style: theme.textTheme.bodyLarge,
+                    return Baseline(
+                      baseline: 20, //  match text baseline
+                      baselineType: TextBaseline.alphabetic,
+                      child: Text(
+                        segment.text!,
+                        style: theme.textTheme.bodyLarge,
+                      ),
                     );
                   } else {
                     final gapIndex = segment.gapIndex!;
                     final options = question.items[gapIndex];
 
-                    return DropdownButton<int>(
-                      value: controller.getAnswer(gapIndex),
-                      hint: const Text("..."),
-                      onChanged: (value) {
-                        setState(() {
-                          if (value != null) {
-                            controller.addAnswer(gapIndex, value);
-                          }
-                        });
-                      },
-                      items: List.generate(options.length, (i) {
-                        return DropdownMenuItem<int>(
-                          value: i,
-                          child: Text(options[i],
-                          style: theme.textTheme.bodyLarge,),
-                        );
-                      }),
+                    return Baseline(
+                      baseline: 20, // Match the text baseline
+                      baselineType: TextBaseline.alphabetic,
+                      child: DropdownButton<int>(
+                        value: controller.getAnswer(gapIndex),
+                        hint: Text("...", style: theme.textTheme.bodyLarge),
+                        style: theme.textTheme.bodyLarge,
+                        onChanged: (value) {
+                          setState(() {
+                            if (value != null) {
+                              controller.addAnswer(gapIndex, value);
+                            }
+                          });
+                        },
+                        items: List.generate(options.length, (i) {
+                          return DropdownMenuItem<int>(
+                            value: i,
+                            child: Text(options[i],
+                                style: theme.textTheme.bodyLarge),
+                          );
+                        }),
+                      ),
                     );
                   }
                 }).toList(),
