@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 
-import '../../core/constants.dart';
 import '../../core/theme_defaults.dart';
 
 import '../../models/account.dart';
@@ -20,27 +19,20 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-  }
+  bool _alreadyRedirected = false;
 
   @override
   void initState() {
     super.initState();
     //Wait until the first frame is rendered before navigating
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      if (!widget.account.stats.placementTestTaken) {
+      if (!_alreadyRedirected &&!widget.account.stats.placementTestTaken) {
+        _alreadyRedirected = true;
         Navigator.pushReplacementNamed(
           context,
           AppRoutes.placementTest,
           arguments: {
             'account': widget.account,
-            'path': AppAssets.placementTest,
-            'label': AppStrings.placementTest,
-            'onSubmit': (double score) {
-              // optionally handle score here
-            }
           },
         );
       }
@@ -49,56 +41,59 @@ class _HomePageState extends State<HomePage> {
 
   List<Widget> _buildHomeTilesSection(double buttonWidth) {
     return [
-          HomeTile(
-            icon: const Icon(Icons.insert_drive_file, size:64),
-            label: 'Matura',
-            onTap: () => {},
-          ),
-          HomeTile(
-            icon: const Icon(Icons.pages, size:64),
-            label: 'Fiszki',
-            onTap: () => {},
-          ),
-          HomeTile(
-            icon: const Icon(Icons.mic, size:64),
-            label: 'Mówienie',
-            onTap: () => {},
-          ),
-          HomeTile(
-            icon: const Icon(Icons.headset, size:64),
-            label: 'Słuchanie',
-            onTap: () => {},
-          ),
-          HomeTile(
-            icon: const Icon(Icons.book, size:64),
-            label: 'Czytanie',
-            onTap: () => {},
-          ),
-          HomeTile(
-            icon: const Icon(Icons.edit, size:64),
-            label: 'Pisanie',
-            onTap: () => {},
-          ),
-          HomeTile(
-            icon: const Icon(Icons.account_circle, size:64),
-            label: 'Konto',
-            onTap: () => Navigator.pushNamed(context, AppRoutes.account, arguments: {'account' : widget.account}),
-          ),
-          HomeTile(
-            icon: const Icon(Icons.supervisor_account, size:64),
-            label: 'Social',
-            onTap: () => {},
-          ),
-          HomeTile(
-            icon: const Icon(Icons.equalizer, size:64),
-            label: 'Stats',
-            onTap: () => Navigator.pushNamed(context, AppRoutes.stats, arguments: {'account' : widget.account}),
-          ),
-          HomeTile(
-            icon: const Icon(Icons.settings, size:64),
-            label: 'Ustawienia',
-            onTap: () => {},
-          )
+      HomeTile(
+        icon: const Icon(Icons.insert_drive_file, size: 64),
+        label: 'Matura',
+        onTap: () => {},
+      ),
+      HomeTile(
+        icon: const Icon(Icons.pages, size: 64),
+        label: 'Fiszki',
+        onTap: () => Navigator.pushNamed(context, AppRoutes.flashcards,
+            arguments: {'account': widget.account}),
+      ),
+      HomeTile(
+        icon: const Icon(Icons.mic, size: 64),
+        label: 'Mówienie',
+        onTap: () => {},
+      ),
+      HomeTile(
+        icon: const Icon(Icons.headset, size: 64),
+        label: 'Słuchanie',
+        onTap: () => {},
+      ),
+      HomeTile(
+        icon: const Icon(Icons.book, size: 64),
+        label: 'Czytanie',
+        onTap: () => {},
+      ),
+      HomeTile(
+        icon: const Icon(Icons.edit, size: 64),
+        label: 'Pisanie',
+        onTap: () => {},
+      ),
+      HomeTile(
+        icon: const Icon(Icons.account_circle, size: 64),
+        label: 'Konto',
+        onTap: () => Navigator.pushNamed(context, AppRoutes.account,
+            arguments: {'account': widget.account}),
+      ),
+      HomeTile(
+        icon: const Icon(Icons.supervisor_account, size: 64),
+        label: 'Social',
+        onTap: () => {},
+      ),
+      HomeTile(
+        icon: const Icon(Icons.equalizer, size: 64),
+        label: 'Stats',
+        onTap: () => Navigator.pushNamed(context, AppRoutes.stats,
+            arguments: {'account': widget.account}),
+      ),
+      HomeTile(
+        icon: const Icon(Icons.settings, size: 64),
+        label: 'Ustawienia',
+        onTap: () => {},
+      )
     ];
   }
 

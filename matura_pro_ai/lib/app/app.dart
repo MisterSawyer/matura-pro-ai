@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:matura_pro_ai/views/flashcards/flashcard_loader_page.dart';
 
 import '../core/theme.dart';
 
@@ -9,7 +10,7 @@ import '../routes/app_routes.dart';
 import '../views/login/login_page.dart';
 import '../views/home/home_page.dart';
 import '../views/account/account_page.dart';
-import '../views/placement_test/placement_test_page.dart';
+import '../views/placement_test/placement_test_loader_page.dart';
 import '../views/stats/user_statistics_page.dart';
 
 class App extends StatelessWidget {
@@ -44,7 +45,7 @@ class App extends StatelessWidget {
           final args = ModalRoute.of(context)!.settings.arguments
               as Map<String, dynamic>;
           final account = args['account'] as Account;
-          return PlacementTestPage(
+          return PlacementTestLoaderPage(
               account: account);
         },
         AppRoutes.stats: (context) {
@@ -54,6 +55,13 @@ class App extends StatelessWidget {
 
           return UserStatisticsPage(account: account);
         },
+        AppRoutes.flashcards: (context) {
+          final args = ModalRoute.of(context)!.settings.arguments
+              as Map<String, dynamic>;
+          final account = args['account'] as Account;
+
+          return FlashcardLoaderPage(account: account);
+        }
       },
     );
   }

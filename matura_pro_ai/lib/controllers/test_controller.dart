@@ -1,16 +1,16 @@
 import 'test_part_controller.dart';
+import '../models/test.dart';
 
 class TestController 
 {
   int _currentPartID = 0;
+  Test test;
   final List<TestPartController> _partControllers = [];
 
-  Future<void> load(dynamic jsonObj) async {
-    _currentPartID = 0;
-    for (final part in jsonObj) {
-      final partController = TestPartController();
-      await partController.load(part);
-      _partControllers.add(partController);
+  TestController(this.test)
+  {
+    for (final part in test.parts) {
+      _partControllers.add(TestPartController(part : part));
     }
   }
 

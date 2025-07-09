@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import '../../models/account.dart';
-import '../../models/user_stats.dart'; // if needed separately
 
 import '../../widgets/speedometer_gauge.dart';
 

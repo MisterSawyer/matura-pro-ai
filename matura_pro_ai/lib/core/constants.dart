@@ -38,5 +38,11 @@ class AppStrings {
 }
 
 class AppAssets {
-  static const String placementTest = 'assets/tests/placement_test.json';
+  static const String assetsPath = 'assets';
+  static const String imagesPath = '$assetsPath/images';
+  static const String testsPath = '$assetsPath/tests';
+  static const String flashcardsPath = '$assetsPath/flashcards';
+
+  static const String logoPath = '$imagesPath/logo2.png';
+  static const String placementTestPath = '$testsPath/placement_test.json';
 }

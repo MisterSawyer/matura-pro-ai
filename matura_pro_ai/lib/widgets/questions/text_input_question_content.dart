@@ -24,7 +24,7 @@ class _TextInputQuestionContentState extends State<TextInputQuestionContent> {
 
     final gaps = widget.controller.question.acceptedAnswers.length;
     for (int i = 0; i < gaps; i++) {
-      _controllers[i] = TextEditingController();
+      _controllers[i] = TextEditingController(text: '');
       _focusNodes[i] = FocusNode()
         ..addListener(() {
           if (!_focusNodes[i]!.hasFocus) {

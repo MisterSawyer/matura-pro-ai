@@ -6,8 +6,6 @@ import '../../core/constants.dart';
 import '../../routes/app_routes.dart';
 import '../../models/account.dart';
 
-import '../../widgets/three_column_layout.dart';
-
 class AccountPage extends StatefulWidget {
   final Account account;
 

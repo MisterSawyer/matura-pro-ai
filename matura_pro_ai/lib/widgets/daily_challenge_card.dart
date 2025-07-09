@@ -31,9 +31,9 @@ class DailyChallengeCard extends StatelessWidget {
             const SizedBox(width: 12),
             _buildSquareBox(
               context,
-              child: const Text(
+              child: Text(
                 '🔥',
-                style: TextStyle(fontSize: 32),
+                style: theme.textTheme.titleLarge!.copyWith(fontSize: 96),
               ),
             ),
           ],

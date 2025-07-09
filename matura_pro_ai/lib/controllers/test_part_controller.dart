@@ -18,9 +18,7 @@ import '../models/questions/missing_word_question.dart';
 class TestPartController {
   int _currentQuestion = 0;
 
-  late final TestPart part;
-
-  String get name => part.name; 
+  final TestPart part;
 
   final List<QuestionType> _order = [];
 
@@ -34,14 +32,15 @@ class TestPartController {
 
   final Map<QuestionType, int> _questionCounters = {};
 
-  int get total => part.questions.length;
-  bool get isLastQuestion => _currentQuestion >= _order.length - 1;
 
-  Future<void> load(Map<String, dynamic> jsonObj) async 
+  TestPartController({required this.part})
   {
-    clear();
-    
-    part = TestPart.fromJson(jsonObj);
+    _currentQuestion = 0;
+    _questionCounters[QuestionType.multipleChoice] = 0;
+    _questionCounters[QuestionType.textInput] = 0;
+    _questionCounters[QuestionType.category] = 0;
+    _questionCounters[QuestionType.reading] = 0;
+    _questionCounters[QuestionType.missingWord] = 0;
 
     for (final question in part.questions) {
       switch (question.type) {
@@ -75,6 +74,10 @@ class TestPartController {
     }
     assert(_order.length == part.questions.length);
   }
+
+  String get name => part.name; 
+  int get total => part.questions.length;
+  bool get isLastQuestion => _currentQuestion >= _order.length - 1;
 
   void clear()
   {

@@ -1,8 +1,6 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter/gestures.dart';
+import 'package:matura_pro_ai/controllers/questions/question_controller.dart';
 
 import '../models/questions/question_type.dart';
 
@@ -28,36 +26,38 @@ import 'questions/reading_question_content.dart';
 import 'questions/missing_word_question_content.dart';
 
 class TestPage extends StatefulWidget {
-  final String filename;
+  final TestController testController;
   final String label;
   final Account account;
 
   final Future<void> Function() onSubmit;
   final Future<bool> Function(TestPartController) onPartFinished;
 
-  const TestPage(
-      {super.key,
-      required this.filename,
-      required this.label,
-      required this.onSubmit,
-      required this.onPartFinished,
-      required this.account});
+  const TestPage({
+    super.key,
+    required this.testController,
+    required this.label,
+    required this.onSubmit,
+    required this.onPartFinished,
+    required this.account,
+  });
 
   @override
   State<TestPage> createState() => _TestPageState();
 }
 
 class _TestPageState extends State<TestPage> {
-  late final TestController _testController;
   final ScrollController _scrollController = ScrollController();
 
-  bool _cancelled = false;
+  Widget? _currentQuestionWidget;
+  QuestionController? _currentQuestionController;
 
   @override
   void initState() {
     super.initState();
-    _testController = TestController();
-    _load();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _serveQuestion();
+    });
   }
 
   @override
@@ -66,155 +66,115 @@ class _TestPageState extends State<TestPage> {
     super.dispose();
   }
 
-  Future<void> _load() async {
-    final jsonString =
-        await rootBundle.loadString('assets/tests/${widget.filename}');
-    final jsonObj = json.decode(jsonString) as List<dynamic>;
+  void _serveQuestion() async {
 
-    await _testController.load(jsonObj);
-
-    // Automatically launch the first question after frame is ready
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      _serveQuestion();
-    });
-  }
-
-  void _onCancel() {
-    setState(() {
-      _cancelled = true;
-    });
-
-    ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(content: Text("Test cancelled before completion.")),
-    );
-
-    Navigator.pop(context); // Return to previous screen
-  }
-
-  Future<void> _serveQuestion() async {
-    if (_cancelled) {
-      return;
-    }
-
-    final part = _testController.currentPart;
+    final part = widget.testController.currentPart;
     final controller = part.currentQuestionController();
 
-    if (_testController.isLastPart && part.isLastQuestion) {
+    if (widget.testController.isLastPart && part.isLastQuestion) {
       await widget.onSubmit();
       return;
     }
 
     if (controller == null) {
-      _testController.nextPart();
-      await _serveQuestion();
+      widget.testController.nextPart();
+      _serveQuestion();
       return;
     }
 
-    late final QuestionType questionType;
-    StatefulWidget? questionWidget;
+    late final Widget questionWidget;
+
     if (controller is MultipleChoiceQuestionController) {
-      questionWidget = MultipleChoiceQuestionContent(controller: controller);
-      questionType = QuestionType.multipleChoice;
-    }
-    if (controller is CategoryQuestionController) {
-      questionWidget = CategoryQuestionContent(
-        controller: controller);
-      questionType = QuestionType.category;
-    }
-    if (controller is TextInputQuestionController) {
-      questionWidget = TextInputQuestionContent(
-        controller: controller);
-      questionType = QuestionType.textInput;
-    }
-    if (controller is ReadingQuestionController) {
-      questionWidget = ReadingQuestionContent(
-        controller: controller);
-      questionType = QuestionType.reading;
-    }
-
-    if (controller is MissingWordQuestionController) {
-      questionWidget = MissingWordQuestionContent(
-        controller: controller);
-      questionType = QuestionType.missingWord;
-    }
-
-    if (questionWidget == null) {
+      questionWidget = MultipleChoiceQuestionContent(key: ValueKey(controller.question), controller: controller);
+    } else if (controller is CategoryQuestionController) {
+      questionWidget = CategoryQuestionContent(key: ValueKey(controller.question), controller: controller);
+    } else if (controller is TextInputQuestionController) {
+      questionWidget = TextInputQuestionContent(key: ValueKey(controller.question), controller: controller);
+    } else if (controller is ReadingQuestionController) {
+      questionWidget = ReadingQuestionContent(key: ValueKey(controller.question), controller: controller);
+    } else if (controller is MissingWordQuestionController) {
+      questionWidget = MissingWordQuestionContent(key: ValueKey(controller.question), controller: controller);
+    } else {
       return;
     }
 
-    final questionResult = await Navigator.push<double>(
-      context,
-      MaterialPageRoute(
-        builder: (_) => Scaffold(
-          appBar: AppBar(
-              automaticallyImplyLeading: false, title: Text(widget.label)),
-          body: ScrollConfiguration(
-            behavior: NoScrollbarBehavior(),
-            child: SingleChildScrollView(
-              controller: _scrollController,
-              dragStartBehavior: DragStartBehavior.down,
-              physics: const AlwaysScrollableScrollPhysics(),
-              padding: const EdgeInsets.all(ThemeDefaults.padding),
-              child: Column(
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.all(ThemeDefaults.padding),
-                    child: questionWidget,
-                  ),
-                  const SizedBox(height: 64),
-                  Center(
-                    child: ElevatedButton(
-                      onPressed: () {
-                        if(controller.isAnswered() == false) {
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            const SnackBar(content: Text("Please answer the question before submitting.")),
-                          );
-                          return;
-                        }
-                        Navigator.pop(context, controller.evaluate());
-                      },
-                      
-                      child: const Text("Submit"),
-                    ),
-                  ),
-                  const SizedBox(height: 32),
-                ],
-              ),
-            ),
-          ),
-        ),
-      ),
-    );
+    setState(() {
+      _currentQuestionWidget = questionWidget;
+      _currentQuestionController = controller;
+    });
 
-    if (questionResult == null) {
-      _onCancel();
+    // Ensure scroll reset happens after the frame
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (_scrollController.hasClients) {
+        _scrollController.jumpTo(0);
+      }
+    });
+  }
+
+  void _submitAnswer() async {
+    if (_currentQuestionController?.isAnswered() != true) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text("Please answer the question before submitting.")),
+      );
       return;
     }
+
+    final part = widget.testController.currentPart;
+
+    _currentQuestionController!.evaluate();
 
     if (part.isLastQuestion) {
-      bool shouldContinue = await widget.onPartFinished(_testController.currentPart);
-      if(!shouldContinue) return;
+      bool shouldContinue = await widget.onPartFinished(part);
+      if (!shouldContinue) return;
 
-      _testController.nextPart();
+      widget.testController.nextPart();
     } else {
       part.nextQuestion();
     }
 
-    await _serveQuestion();
+    _serveQuestion();
   }
 
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+
     return Container(
       width: double.infinity,
       height: double.infinity,
       color: theme.scaffoldBackgroundColor,
       child: Scaffold(
-          appBar: AppBar(title: Center(child:Text(widget.label))),
-          body: const Padding(
-              padding: EdgeInsets.all(ThemeDefaults.padding),
-              child: Center(child: CircularProgressIndicator()))),
+        appBar: AppBar(title: Center(child: Text(widget.label))),
+        body: _currentQuestionWidget == null
+            ? const Padding(
+                padding: EdgeInsets.all(ThemeDefaults.padding),
+                child: Center(child: CircularProgressIndicator()))
+            : ScrollConfiguration(
+                behavior: NoScrollbarBehavior(),
+                child: SingleChildScrollView(
+                  controller: _scrollController,
+                  dragStartBehavior: DragStartBehavior.down,
+                  physics: const AlwaysScrollableScrollPhysics(),
+                  padding: const EdgeInsets.all(ThemeDefaults.padding),
+                  child: Column(
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.all(ThemeDefaults.padding),
+                        child: _currentQuestionWidget!,
+                      ),
+                      const SizedBox(height: 64),
+                      Center(
+                        child: ElevatedButton(
+                          onPressed: _submitAnswer,
+                          child: const Text("Submit"),
+                        ),
+                      ),
+                      const SizedBox(height: 32),
+                    ],
+                  ),
+                ),
+              ),
+      ),
     );
   }
 }
