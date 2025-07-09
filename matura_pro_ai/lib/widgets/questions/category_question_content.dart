@@ -44,80 +44,75 @@ class _CategoryQuestionContentState extends State<CategoryQuestionContent> {
         dragStartBehavior: DragStartBehavior.down,
         padding: const EdgeInsets.all(16),
         physics: const ClampingScrollPhysics(),
-        child: ConstrainedBox(
-          constraints: BoxConstraints(
-            minHeight: MediaQuery.of(context).size.height + 100,
-          ),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              const SizedBox(height: 32),
-              Text(
-                question.question,
-                style: theme.textTheme.headlineMedium,
-                textAlign: TextAlign.center,
-              ),
-              const SizedBox(height: 32),
-              Wrap(
-                spacing: 8,
-                runSpacing: 8,
-                alignment: WrapAlignment.center,
-                children: question.items
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            const SizedBox(height: 32),
+            Text(
+              question.question,
+              style: theme.textTheme.headlineMedium,
+              textAlign: TextAlign.center,
+            ),
+            const SizedBox(height: 32),
+            Wrap(
+              spacing: 8,
+              runSpacing: 8,
+              alignment: WrapAlignment.center,
+              children: question.items
+                  .asMap()
+                  .entries
+                  .where((entry) => !controller.containsIndex(entry.key))
+                  .map((entry) => DraggableItem<int>(
+                    label: entry.value,
+                        data: entry.key,
+                      ))
+                  .toList(),
+            ),
+            const SizedBox(height: 32),
+            Wrap(
+              spacing: 16,
+              runSpacing: 16,
+              alignment: WrapAlignment.center,
+              children: question.categories
+                  .asMap()
+                  .entries
+                  .map((categoryEntry) {
+                final categoryIndex = categoryEntry.key;
+                final categoryLabel = categoryEntry.value;
+        
+                final itemsInCategory = question.items
                     .asMap()
-                    .entries
-                    .where((entry) => !controller.containsIndex(entry.key))
-                    .map((entry) => DraggableItem<int>(
-                      label: entry.value,
-                          data: entry.key,
+                    .keys
+                    .where((k) => controller.inCategory(k, categoryIndex))
+                    .toList();
+        
+                final chips = itemsInCategory
+                    .map((itemIndex) => DraggableItem<int>(
+                          data: itemIndex,
+                          label: question.items[itemIndex],
                         ))
-                    .toList(),
-              ),
-              const SizedBox(height: 32),
-              Wrap(
-                spacing: 16,
-                runSpacing: 16,
-                alignment: WrapAlignment.center,
-                children: question.categories
-                    .asMap()
-                    .entries
-                    .map((categoryEntry) {
-                  final categoryIndex = categoryEntry.key;
-                  final categoryLabel = categoryEntry.value;
-
-                  final itemsInCategory = question.items
-                      .asMap()
-                      .keys
-                      .where((k) => controller.inCategory(k, categoryIndex))
-                      .toList();
-
-                  final chips = itemsInCategory
-                      .map((itemIndex) => DraggableItem<int>(
-                            data: itemIndex,
-                            label: question.items[itemIndex],
-                          ))
-                      .toList();
-
-                  return ConstrainedBox(
-                    constraints: const BoxConstraints(
-                      maxWidth: 300,
-                      minHeight: 160,
-                    ),
-                    child: DropTarget<int>(
-                      label: categoryLabel,
-                      currentData: chips,
-                      onAccept: (details) {
-                        final itemIndex = details.data;
-                        setState(() {
-                          controller.removeAnswer(itemIndex);
-                          controller.addAnswer(itemIndex, categoryIndex);
-                        });
-                      },
-                    ),
-                  );
-                }).toList(),
-              ),
-            ],
-          ),
+                    .toList();
+        
+                return ConstrainedBox(
+                  constraints: const BoxConstraints(
+                    maxWidth: 300,
+                    minHeight: 160,
+                  ),
+                  child: DropTarget<int>(
+                    label: categoryLabel,
+                    currentData: chips,
+                    onAccept: (details) {
+                      final itemIndex = details.data;
+                      setState(() {
+                        controller.removeAnswer(itemIndex);
+                        controller.addAnswer(itemIndex, categoryIndex);
+                      });
+                    },
+                  ),
+                );
+              }).toList(),
+            ),
+          ],
         ),
       ),
     );
