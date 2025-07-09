@@ -67,6 +67,6 @@ class ReadingQuestionController extends QuestionController {
     for (final controller in _controllers) {
       score += controller.evaluate();
     }
-    return score;
+    return score / _controllers.length;
   }
 }

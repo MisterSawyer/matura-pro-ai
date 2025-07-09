@@ -32,8 +32,8 @@ class TestPage extends StatefulWidget {
   final String label;
   final Account account;
 
-  final void Function(double) onSubmit;
-  final void Function(TestPartController) onPartFinished;
+  final Future<void> Function(double) onSubmit;
+  final Future<bool> Function(TestPartController) onPartFinished;
 
   const TestPage(
       {super.key,
@@ -49,7 +49,6 @@ class TestPage extends StatefulWidget {
 
 class _TestPageState extends State<TestPage> {
   late final TestController _testController;
-
   final ScrollController _scrollController = ScrollController();
 
   bool _cancelled = false;
@@ -101,7 +100,7 @@ class _TestPageState extends State<TestPage> {
     final controller = part.currentQuestionController();
 
     if (_testController.isLastPart && part.isLastQuestion) {
-      widget.onSubmit(0);
+      await widget.onSubmit(0);
       return;
     }
 
@@ -143,7 +142,7 @@ class _TestPageState extends State<TestPage> {
       return;
     }
 
-    final result = await Navigator.push<double>(
+    final questionResult = await Navigator.push<double>(
       context,
       MaterialPageRoute(
         builder: (_) => Scaffold(
@@ -186,14 +185,16 @@ class _TestPageState extends State<TestPage> {
         ),
       ),
     );
-
-    if (result == null) {
+    
+    if (questionResult == null) {
       _onCancel();
       return;
     }
 
     if (part.isLastQuestion) {
-      widget.onPartFinished(_testController.currentPart);
+      bool shouldContinue = await widget.onPartFinished(_testController.currentPart);
+      if(!shouldContinue) return;
+
       _testController.nextPart();
     } else {
       part.nextQuestion();

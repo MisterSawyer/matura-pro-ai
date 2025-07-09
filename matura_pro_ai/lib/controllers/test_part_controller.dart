@@ -20,6 +20,8 @@ class TestPartController {
 
   late final TestPart part;
 
+  String get name => part.name; 
+
   final List<QuestionType> _order = [];
 
   final List<MultipleChoiceQuestionController>
@@ -163,4 +165,31 @@ class TestPartController {
     
     _currentQuestion++;
   }
+
+  double evaluate()
+  {
+    double score = 0.0;
+    for (final controller in _multipleChoiceQuestionControllers) {
+      score += controller.evaluate();
+    }
+
+    for (final controller in _textInputQuestionControllers) {
+      score += controller.evaluate();
+    }
+
+    for (final controller in _categoryQuestionControllers) {
+      score += controller.evaluate();
+    }
+
+    for (final controller in _readingQuestionControllers) {
+      score += controller.evaluate();
+    }
+
+    for (final controller in _missingWordQuestionControllers) {
+      score += controller.evaluate();
+    }
+
+    return score / _order.length;
+  }
+
 }

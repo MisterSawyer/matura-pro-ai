@@ -42,6 +42,9 @@ class MultipleChoiceQuestionController extends QuestionController {
         score -= 1.0;
       }
     }
+
+    score = score.clamp(0, question.correctIndexes.length).toDouble();
+
     // divide by the number of correct answers to get the score between 0 and 1
     score /= question.correctIndexes.length;
     return score;

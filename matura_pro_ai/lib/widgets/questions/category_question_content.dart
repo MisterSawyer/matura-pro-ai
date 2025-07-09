@@ -116,7 +116,6 @@ class _CategoryQuestionContentState extends State<CategoryQuestionContent> {
                   );
                 }).toList(),
               ),
-              const SizedBox(height: 64),
             ],
           ),
         ),

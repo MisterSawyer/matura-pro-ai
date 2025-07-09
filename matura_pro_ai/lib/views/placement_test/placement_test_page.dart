@@ -6,7 +6,8 @@ import '../../routes/app_routes.dart';
 
 import '../../models/account.dart';
 
-import 'package:matura_pro_ai/widgets/test_page.dart';
+import '../../widgets/test_page.dart';
+import 'placement_test_part_result_page.dart';
 
 
 class PlacementTestPage extends StatelessWidget {
@@ -14,25 +15,42 @@ class PlacementTestPage extends StatelessWidget {
 
   const PlacementTestPage({super.key, required this.account});
 
-  void _handleSubmit(BuildContext context, double score) {
-
+  Future<void> _handleSubmit(BuildContext context, double score) async
+  {
     account.stats.placementTestResult = score;
     account.stats.placementTestTaken = true;
 
-    Navigator.pushReplacementNamed(
+    await Navigator.pushReplacementNamed(
       context,
       AppRoutes.home,
       arguments: {'account': account},
     );
   }
 
-  void _handlePartFinished(BuildContext context, TestPartController part)
+  Future<void> _handlePartExit(BuildContext context, double score) async
   {
-    // Navigator.pushReplacementNamed(
-    //   context,
-    //   AppRoutes.home,
-    //   arguments: {'account': account},
-    // );
+    account.stats.placementTestResult = score;
+    account.stats.placementTestTaken = true;
+
+    await Navigator.pushReplacementNamed(
+      context,
+      AppRoutes.home,
+      arguments: {'account': account},
+    );
+  }
+
+  Future<bool> _handlePartFinished(BuildContext context, TestPartController part) async
+  {
+    return await Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (_) => PlacementTestPartResultPage(
+            account: account,
+            part: part,
+            onExit: (score) => _handlePartExit(context, score),
+          ),
+        ),
+      );
   }
 
   @override
