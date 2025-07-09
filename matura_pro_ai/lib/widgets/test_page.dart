@@ -32,7 +32,7 @@ class TestPage extends StatefulWidget {
   final String label;
   final Account account;
 
-  final Future<void> Function(double) onSubmit;
+  final Future<void> Function() onSubmit;
   final Future<bool> Function(TestPartController) onPartFinished;
 
   const TestPage(
@@ -100,7 +100,7 @@ class _TestPageState extends State<TestPage> {
     final controller = part.currentQuestionController();
 
     if (_testController.isLastPart && part.isLastQuestion) {
-      await widget.onSubmit(0);
+      await widget.onSubmit();
       return;
     }
 
@@ -185,7 +185,7 @@ class _TestPageState extends State<TestPage> {
         ),
       ),
     );
-    
+
     if (questionResult == null) {
       _onCancel();
       return;

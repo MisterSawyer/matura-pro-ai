@@ -7,7 +7,7 @@ import '../../controllers/test_part_controller.dart';
 class PlacementTestPartResultPage extends StatelessWidget {
   final Account account;
   final TestPartController part;
-  final Future<void> Function(double) onExit;
+  final Future<void> Function() onExit;
 
 
   const PlacementTestPartResultPage({
@@ -52,7 +52,7 @@ class PlacementTestPartResultPage extends StatelessWidget {
               TextButton(
                 onPressed: () async {
                   Navigator.pop(context, false); // Close the part result page
-                  await onExit(score);
+                  await onExit();
                 },
                 child: const Text("Exit Test"),
               ),

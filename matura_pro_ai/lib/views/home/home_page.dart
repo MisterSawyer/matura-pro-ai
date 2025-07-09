@@ -92,7 +92,7 @@ class _HomePageState extends State<HomePage> {
           HomeTile(
             icon: const Icon(Icons.equalizer, size:64),
             label: 'Stats',
-            onTap: () => {},
+            onTap: () => Navigator.pushNamed(context, AppRoutes.stats, arguments: {'account' : widget.account}),
           ),
           HomeTile(
             icon: const Icon(Icons.settings, size:64),

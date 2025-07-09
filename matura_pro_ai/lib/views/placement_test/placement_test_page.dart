@@ -15,9 +15,8 @@ class PlacementTestPage extends StatelessWidget {
 
   const PlacementTestPage({super.key, required this.account});
 
-  Future<void> _handleSubmit(BuildContext context, double score) async
+  Future<void> _handleSubmit(BuildContext context) async
   {
-    account.stats.placementTestResult = score;
     account.stats.placementTestTaken = true;
 
     await Navigator.pushReplacementNamed(
@@ -27,9 +26,8 @@ class PlacementTestPage extends StatelessWidget {
     );
   }
 
-  Future<void> _handlePartExit(BuildContext context, double score) async
+  Future<void> _handlePartExit(BuildContext context) async
   {
-    account.stats.placementTestResult = score;
     account.stats.placementTestTaken = true;
 
     await Navigator.pushReplacementNamed(
@@ -41,13 +39,16 @@ class PlacementTestPage extends StatelessWidget {
 
   Future<bool> _handlePartFinished(BuildContext context, TestPartController part) async
   {
+    account.stats.placementTestResult.partNames.add(part.name);
+    account.stats.placementTestResult.partResults.add(part.evaluate());
+
     return await Navigator.push(
         context,
         MaterialPageRoute(
           builder: (_) => PlacementTestPartResultPage(
             account: account,
             part: part,
-            onExit: (score) => _handlePartExit(context, score),
+            onExit: () => _handlePartExit(context),
           ),
         ),
       );
@@ -59,7 +60,7 @@ class PlacementTestPage extends StatelessWidget {
       filename: 'placement_test.json',
       label: 'Test',
       account: account,
-      onSubmit: (score) => _handleSubmit(context, score),
+      onSubmit: () => _handleSubmit(context),
       onPartFinished: (part) => _handlePartFinished(context, part),
     );
   }

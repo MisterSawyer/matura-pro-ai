@@ -10,6 +10,7 @@ import '../views/login/login_page.dart';
 import '../views/home/home_page.dart';
 import '../views/account/account_page.dart';
 import '../views/placement_test/placement_test_page.dart';
+import '../views/stats/user_statistics_page.dart';
 
 class App extends StatelessWidget {
   const App({super.key});
@@ -45,6 +46,13 @@ class App extends StatelessWidget {
           final account = args['account'] as Account;
           return PlacementTestPage(
               account: account);
+        },
+        AppRoutes.stats: (context) {
+          final args = ModalRoute.of(context)!.settings.arguments
+              as Map<String, dynamic>;
+          final account = args['account'] as Account;
+
+          return UserStatisticsPage(account: account);
         },
       },
     );

@@ -4,7 +4,7 @@ class Account {
   final String username;
 
   String _name;
-  final UserStats _stats = UserStats(placementTestTaken: false, placementTestResult: 0.0);
+  final UserStats _stats = UserStats();
 
   Account({
     required this.username,

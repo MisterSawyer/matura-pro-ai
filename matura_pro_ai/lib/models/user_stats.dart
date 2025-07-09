@@ -1,21 +1,20 @@
+import 'test_result.dart';
+
 class UserStats 
 {
-  bool placementTestTaken;
-  double placementTestResult;
+  bool placementTestTaken = false;
+  TestResult placementTestResult = TestResult();
 
-  UserStats({
-    this.placementTestTaken = false,
-    this.placementTestResult = 0.0
-  });
+  UserStats();
 
   @override
   String toString() {
     return 'UserStats( placementTestTaken: $placementTestTaken, placementTestResult: $placementTestResult)';
   }
 
-  void setTestResult(double result)
+  void setTestResult(TestResult results)
   {
     placementTestTaken = true;
-    placementTestResult = result;
+    placementTestResult = results;
   }
 }
