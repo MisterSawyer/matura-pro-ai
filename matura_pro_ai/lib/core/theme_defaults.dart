@@ -23,7 +23,7 @@ class ThemeDefaults {
 static const TextTheme textTheme = TextTheme(
   titleLarge: TextStyle(
     fontFamily : 'Gagalin',
-    fontSize: 48,
+    fontSize: 42,
     fontWeight: FontWeight.bold,
   ),
   titleMedium: TextStyle(

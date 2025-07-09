@@ -159,7 +159,6 @@ class _TestPageState extends State<TestPage> {
                   padding: const EdgeInsets.all(ThemeDefaults.padding),
                   child: Column(
                     children: [
-          const SizedBox(height: 32,),
           Center(child : Text(widget.label, style : theme.textTheme.titleLarge, textAlign: TextAlign.center)),
           const SizedBox(height: 64,),
 

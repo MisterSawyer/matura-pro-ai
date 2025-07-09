@@ -7,6 +7,7 @@ class AppTheme {
     scaffoldBackgroundColor: Colors.white,
     appBarTheme: const AppBarTheme(
       backgroundColor: Colors.white,
+      scrolledUnderElevation: 0,
       foregroundColor: Color(0XFF0A2645),
     ),
     drawerTheme: const DrawerThemeData(
@@ -28,6 +29,7 @@ class AppTheme {
     primarySwatch: ThemeDefaults.primaryColor,
     scaffoldBackgroundColor: const Color(0XFF0A2645),
     appBarTheme: const AppBarTheme(
+      scrolledUnderElevation: 0,
       backgroundColor: Color(0XFF0A2645),
       foregroundColor: Colors.white,
     ),
