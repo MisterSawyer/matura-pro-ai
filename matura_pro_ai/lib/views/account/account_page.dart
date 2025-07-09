@@ -63,7 +63,7 @@ class _AccountPageState extends State<AccountPage> {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     return Container(
-      color: Theme.of(context).scaffoldBackgroundColor,
+      color: theme.scaffoldBackgroundColor,
       width: double.infinity,
       height: double.infinity,
       child: PopScope(

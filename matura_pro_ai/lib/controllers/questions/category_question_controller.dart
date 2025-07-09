@@ -21,7 +21,7 @@ class CategoryQuestionController extends QuestionController {
   int? getAnswer(int index) => _answers[index];
 
   @override
-  bool isAnswered() => _answers.length == question.items.length;
+  bool isAnswered() => true;
 
   @override
   void clear()

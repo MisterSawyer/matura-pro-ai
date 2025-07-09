@@ -7,11 +7,13 @@ import 'text_input_question.dart';
 import 'missing_word_question.dart';
 
 class ReadingQuestion extends Question {
+  final String question;
   final String text;
   final List<Question> questions;
 
   ReadingQuestion({
     required super.type,
+    required this.question,
     required this.text,
     required this.questions,
   });
@@ -45,6 +47,7 @@ class ReadingQuestion extends Question {
 
     return ReadingQuestion(
       type : QuestionType.fromString(json['type'] as String),
+      question: json['question'] as String,
       text: json['text'] as String,
       questions: questions
     );

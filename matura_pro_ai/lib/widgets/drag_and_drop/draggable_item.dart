@@ -3,14 +3,17 @@ import 'package:flutter/material.dart';
 class DraggableItem<T extends Object> extends StatelessWidget {
   final String label;
   final T data;
+  final Function(DragUpdateDetails)? onDragUpdate;
 
-  const DraggableItem({super.key, required this.label, required this.data});
+  const DraggableItem({super.key, required this.label, required this.data, this.onDragUpdate});
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+
     final widgetBox = Card(
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
-      color: Theme.of(context).colorScheme.primaryContainer,
+      color: theme.colorScheme.primaryContainer,
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
         child: ConstrainedBox(
@@ -19,7 +22,7 @@ class DraggableItem<T extends Object> extends StatelessWidget {
             label,
             softWrap: true,
             overflow: TextOverflow.visible,
-            style: Theme.of(context).textTheme.bodyMedium,
+            style: theme.textTheme.bodyMedium,
           ),
         ),
       ),
@@ -35,6 +38,7 @@ class DraggableItem<T extends Object> extends StatelessWidget {
         ),
       ),
       childWhenDragging: Opacity(opacity: 0.3, child: widgetBox),
+      onDragUpdate : onDragUpdate,
       child: widgetBox,
     );
   }

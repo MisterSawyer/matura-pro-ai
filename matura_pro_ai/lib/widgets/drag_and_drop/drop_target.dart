@@ -8,7 +8,7 @@ import 'draggable_item.dart';
 class DropTarget<T extends Object> extends StatelessWidget {
   final String label;
   final void Function(DragTargetDetails<T>) onAccept;
-  final List<DraggableItem> currentData;
+  final List<DraggableItem<T>> currentData;
 
   const DropTarget({
     super.key,
@@ -19,6 +19,7 @@ class DropTarget<T extends Object> extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
     return DragTarget<T>(
       onAcceptWithDetails: onAccept,
       builder: (context, _, __) {
@@ -29,12 +30,12 @@ class DropTarget<T extends Object> extends StatelessWidget {
           decoration: BoxDecoration(
             border: Border.all(color: Colors.grey),
             borderRadius: BorderRadius.circular(8),
-            color: Theme.of(context).colorScheme.secondaryContainer,
+            color: theme.colorScheme.secondaryContainer,
           ),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(label, style: Theme.of(context).textTheme.headlineSmall),
+              Text(label, style: theme.textTheme.headlineSmall),
               const SizedBox(height: 8),
               if (currentData.isEmpty)
                 const Text(AppStrings.dropHere, style: TextStyle(fontStyle: FontStyle.italic)),

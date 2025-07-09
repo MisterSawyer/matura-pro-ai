@@ -71,7 +71,7 @@ class _TextInputQuestionContentState extends State<TextInputQuestionContent> {
                 if (!segment.isGap) {
                   return Text(
                     segment.text!,
-                    style: Theme.of(context).textTheme.bodyLarge,
+                    style: theme.textTheme.bodyLarge,
                   );
                 }
 

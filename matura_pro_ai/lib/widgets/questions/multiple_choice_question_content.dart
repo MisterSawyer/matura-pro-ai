@@ -53,6 +53,8 @@ class _MultipleChoiceQuestionContentState
               LayoutBuilder(
                 builder: (context, constraints) {
                   return Wrap(
+                    alignment: WrapAlignment.center,
+                    runAlignment: WrapAlignment.center,
                     spacing: 12,
                     runSpacing: 12,
                     children: List.generate(
