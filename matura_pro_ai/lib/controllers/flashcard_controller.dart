@@ -1,7 +1,9 @@
+import 'package:flutter/foundation.dart';
+
 import '../models/flashcard.dart';
 import '../models/flashcard_deck.dart';
 
-class FlashcardController {
+class FlashcardController extends ChangeNotifier {
   final FlashcardDeck deck;
   int _currentIndex = 0;
   bool _isFrontVisible = true;
@@ -19,14 +21,21 @@ class FlashcardController {
   
   void flipCard() {
     _isFrontVisible = !_isFrontVisible;
+    notifyListeners(); // reactive update
   }
 
   void markKnown() {
     currentCard.isKnown = true;
+    notifyListeners(); // updates progress
+  }
+
+  bool check(String value) {
+    return currentCard.back.trim().toLowerCase() == value.trim().toLowerCase();
   }
 
   void markUnknown() {
     currentCard.isKnown = false;
+    notifyListeners(); // updates progress
   }
 
   void nextCard() {
@@ -36,6 +45,7 @@ class FlashcardController {
     } else {
       _currentIndex = 0;
     }
+    notifyListeners(); // notifies card change
   }
 
   void resetDeck() {
@@ -44,7 +54,7 @@ class FlashcardController {
     for (var card in deck.cards) {
       card.isKnown = false;
     }
+    notifyListeners(); // resets everything
   }
-
-
 }
+

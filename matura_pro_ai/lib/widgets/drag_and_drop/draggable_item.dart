@@ -3,9 +3,11 @@ import 'package:flutter/material.dart';
 class DraggableItem<T extends Object> extends StatelessWidget {
   final String label;
   final T data;
-  final Function(DragUpdateDetails)? onDragUpdate;
+  final VoidCallback? onDragStarted;
+  final void Function(DragUpdateDetails)? onDragUpdate;
+  final void Function(DraggableDetails)? onDragEnd;
 
-  const DraggableItem({super.key, required this.label, required this.data, this.onDragUpdate});
+  const DraggableItem({super.key, required this.label, required this.data, this.onDragStarted, this.onDragUpdate, this.onDragEnd});
 
   @override
   Widget build(BuildContext context) {
@@ -38,6 +40,8 @@ class DraggableItem<T extends Object> extends StatelessWidget {
         ),
       ),
       childWhenDragging: Opacity(opacity: 0.3, child: widgetBox),
+      onDragStarted: onDragStarted,
+      onDragEnd: onDragEnd,
       onDragUpdate : onDragUpdate,
       child: widgetBox,
     );

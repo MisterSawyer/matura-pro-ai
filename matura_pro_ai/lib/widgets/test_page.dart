@@ -50,7 +50,6 @@ class TestPage extends StatefulWidget {
 class _TestPageState extends State<TestPage> {
   final ScrollController _scrollController = ScrollController();
 
-  Widget? _currentQuestionWidget;
   QuestionController? _currentQuestionController;
 
   @override
@@ -68,14 +67,14 @@ class _TestPageState extends State<TestPage> {
   }
 
   void _serveQuestion() async {
-
     final part = widget.testController.currentPart;
-    final controller = part.currentQuestionController();
 
     if (widget.testController.isLastPart && part.isLastQuestion) {
       await widget.onSubmit();
       return;
     }
+
+    final controller = part.currentQuestionController();
 
     if (controller == null) {
       widget.testController.nextPart();
@@ -83,24 +82,7 @@ class _TestPageState extends State<TestPage> {
       return;
     }
 
-    late final Widget questionWidget;
-
-    if (controller is MultipleChoiceQuestionController) {
-      questionWidget = MultipleChoiceQuestionContent(key: ValueKey(controller.question), controller: controller);
-    } else if (controller is CategoryQuestionController) {
-      questionWidget = CategoryQuestionContent(key: ValueKey(controller.question), controller: controller);
-    } else if (controller is TextInputQuestionController) {
-      questionWidget = TextInputQuestionContent(key: ValueKey(controller.question), controller: controller);
-    } else if (controller is ReadingQuestionController) {
-      questionWidget = ReadingQuestionContent(key: ValueKey(controller.question), controller: controller);
-    } else if (controller is MissingWordQuestionController) {
-      questionWidget = MissingWordQuestionContent(key: ValueKey(controller.question), controller: controller);
-    } else {
-      return;
-    }
-
     setState(() {
-      _currentQuestionWidget = questionWidget;
       _currentQuestionController = controller;
     });
 
@@ -112,10 +94,38 @@ class _TestPageState extends State<TestPage> {
     });
   }
 
+  Widget _buildQuestionWidget() {
+    if (_currentQuestionController == null) return Container();
+
+    if (_currentQuestionController is MultipleChoiceQuestionController) {
+      //key: ValueKey(_currentQuestionController.question)
+      return MultipleChoiceQuestionContent(
+          controller:
+              _currentQuestionController as MultipleChoiceQuestionController);
+    } else if (_currentQuestionController is CategoryQuestionController) {
+      return CategoryQuestionContent(
+          controller: _currentQuestionController as CategoryQuestionController,
+          scrollController: _scrollController,);
+    } else if (_currentQuestionController is TextInputQuestionController) {
+      return TextInputQuestionContent(
+          controller:
+              _currentQuestionController as TextInputQuestionController);
+    } else if (_currentQuestionController is ReadingQuestionController) {
+      return ReadingQuestionContent(
+          controller: _currentQuestionController as ReadingQuestionController);
+    } else if (_currentQuestionController is MissingWordQuestionController) {
+      return MissingWordQuestionContent(
+          controller:
+              _currentQuestionController as MissingWordQuestionController);
+    }
+    return Container();
+  }
+
   void _submitAnswer() async {
     if (_currentQuestionController?.isAnswered() != true) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text("Please answer the question before submitting.")),
+        const SnackBar(
+            content: Text("Please answer the question before submitting.")),
       );
       return;
     }
@@ -145,39 +155,41 @@ class _TestPageState extends State<TestPage> {
       height: double.infinity,
       color: theme.scaffoldBackgroundColor,
       child: Scaffold(
-        appBar: AppBar(automaticallyImplyLeading: false,),
-        body: _currentQuestionWidget == null
-            ? const Padding(
-                padding: EdgeInsets.all(ThemeDefaults.padding),
-                child: Center(child: CircularProgressIndicator()))
-            : ScrollConfiguration(
-                behavior: NoScrollbarBehavior(),
-                child: SingleChildScrollView(
-                  controller: _scrollController,
-                  dragStartBehavior: DragStartBehavior.down,
-                  physics: const AlwaysScrollableScrollPhysics(),
+        appBar: AppBar(
+          automaticallyImplyLeading: false,
+        ),
+        body: ScrollConfiguration(
+          behavior: NoScrollbarBehavior(),
+          child: SingleChildScrollView(
+            controller: _scrollController,
+            dragStartBehavior: DragStartBehavior.down,
+            physics: const AlwaysScrollableScrollPhysics(),
+            padding: const EdgeInsets.all(ThemeDefaults.padding),
+            child: Column(
+              children: [
+                Center(
+                    child: Text(widget.label,
+                        style: theme.textTheme.titleLarge,
+                        textAlign: TextAlign.center)),
+                const SizedBox(
+                  height: 64,
+                ),
+                Padding(
                   padding: const EdgeInsets.all(ThemeDefaults.padding),
-                  child: Column(
-                    children: [
-          Center(child : Text(widget.label, style : theme.textTheme.titleLarge, textAlign: TextAlign.center)),
-          const SizedBox(height: 64,),
-
-                      Padding(
-                        padding: const EdgeInsets.all(ThemeDefaults.padding),
-                        child: _currentQuestionWidget!,
-                      ),
-                      const SizedBox(height: 64),
-                      Center(
-                        child: ElevatedButton(
-                          onPressed: _submitAnswer,
-                          child: const Text(AppStrings.submit),
-                        ),
-                      ),
-                      const SizedBox(height: 32),
-                    ],
+                  child: _buildQuestionWidget(),
+                ),
+                const SizedBox(height: 64),
+                Center(
+                  child: ElevatedButton(
+                    onPressed: _submitAnswer,
+                    child: const Text(AppStrings.submit),
                   ),
                 ),
-              ),
+                const SizedBox(height: 32),
+              ],
+            ),
+          ),
+        ),
       ),
     );
   }
