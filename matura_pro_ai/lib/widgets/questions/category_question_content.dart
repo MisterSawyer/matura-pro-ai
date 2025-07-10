@@ -81,6 +81,7 @@ class _CategoryQuestionContentState extends State<CategoryQuestionContent> {
             .map((itemIndex) => DraggableItem<int>(
                   data: itemIndex,
                   label: widget.controller.question.items[itemIndex],
+                  onDragStarted: _startAutoScroll,
                 ))
             .toList();
 
@@ -105,26 +106,38 @@ class _CategoryQuestionContentState extends State<CategoryQuestionContent> {
     );
   }
 
-  void _startAutoScroll() {
-    _autoScrollTimer ??=
-        Timer.periodic(const Duration(milliseconds: 100), (timer) {
-      if (_lastPointerOffset == null || !_scrollController.hasClients) return;
-      final scrollPos = _scrollController.position;
-      final y = _lastPointerOffset!.dy;
+void _startAutoScroll() {
+  _autoScrollTimer ??= Timer.periodic(const Duration(milliseconds: 100), (_) {
+    if (_lastPointerOffset == null || !_scrollController.hasClients) return;
 
-      const edgeThreshold = 80;
-      const scrollAmount = 20.0;
+    final scrollPos = _scrollController.position;
+    final y = _lastPointerOffset!.dy;
 
-      if (y < edgeThreshold && scrollPos.pixels > scrollPos.minScrollExtent) {
-        _scrollController.jumpTo((scrollPos.pixels - scrollAmount)
-            .clamp(scrollPos.minScrollExtent, scrollPos.maxScrollExtent));
-      } else if (y > MediaQuery.of(context).size.height - edgeThreshold &&
-          scrollPos.pixels < scrollPos.maxScrollExtent) {
-        _scrollController.jumpTo((scrollPos.pixels + scrollAmount)
-            .clamp(scrollPos.minScrollExtent, scrollPos.maxScrollExtent));
-      }
-    });
-  }
+    const edgeThreshold = 80.0;
+    const scrollAmount = 40.0;
+    final screenHeight = MediaQuery.of(context).size.height;
+
+    double? target;
+
+    if (y < edgeThreshold &&
+        scrollPos.pixels > scrollPos.minScrollExtent) {
+      target = (scrollPos.pixels - scrollAmount)
+          .clamp(scrollPos.minScrollExtent, scrollPos.maxScrollExtent);
+    } else if (y > screenHeight - edgeThreshold &&
+        scrollPos.pixels < scrollPos.maxScrollExtent) {
+      target = (scrollPos.pixels + scrollAmount)
+          .clamp(scrollPos.minScrollExtent, scrollPos.maxScrollExtent);
+    }
+
+    if (target != null && target != scrollPos.pixels) {
+      _scrollController.animateTo(
+        target,
+        duration: const Duration(milliseconds: 150),
+        curve: Curves.easeInOut,
+      );
+    }
+  });
+}
 
   void _stopAutoScroll() {
     _autoScrollTimer?.cancel();
