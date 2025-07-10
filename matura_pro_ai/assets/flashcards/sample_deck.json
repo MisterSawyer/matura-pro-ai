@@ -1,17 +1,65 @@
 {
     "name": "Sample Deck",
     "cards": [
-      { "front": "Synonym of 'happy'", "back": "Joyful" },
-      { "front": "Past tense of 'go'", "back": "Went" },
-      { "front": "Plural of 'child'", "back": "Children" },
-      { "front": "What's the opposite of 'early'?", "back": "Late" },
-      { "front": "Translate to English: 'pies'", "back": "Dog" },
-      { "front": "Article before 'apple'", "back": "An" },
-      { "front": "What's the comparative of 'fast'?", "back": "Faster" },
-      { "front": "What do you call a female 'actor'?", "back": "Actress" },
-      { "front": "How do you say 'dziękuję' in English?", "back": "Thank you" },
-      { "front": "Verb in 'She is reading a book.'", "back": "Reading" },
-      { "front": "Opposite of 'expensive'", "back": "Cheap" },
-      { "front": "Which tense? 'He has eaten.'", "back": "Present perfect" }
+        {
+            "tags" : ["vocabulary"],
+            "front": "Synonym of 'happy'",
+            "back": "Joyful"
+        },
+        {
+            "tags" : [],
+            "front": "Past tense of 'go'",
+            "back": "Went"
+        },
+        {
+            "tags" : [],
+            "front": "Plural of 'child'",
+            "back": "Children"
+        },
+        {
+            "tags" : ["vocabulary"],
+            "front": "What's the opposite of 'early'?",
+            "back": "Late"
+        },
+        {
+            "tags" : [],
+            "front": "Translate to English: 'pies'",
+            "back": "Dog"
+        },
+        {
+            "tags" : [],
+            "front": "Article before 'apple'",
+            "back": "An"
+        },
+        {
+            "tags" : [],
+            "front": "What's the comparative of 'fast'?",
+            "back": "Faster"
+        },
+        {
+            "tags" : [],
+            "front": "What do you call a female 'actor'?",
+            "back": "Actress"
+        },
+        {
+            "tags" : [],
+            "front": "How do you say 'dziękuję' in English?",
+            "back": "Thank you"
+        },
+        {
+            "tags" : [],
+            "front": "Verb in 'She is reading a book.'",
+            "back": "Reading"
+        },
+        {
+            "tags" : [],
+            "front": "Opposite of 'expensive'",
+            "back": "Cheap"
+        },
+        {
+            "tags" : [],
+            "front": "Which tense? 'He has eaten.'",
+            "back": "Present perfect"
+        }
     ]
-  }
+}

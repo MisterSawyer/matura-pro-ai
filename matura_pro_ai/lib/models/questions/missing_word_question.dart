@@ -1,3 +1,4 @@
+import '../tags.dart';
 import 'question.dart';
 import 'question_type.dart';
 
@@ -11,6 +12,7 @@ class MissingWordQuestion extends Question {
 
   MissingWordQuestion({
     required super.type,
+    required super.tags,
     required this.question,
     required String text,
     required this.items,
@@ -46,6 +48,7 @@ class MissingWordQuestion extends Question {
   factory MissingWordQuestion.fromJson(Map<String, dynamic> json) {
     return MissingWordQuestion(
       type: QuestionType.fromString(json['type'] as String),
+      tags: Tags.fromJson(json['tags']),
       question: json['question'],
       text: json['text'],
       items: (json['items'] as List)

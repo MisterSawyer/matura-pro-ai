@@ -78,6 +78,7 @@ class _PlacementTestLoaderPageState extends State<PlacementTestLoaderPage> {
               account: widget.account,
               part: part,
               onExit: () => _handlePartExit(context),
+              isLastPart: _testController.isLastPart,
             ),
           ),
         ) ??

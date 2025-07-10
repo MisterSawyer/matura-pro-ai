@@ -3,8 +3,6 @@ import 'package:flutter/gestures.dart';
 import 'package:matura_pro_ai/controllers/questions/question_controller.dart';
 import 'package:matura_pro_ai/core/constants.dart';
 
-import '../models/questions/question_type.dart';
-
 import '../core/theme_defaults.dart';
 
 import '../models/account.dart';
@@ -68,12 +66,6 @@ class _TestPageState extends State<TestPage> {
 
   void _serveQuestion() async {
     final part = widget.testController.currentPart;
-
-    if (widget.testController.isLastPart && part.isLastQuestion) {
-      await widget.onSubmit();
-      return;
-    }
-
     final controller = part.currentQuestionController();
 
     if (controller == null) {
@@ -98,23 +90,40 @@ class _TestPageState extends State<TestPage> {
     if (_currentQuestionController == null) return Container();
 
     if (_currentQuestionController is MultipleChoiceQuestionController) {
-      //key: ValueKey(_currentQuestionController.question)
+      final key = ValueKey(
+          (_currentQuestionController as MultipleChoiceQuestionController)
+              .question);
       return MultipleChoiceQuestionContent(
+          key: key,
           controller:
               _currentQuestionController as MultipleChoiceQuestionController);
     } else if (_currentQuestionController is CategoryQuestionController) {
+      final key = ValueKey(
+          (_currentQuestionController as CategoryQuestionController).question);
       return CategoryQuestionContent(
-          controller: _currentQuestionController as CategoryQuestionController,
-          scrollController: _scrollController,);
+        key: key,
+        controller: _currentQuestionController as CategoryQuestionController,
+        scrollController: _scrollController,
+      );
     } else if (_currentQuestionController is TextInputQuestionController) {
+      final key = ValueKey(
+          (_currentQuestionController as TextInputQuestionController).question);
       return TextInputQuestionContent(
+          key: key,
           controller:
               _currentQuestionController as TextInputQuestionController);
     } else if (_currentQuestionController is ReadingQuestionController) {
+      final key = ValueKey(
+          (_currentQuestionController as ReadingQuestionController).question);
       return ReadingQuestionContent(
+          key: key,
           controller: _currentQuestionController as ReadingQuestionController);
     } else if (_currentQuestionController is MissingWordQuestionController) {
+      final key = ValueKey(
+          (_currentQuestionController as MissingWordQuestionController)
+              .question);
       return MissingWordQuestionContent(
+          key: key,
           controller:
               _currentQuestionController as MissingWordQuestionController);
     }
@@ -136,7 +145,10 @@ class _TestPageState extends State<TestPage> {
 
     if (part.isLastQuestion) {
       bool shouldContinue = await widget.onPartFinished(part);
-      if (!shouldContinue) return;
+      if (!shouldContinue || widget.testController.isLastPart) {
+        await widget.onSubmit();
+        return;
+      }
 
       widget.testController.nextPart();
     } else {

@@ -1,3 +1,4 @@
+import '../tags.dart';
 import 'question.dart';
 import 'question_type.dart';
 
@@ -13,6 +14,7 @@ class ReadingQuestion extends Question {
 
   ReadingQuestion({
     required super.type,
+    required super.tags,
     required this.question,
     required this.text,
     required this.questions,
@@ -47,6 +49,7 @@ class ReadingQuestion extends Question {
 
     return ReadingQuestion(
       type : QuestionType.fromString(json['type'] as String),
+      tags: Tags.fromJson(json['tags']),
       question: json['question'] as String,
       text: json['text'] as String,
       questions: questions

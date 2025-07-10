@@ -1,3 +1,4 @@
+import '../tags.dart';
 import 'question.dart';
 import 'question_type.dart';
 
@@ -9,6 +10,7 @@ class CategoryQuestion extends Question {
 
   CategoryQuestion({
     required super.type,
+    required super.tags,
     required this.question,
     required this.items,
     required this.categories,
@@ -22,6 +24,7 @@ class CategoryQuestion extends Question {
 
     return CategoryQuestion(
       type: QuestionType.fromString(json['type'] as String),
+      tags: Tags.fromJson(json['tags']),
       question: json['question'],
       items: List<String>.from(json['items']),
       categories: List<String>.from(json['categories']),

@@ -29,7 +29,7 @@ class _CategoryQuestionContentState extends State<CategoryQuestionContent> {
 
   @override
   void dispose() {
-    _scrollController.dispose();
+    if(widget.scrollController == null) _scrollController.dispose();
     super.dispose();
   }
 

@@ -1,3 +1,4 @@
+import '../tags.dart';
 import 'question.dart';
 import 'question_type.dart';
 
@@ -8,6 +9,7 @@ class MultipleChoiceQuestion extends Question {
 
   MultipleChoiceQuestion({
     required super.type,
+    required super.tags,
     required this.question,
     required this.options,
     required this.correctIndexes,
@@ -20,6 +22,7 @@ class MultipleChoiceQuestion extends Question {
 
     return MultipleChoiceQuestion(
       type : QuestionType.fromString(json['type'] as String),
+      tags: Tags.fromJson(json['tags']),
       question: json['question'] as String,
       options: List<String>.from(json['options']),
       correctIndexes: List<int>.from(json['correctIndexes']),
