@@ -6,6 +6,8 @@ import '../../core/constants.dart';
 import '../../routes/app_routes.dart';
 import '../../models/account.dart';
 
+import '../../widgets/scrollable_layout.dart';
+
 class AccountPage extends StatefulWidget {
   final Account account;
 
@@ -61,57 +63,48 @@ class _AccountPageState extends State<AccountPage> {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     return Container(
-      color: theme.scaffoldBackgroundColor,
-      width: double.infinity,
-      height: double.infinity,
-      child: PopScope(
-          canPop: true,
-          onPopInvokedWithResult: (didPop, result) {
-            if (didPop) {
-              _onSave(); // Save only if pop is actually happening
-            }
-          },
-          child: Scaffold(
-            appBar: AppBar(),
-            body: Padding(
-              padding: const EdgeInsets.all(ThemeDefaults.padding),
-              child: Center(
-                child: Column(
-                  children: [
-                    const SizedBox(
-                      height: 32,
-                    ),
-                    Center(
-                        child: Text("Konto",
-                            style: theme.textTheme.titleLarge,
-                            textAlign: TextAlign.center)),
-                    const SizedBox(height: 32),
-                    const Icon(Icons.account_circle, size: 64),
-                    const SizedBox(height: 16),
-                    Text("${AppStrings.username}: ${widget.account.username}",
+        color: theme.scaffoldBackgroundColor,
+        width: double.infinity,
+        height: double.infinity,
+        child: PopScope(
+            canPop: true,
+            onPopInvokedWithResult: (didPop, result) {
+              if (didPop) {
+                _onSave(); // Save only if pop is actually happening
+              }
+            },
+            child: Scaffold(
+                appBar: AppBar(),
+                body: ScrollableLayout(maxWidth: 400, children: [
+                  Center(
+                      child: Text("Konto",
+                          style: theme.textTheme.titleLarge,
+                          textAlign: TextAlign.center)),
+                  const SizedBox(height: 32),
+                  const Center(child: Icon(Icons.account_circle, size: 64)),
+                  const SizedBox(height: 16),
+                  Center(
+                    child: Text("${AppStrings.username}: ${widget.account.username}",
                         style: theme.textTheme.headlineSmall),
-                    const SizedBox(height: 16),
-                    ConstrainedBox(
-                      constraints: const BoxConstraints(maxWidth: 400),
-                      child: TextField(
+                  ),
+                  const SizedBox(height: 16),
+                 Center(
+                   child: TextField(
                         controller: _nameController,
                         focusNode: _nameFocusNode,
                         decoration:
                             const InputDecoration(labelText: AppStrings.name),
                       ),
-                    ),
-                    const SizedBox(height: 128),
-                    TextButton(
+                 ),
+                  const SizedBox(height: 128),
+                  Center(
+                    child: TextButton(
                       style: TextButton.styleFrom(
                           backgroundColor: theme.colorScheme.errorContainer),
                       onPressed: _onLogout,
                       child: const Text(AppStrings.logout),
                     ),
-                  ],
-                ),
-              ),
-            ),
-          )),
-    );
+                  ),
+                ]))));
   }
 }

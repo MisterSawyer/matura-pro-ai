@@ -1,12 +1,10 @@
 import 'package:flutter/material.dart';
-import '../../core/theme_defaults.dart';
 
 import '../../services/flashcard_loader.dart';
 
 import '../../models/account.dart';
-import '../../routes/app_routes.dart';
-import '../../core/constants.dart';
 
+import '../../widgets/scrollable_layout.dart';
 import 'flashcard_deck_page.dart';
 
 class FlashcardCategorySelectionPage extends StatelessWidget {
@@ -21,14 +19,12 @@ class FlashcardCategorySelectionPage extends StatelessWidget {
   ];
 
   void _openDeck(BuildContext context, String path) async {
-    if(context.mounted == false)
-    {
+    if (context.mounted == false) {
       return;
     }
-    
+
     final deck = await loadFlashcardDeck(path);
-    if(context.mounted == false)
-    {
+    if (context.mounted == false) {
       return;
     }
     final route = MaterialPageRoute(
@@ -45,40 +41,34 @@ class FlashcardCategorySelectionPage extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     return Scaffold(
-      appBar: AppBar(),
-      body: Column(
-        children: [
-          const SizedBox(height: 32,),
-          Center(child : Text("Kategorie fiszek", style : theme.textTheme.titleLarge, textAlign: TextAlign.center)),
-          const SizedBox(height: 32,),
-          Expanded(
-            child: Center(
-              child: ConstrainedBox(
-                constraints: const BoxConstraints(maxWidth: 400),
-                child: Padding(
-                  padding: const EdgeInsets.all(ThemeDefaults.padding),
-                  child: ListView.separated(
-                    itemCount: decks.length,
-                    separatorBuilder: (_, __) => const SizedBox(height: 12),
-                    itemBuilder: (context, index) {
-                      final deck = decks[index];
-                      return ListTile(
-                        tileColor: theme.colorScheme.secondaryContainer,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(12),
-                        ),
-                        title: Text(deck['label']!),
-                        trailing: const Icon(Icons.arrow_forward_ios),
-                        onTap: () => _openDeck(context, deck['path']!),
-                      );
-                    },
-                  ),
-                ),
-              ),
+        appBar: AppBar(),
+        body: ScrollableLayout(maxWidth: 400, children: [
+          Center(
+            child: Text(
+              "Kategorie",
+              style: theme.textTheme.titleLarge,
+              textAlign: TextAlign.center,
             ),
           ),
-        ],
-      ),
-    );
+          const SizedBox(height: 32),
+          ListView.separated(
+            physics: const NeverScrollableScrollPhysics(),
+            shrinkWrap: true,
+            itemCount: decks.length,
+            separatorBuilder: (_, __) => const SizedBox(height: 12),
+            itemBuilder: (context, index) {
+              final deck = decks[index];
+              return ListTile(
+                tileColor: theme.colorScheme.secondaryContainer,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(12),
+                ),
+                title: Text(deck['label']!),
+                trailing: const Icon(Icons.arrow_forward_ios),
+                onTap: () => _openDeck(context, deck['path']!),
+              );
+            },
+          ),
+        ]));
   }
 }

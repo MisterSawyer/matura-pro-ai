@@ -5,6 +5,7 @@ import '../../models/account.dart';
 import '../../widgets/no_scrollbar.dart';
 import '../../controllers/test_part_controller.dart';
 import '../../widgets/speedometer_gauge.dart';
+import '../../widgets/scrollable_layout.dart';
 
 class PlacementTestPartResultPage extends StatelessWidget {
   final Account account;
@@ -28,47 +29,43 @@ class PlacementTestPartResultPage extends StatelessWidget {
       appBar: AppBar(
         automaticallyImplyLeading: false, // Remove back button
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(24),
-        child: ScrollConfiguration(
-          behavior: NoScrollbarBehavior(),
-          child: SingleChildScrollView(
-            child: Center(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-              Center(child : Text("Podsumowanie", style : theme.textTheme.titleLarge, textAlign: TextAlign.center)),
+      body: 
+      ScrollableLayout(maxWidth: 400, children: [
+      Center(child : Text("Podsumowanie", style : theme.textTheme.titleLarge, textAlign: TextAlign.center)),
               const SizedBox(height: 64,),
-                  Text(
-                    part.name,
-                    style: theme.textTheme.titleMedium,
-                    textAlign: TextAlign.center
+                  Center(
+                    child: Text(
+                      part.name,
+                      style: theme.textTheme.titleMedium,
+                      textAlign: TextAlign.center
+                    ),
                   ),
                   const SizedBox(height: 64),
-                  SpeedometerGauge(
-                    value: score,
+                  Center(
+                    child: SpeedometerGauge(
+                      value: score,
+                    ),
                   ),
                   const SizedBox(height: 32),
-                  ElevatedButton(
-                    onPressed: () {
-                      Navigator.pop(context, true); // Continue to next part
-                    },
-                    child: const Text("Continue"),
+                  Center(
+                    child: ElevatedButton(
+                      onPressed: () {
+                        Navigator.pop(context, true); // Continue to next part
+                      },
+                      child: const Text("Continue"),
+                    ),
                   ),
                   const SizedBox(height: 32),
-                  TextButton(
-                    onPressed: () async {
-                      Navigator.pop(context, false); // Close the part result page
-                      await onExit();
-                    },
-                    child: const Text("Exit Test"),
+                  Center(
+                    child: TextButton(
+                      onPressed: () async {
+                        Navigator.pop(context, false); // Close the part result page
+                        await onExit();
+                      },
+                      child: const Text("Exit Test"),
+                    ),
                   ),
-                ],
-              ),
-            ),
-          ),
-        ),
-      ),
-    );
+      
+      ]));
   }
 }

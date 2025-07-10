@@ -6,6 +6,8 @@ import '../../models/account.dart';
 import '../../routes/app_routes.dart';
 import '../../widgets/speedometer_gauge.dart';
 
+import '../../widgets/scrollable_layout.dart';
+
 import '../../controllers/flashcard_controller.dart';
 
 import 'flashcard_deck_page.dart';
@@ -26,27 +28,34 @@ class FlashcardResultPage extends StatelessWidget {
     final percent = (controller.correctAnswers / controller.totalCards * 100);
 
     return Scaffold(
-      appBar: AppBar(),
-      body: Padding(
-        padding: const EdgeInsets.all(ThemeDefaults.padding),
-        child: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Center(child : Text(controller.deck.name, style : theme.textTheme.titleLarge)),
-              const SizedBox(height: 64),
-              Text("Great job, ${account.name}!",
+        appBar: AppBar(automaticallyImplyLeading: false),
+        body: ScrollableLayout(
+          maxWidth: 400,
+          children: [
+            Center(
+                child: Text(controller.deck.name,
+                    style: theme.textTheme.titleLarge,
+                    textAlign: TextAlign.center)),
+            const SizedBox(height: 32),
+            Center(
+              child: Text("Great job, ${account.name}!",
                   style: theme.textTheme.headlineMedium),
-              const SizedBox(height: ThemeDefaults.padding),
-              Text(
+            ),
+            const SizedBox(height: ThemeDefaults.padding),
+            Center(
+              child: Text(
                   "You got ${controller.correctAnswers} out of ${controller.totalCards} cards correct.",
                   style: theme.textTheme.titleSmall),
-              const SizedBox(height: 32),
-              SpeedometerGauge(
+            ),
+            const SizedBox(height: 32),
+            Center(
+              child: SpeedometerGauge(
                 value: percent,
               ),
-              const SizedBox(height: 32),
-              ElevatedButton(
+            ),
+            const SizedBox(height: 32),
+            Center(
+              child: ElevatedButton(
                 child: const Text('Retry'),
                 onPressed: () {
                   Navigator.pushReplacement(
@@ -60,8 +69,10 @@ class FlashcardResultPage extends StatelessWidget {
                   );
                 },
               ),
-              const SizedBox(height: ThemeDefaults.padding),
-              TextButton(
+            ),
+            const SizedBox(height: ThemeDefaults.padding),
+            Center(
+              child: TextButton(
                 child: const Text(AppStrings.backHome),
                 onPressed: () {
                   Navigator.pushNamedAndRemoveUntil(
@@ -72,10 +83,8 @@ class FlashcardResultPage extends StatelessWidget {
                   );
                 },
               ),
-            ],
-          ),
-        ),
-      ),
-    );
+            ),
+          ],
+        ));
   }
 }

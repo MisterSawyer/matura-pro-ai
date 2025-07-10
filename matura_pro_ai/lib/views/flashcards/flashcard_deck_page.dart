@@ -7,6 +7,7 @@ import '../../controllers/flashcard_controller.dart';
 import '../../widgets/flashcard_view.dart';
 
 import 'flashcard_result_page.dart';
+import '../../widgets/scrollable_layout.dart';
 
 class FlashcardDeckPage extends StatefulWidget {
   final FlashcardDeck deck;
@@ -42,9 +43,13 @@ class _FlashcardDeckPageState extends State<FlashcardDeckPage> {
 
   @override
   Widget build(BuildContext context) {
-    return FlashcardView(
-      controller: _controller,
-      onFinished: () => _handleFinished(context),
-    );
+    return Scaffold(
+        appBar: AppBar(),
+        body: ScrollableLayout(maxWidth: 400, children: [
+          FlashcardView(
+            controller: _controller,
+            onFinished: () => _handleFinished(context),
+          )
+        ]));
   }
 }
