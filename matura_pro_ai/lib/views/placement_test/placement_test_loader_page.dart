@@ -47,17 +47,9 @@ class _PlacementTestLoaderPageState extends State<PlacementTestLoaderPage> {
     });
   }
 
-  Future<void> _handleSubmit(BuildContext context) async {
-    widget.account.stats.addTestResult(results);
+  Future<void> _handleTestEnded(BuildContext context) async {
 
-    await Navigator.pushReplacementNamed(
-      context,
-      AppRoutes.home,
-      arguments: {'account': widget.account},
-    );
-  }
-
-  Future<void> _handlePartExit(BuildContext context) async {
+    widget.account.stats.markPlacementTestTaken();
     widget.account.stats.addTestResult(results);
 
     await Navigator.pushReplacementNamed(
@@ -77,7 +69,6 @@ class _PlacementTestLoaderPageState extends State<PlacementTestLoaderPage> {
             builder: (_) => PlacementTestPartResultPage(
               account: widget.account,
               part: part,
-              onExit: () => _handlePartExit(context),
               isLastPart: _testController.isLastPart,
             ),
           ),
@@ -97,7 +88,7 @@ class _PlacementTestLoaderPageState extends State<PlacementTestLoaderPage> {
       testController: _testController,
       label: 'Test poziomujacy',
       account: widget.account,
-      onSubmit: () => _handleSubmit(context),
+      onTestEnded: () => _handleTestEnded(context),
       onPartFinished: (part) => _handlePartFinished(context, part),
     );
   }

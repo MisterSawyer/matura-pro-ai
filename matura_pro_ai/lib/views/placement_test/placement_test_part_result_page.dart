@@ -10,13 +10,11 @@ class PlacementTestPartResultPage extends StatelessWidget {
   final Account account;
   final bool isLastPart;
   final TestPartController part;
-  final Future<void> Function() onExit;
 
   const PlacementTestPartResultPage({
     super.key,
     required this.account,
     required this.part,
-    required this.onExit,
     this.isLastPart = false,
   });
 
@@ -25,7 +23,7 @@ class PlacementTestPartResultPage extends StatelessWidget {
       return Center(
         child: ElevatedButton(
           onPressed: () async {
-            await onExit();
+              Navigator.pop(context, false); // Close the part result page and exit the test
           },
           child: const Text("Exit Test"),
         ),
@@ -47,7 +45,6 @@ class PlacementTestPartResultPage extends StatelessWidget {
           child: TextButton(
             onPressed: () async {
               Navigator.pop(context, false); // Close the part result page
-              await onExit();
             },
             child: const Text("Exit Test"),
           ),

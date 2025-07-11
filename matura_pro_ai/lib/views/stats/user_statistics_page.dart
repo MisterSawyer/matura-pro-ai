@@ -33,7 +33,8 @@ class UserStatisticsPage extends StatelessWidget {
           else
             Column(
               children: List.generate(results.length, (testIndex) {
-                final test = results[testIndex];
+                // reverse order
+                final test = results[results.length - 1 - testIndex];
 
                 return Card(
                   margin: const EdgeInsets.symmetric(vertical: 16),

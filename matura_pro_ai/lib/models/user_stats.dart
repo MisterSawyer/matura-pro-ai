@@ -12,9 +12,12 @@ class UserStats
     return 'UserStats( placementTestTaken: $placementTestTaken, placementTestResult: $placementTestResult)';
   }
 
+  void markPlacementTestTaken() {
+    placementTestTaken = true;
+  }
+
   void addTestResult(TestResult results)
   {
-    placementTestTaken = true;
     placementTestResult.add(results);
   }
 }

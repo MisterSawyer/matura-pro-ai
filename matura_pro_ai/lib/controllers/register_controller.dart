@@ -23,7 +23,7 @@ class RegisterController {
   // This is only for mockup development purposes
   static void initializeDefaults() {
     register("admin", "admin");
-    getAccount("admin")?.stats.placementTestTaken = true;
+    getAccount("admin")?.stats.markPlacementTestTaken();
   }
 
 

@@ -29,14 +29,14 @@ class TestPage extends StatefulWidget {
   final String label;
   final Account account;
 
-  final Future<void> Function() onSubmit;
+  final Future<void> Function() onTestEnded;
   final Future<bool> Function(TestPartController) onPartFinished;
 
   const TestPage({
     super.key,
     required this.testController,
     required this.label,
-    required this.onSubmit,
+    required this.onTestEnded,
     required this.onPartFinished,
     required this.account,
   });
@@ -146,7 +146,7 @@ class _TestPageState extends State<TestPage> {
     if (part.isLastQuestion) {
       bool shouldContinue = await widget.onPartFinished(part);
       if (!shouldContinue || widget.testController.isLastPart) {
-        await widget.onSubmit();
+        await widget.onTestEnded();
         return;
       }
 
