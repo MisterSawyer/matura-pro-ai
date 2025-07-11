@@ -17,6 +17,7 @@ import '../views/placement_test/placement_test_loader_page.dart';
 import '../views/stats/user_statistics_page.dart';
 import '../views/flashcards/flashcard_category_selection_page.dart';
 import '../views/settings/settings_page.dart';
+import '../views/raindrop/raindrop_page.dart';
 
 class App extends StatelessWidget {
   const App({super.key});
@@ -75,7 +76,8 @@ class App extends StatelessWidget {
           final account = args['account'] as Account;
 
           return SettingsPage(account: account);
-        }
+        },
+        AppRoutes.raindrop: (context) => const RaindropPage(),
       },
     );
   }

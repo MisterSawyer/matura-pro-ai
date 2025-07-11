@@ -32,7 +32,7 @@ static const TextTheme textTheme = TextTheme(
   ),
   headlineLarge: TextStyle(
     fontFamily : 'Gagalin',
-    fontSize: 72,
+    fontSize: 34,
     fontWeight: FontWeight.bold,
     letterSpacing: 1.0,
   ),

@@ -181,7 +181,7 @@ class _HomePageState extends State<HomePage> {
                                           ThemeDefaults.padding),
                                     ),
                                     onPressed: () {
-                                      // DAILY LESSON
+                                      Navigator.pushNamed(context, AppRoutes.raindrop);
                                     },
                                     child: const Text(
                                       "RAINDROP",

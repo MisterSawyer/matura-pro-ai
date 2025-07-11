@@ -7,4 +7,5 @@ class AppRoutes
   static const String placementTest = '/placement-test';
   static const String stats = '/stats';
   static const String flashcards = '/flashcards';
+  static const String raindrop = '/raindrop';
 }
