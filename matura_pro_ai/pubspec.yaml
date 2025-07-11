@@ -34,6 +34,7 @@ dependencies:
   crypto: ^3.0.6
   flutter_login: ^4.2.1
   provider: ^6.1.5
+  audioplayers: ^6.4.0
 
 
   # The following adds the Cupertino Icons font to your application.
@@ -62,6 +63,7 @@ flutter:
     - assets/flashcards/
     - assets/images/
     - assets/raindrop/
+    - assets/audio/
 
   # The following line ensures that the Material Icons font is
   # included with your application, so that you can use the icons in

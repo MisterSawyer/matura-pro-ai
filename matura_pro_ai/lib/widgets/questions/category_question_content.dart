@@ -114,7 +114,7 @@ void _startAutoScroll() {
     final y = _lastPointerOffset!.dy;
 
     const edgeThreshold = 80.0;
-    const scrollAmount = 40.0;
+    const scrollAmount = 60.0;
     final screenHeight = MediaQuery.of(context).size.height;
 
     double? target;
@@ -132,7 +132,7 @@ void _startAutoScroll() {
     if (target != null && target != scrollPos.pixels) {
       _scrollController.animateTo(
         target,
-        duration: const Duration(milliseconds: 150),
+        duration: const Duration(milliseconds: 100),
         curve: Curves.easeInOut,
       );
     }

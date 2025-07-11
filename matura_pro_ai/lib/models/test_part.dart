@@ -1,3 +1,4 @@
+
 import 'questions/question.dart';
 import 'questions/question_type.dart';
 
@@ -6,6 +7,7 @@ import 'questions/reading_question.dart';
 import 'questions/text_input_question.dart';
 import 'questions/category_question.dart';
 import 'questions/missing_word_question.dart';
+import 'questions/listening_question.dart';
 
 class TestPart {
   final String name;
@@ -37,6 +39,9 @@ class TestPart {
           break;
         case QuestionType.missingWord:
           questions.add(MissingWordQuestion.fromJson(json['questions'][i]));
+          break;
+        case QuestionType.listening:
+          questions.add(ListeningQuestion.fromJson(json['questions'][i]));
           break;
       }
     }

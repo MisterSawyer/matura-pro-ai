@@ -15,6 +15,7 @@ import '../controllers/questions/multiple_choice_question_controller.dart';
 import '../controllers/questions/text_input_question_controller.dart';
 import '../controllers/questions/reading_question_controller.dart';
 import '../controllers/questions/missing_word_question_controller.dart';
+import '../controllers/questions/listening_question_controller.dart';
 
 import 'no_scrollbar.dart';
 
@@ -23,6 +24,7 @@ import 'questions/text_input_question_content.dart';
 import 'questions/category_question_content.dart';
 import 'questions/reading_question_content.dart';
 import 'questions/missing_word_question_content.dart';
+import 'questions/listening_question_content.dart';
 
 class TestPage extends StatefulWidget {
   final TestController testController;
@@ -126,6 +128,14 @@ class _TestPageState extends State<TestPage> {
           key: key,
           controller:
               _currentQuestionController as MissingWordQuestionController);
+    }else if(_currentQuestionController is ListeningQuestionController){
+      final key = ValueKey(
+          (_currentQuestionController as ListeningQuestionController)
+              .question);
+      return ListeningQuestionContent(
+          key: key,
+          controller:
+              _currentQuestionController as ListeningQuestionController);
     }
     return Container();
   }

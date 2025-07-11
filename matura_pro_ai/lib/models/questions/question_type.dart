@@ -4,7 +4,8 @@ enum QuestionType
   reading,
   textInput,
   category,
-  missingWord;
+  missingWord,
+  listening;
 
 
   static QuestionType fromString(String value) {
@@ -19,6 +20,8 @@ enum QuestionType
         return QuestionType.category;
       case 'missing_word':
         return QuestionType.missingWord;
+      case 'listening':
+        return QuestionType.listening;
       default:
         throw ArgumentError('Invalid QuestionType: $value');
     }

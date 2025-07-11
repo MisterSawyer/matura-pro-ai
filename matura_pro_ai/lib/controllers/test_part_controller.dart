@@ -2,18 +2,20 @@ import '../../models/questions/question_type.dart';
 
 import '../../models/test_part.dart';
 
+import '../models/questions/category_question.dart';
+import '../models/questions/multiple_choice_question.dart';
+import '../models/questions/reading_question.dart';
+import '../models/questions/text_input_question.dart';
+import '../models/questions/missing_word_question.dart';
+import '../models/questions/listening_question.dart';
+
 import '../controllers/questions/question_controller.dart';
 import '../controllers/questions/multiple_choice_question_controller.dart';
 import '../controllers/questions/text_input_question_controller.dart';
 import '../controllers/questions/category_question_controller.dart';
 import '../controllers/questions/reading_question_controller.dart';
 import '../controllers/questions/missing_word_question_controller.dart';
-
-import '../models/questions/category_question.dart';
-import '../models/questions/multiple_choice_question.dart';
-import '../models/questions/reading_question.dart';
-import '../models/questions/text_input_question.dart';
-import '../models/questions/missing_word_question.dart';
+import '../controllers/questions/listening_question_controller.dart';
 
 class TestPartController {
   int _currentQuestion = 0;
@@ -29,18 +31,12 @@ class TestPartController {
   final List<ReadingQuestionController> _readingQuestionControllers = [];
   final List<MissingWordQuestionController> _missingWordQuestionControllers =
       [];
-
+  final List<ListeningQuestionController> _listeningQuestionControllers = [];
   final Map<QuestionType, int> _questionCounters = {};
 
-
-  TestPartController({required this.part})
-  {
-    _currentQuestion = 0;
-    _questionCounters[QuestionType.multipleChoice] = 0;
-    _questionCounters[QuestionType.textInput] = 0;
-    _questionCounters[QuestionType.category] = 0;
-    _questionCounters[QuestionType.reading] = 0;
-    _questionCounters[QuestionType.missingWord] = 0;
+  TestPartController({required this.part}) {
+    // set up counters
+    clear();
 
     for (final question in part.questions) {
       switch (question.type) {
@@ -70,49 +66,48 @@ class TestPartController {
           _missingWordQuestionControllers.add(
               MissingWordQuestionController(question as MissingWordQuestion));
           break;
+        case QuestionType.listening:
+          _order.add(QuestionType.listening);
+          _listeningQuestionControllers
+              .add(ListeningQuestionController(question as ListeningQuestion));
+          break;
       }
     }
     assert(_order.length == part.questions.length);
   }
 
-  String get name => part.name; 
+  String get name => part.name;
   int get total => part.questions.length;
   bool get isLastQuestion => _currentQuestion >= _order.length - 1;
 
-  void clear()
-  {
+  void clear() {
     _currentQuestion = 0;
     _questionCounters[QuestionType.multipleChoice] = 0;
     _questionCounters[QuestionType.textInput] = 0;
     _questionCounters[QuestionType.category] = 0;
     _questionCounters[QuestionType.reading] = 0;
     _questionCounters[QuestionType.missingWord] = 0;
+    _questionCounters[QuestionType.listening] = 0;
 
-    for(final controller in _multipleChoiceQuestionControllers)
-    {
+    for (final controller in _multipleChoiceQuestionControllers) {
       controller.clear();
     }
-    for(final controller in _textInputQuestionControllers)
-    {
+    for (final controller in _textInputQuestionControllers) {
       controller.clear();
     }
-    for(final controller in _categoryQuestionControllers)
-    {
+    for (final controller in _categoryQuestionControllers) {
       controller.clear();
     }
-    for(final controller in _readingQuestionControllers)
-    {
+    for (final controller in _readingQuestionControllers) {
       controller.clear();
     }
-    for(final controller in _missingWordQuestionControllers)
-    {
+    for (final controller in _missingWordQuestionControllers) {
       controller.clear();
     }
   }
 
-  QuestionController? currentQuestionController()
-  {
-    if(_currentQuestion >= _order.length) return null;
+  QuestionController? currentQuestionController() {
+    if (_currentQuestion >= _order.length) return null;
     switch (_order[_currentQuestion]) {
       case QuestionType.multipleChoice:
         if (_questionCounters[QuestionType.multipleChoice] == null) return null;
@@ -148,29 +143,31 @@ class TestPartController {
             _missingWordQuestionControllers.length) return null;
         return _missingWordQuestionControllers[
             _questionCounters[QuestionType.missingWord]!];
+
+      case QuestionType.listening:
+        if (_questionCounters[QuestionType.listening] == null) return null;
+        if (_questionCounters[QuestionType.listening]! >=
+            _listeningQuestionControllers.length) return null;
+        return _listeningQuestionControllers[
+            _questionCounters[QuestionType.listening]!];
+      default:
+        return null;
     }
   }
 
-  void nextQuestion() {   
+  void nextQuestion() {
     if (isLastQuestion) {
       return;
     }
 
     // update counter of current question
-    switch(_order[_currentQuestion])
-    {
-      case QuestionType.multipleChoice : _questionCounters[QuestionType.multipleChoice] = _questionCounters[QuestionType.multipleChoice]! + 1; break;
-      case QuestionType.textInput : _questionCounters[QuestionType.textInput] = _questionCounters[QuestionType.textInput]! + 1; break;
-      case QuestionType.category : _questionCounters[QuestionType.category] = _questionCounters[QuestionType.category]! + 1; break;
-      case QuestionType.reading : _questionCounters[QuestionType.reading] = _questionCounters[QuestionType.reading]! + 1; break;
-      case QuestionType.missingWord : _questionCounters[QuestionType.missingWord] = _questionCounters[QuestionType.missingWord]! + 1; break;
-    }
-    
+    _questionCounters[_order[_currentQuestion]] =
+        _questionCounters[_order[_currentQuestion]]! + 1;
+
     _currentQuestion++;
   }
 
-  double evaluate()
-  {
+  double evaluate() {
     double score = 0.0;
     for (final controller in _multipleChoiceQuestionControllers) {
       score += controller.evaluate();
@@ -192,7 +189,10 @@ class TestPartController {
       score += controller.evaluate();
     }
 
+    for (final controller in _listeningQuestionControllers) {
+      score += controller.evaluate();
+    }
+
     return score / _order.length;
   }
-
 }
