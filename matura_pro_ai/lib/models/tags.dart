@@ -1,7 +1,7 @@
-class Tags {
-  final List<String> tags;
+class Tags extends Iterable<String> {
+  final List<String> _tags;
 
-  Tags(this.tags);
+  Tags(List<String> tags) : _tags = tags;
 
   factory Tags.fromJson(dynamic json) {
     if (json is List) {
@@ -10,5 +10,8 @@ class Tags {
     throw const FormatException("Invalid JSON format for Tags: expected List<String>");
   }
 
-  List<String> toJson() => tags;
+  List<String> toJson() => _tags;
+
+  @override
+  Iterator<String> get iterator => _tags.iterator;
 }

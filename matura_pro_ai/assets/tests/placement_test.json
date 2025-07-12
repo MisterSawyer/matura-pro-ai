@@ -6,13 +6,15 @@
             "questions": [
                 {
                     "type": "reading",
-                    "tags": [],
+                    "tags": ["reading"],
+                    "topics" : ["travel", "social"],
                     "question": "Przeczytaj krótki tekst i odpowiedz na pytania wybierając właściwą odpowiedź",
                     "text": "Sarah has been learning Spanish for two years at her local language school. She started because she wanted to travel to South America. Now she can have basic conversations with native speakers and understand most of what she reads in Spanish newspapers. However, she still struggles with listening to fast-paced movies without subtitles. Next month, she's planning to take an official exam to get a certificate.",
                     "questions": [
                         {
                             "type": "multiple_choice",
-                            "tags": [],
+                            "tags": ["reading"],
+                            "topics" : ["travel"],
                             "question": "Sarah began learning Spanish because she wanted to:",
                             "options": [
                                 "watch movies without subtitles",
@@ -25,7 +27,8 @@
                         },
                         {
                             "type": "multiple_choice",
-                            "tags": [],
+                            "tags": ["reading"],
+                            "topics" : ["culture"],
                             "question": "What is Sarah's biggest challenge now?",
                             "options": [
                                 "having basic conversations",
@@ -38,7 +41,8 @@
                         },
                         {
                             "type": "multiple_choice",
-                            "tags": [],
+                            "tags": ["reading"],
+                            "topics" : ["travel","science"],
                             "question": "What is Sarah planning to do next month?",
                             "options": [
                                 "travel to South America",
@@ -53,7 +57,8 @@
                 },
                 {
                     "type": "category",
-                    "tags": [],
+                    "tags": ["reading"],
+                    "topics" : ["health","social","science"],
                     "question": "Dopasuj nagłówki do fragmentów tekstu. Jeden nagłówek nie pasuje do żadnego fragmentu.",
                     "categories": [
                         "ENVIRONMENTAL BENEFITS",
@@ -74,7 +79,8 @@
                 },
                 {
                     "type": "missing_word",
-                    "tags": [],
+                    "tags": ["reading"],
+                    "topics" : ["science","human"],
                     "question": "Przeczytaj tekst z lukami i wybierz właściwe słowo dla każdej luki.",
                     "text": "Social media has become an important part of our daily lives. However, spending too much time online can be ${0} for our mental health. Experts recommend taking regular breaks from social platforms to maintain a healthy ${1} between online and offline activities.",
                     "items": [
@@ -101,7 +107,8 @@
             "questions": [
                 {
                     "type": "missing_word",
-                    "tags": [],
+                    "tags": ["reading"],
+                    "topics" : ["travel"],
                     "question": "Wybierz właściwą odpowiedź uzupełniającą każde zadanie",
                     "text": "If I ${0} rich, I would travel around the world",
                     "items": [
@@ -117,7 +124,8 @@
                 },
                 {
                     "type": "missing_word",
-                    "tags": [],
+                    "tags": ["reading"],
+                    "topics" : [],
                     "question": "Wybierz właściwą odpowiedź uzupełniającą każde zadanie",
                     "text": "She ${0} in London for five years before moving to Paris.",
                     "items": [
@@ -133,7 +141,8 @@
                 },
                 {
                     "type": "missing_word",
-                    "tags": [],
+                    "tags": ["reading"],
+                    "topics" : [],
                     "question": "Wybierz właściwą odpowiedź uzupełniającą każde zadanie",
                     "text": "This book is ${0} interesting than the one I read last week",
                     "items": [
@@ -149,7 +158,8 @@
                 },
                 {
                     "type": "missing_word",
-                    "tags": [],
+                    "tags": ["transformation"],
+                    "topics" : [],
                     "question": "Wybierz właściwą odpowiedź uzupełniającą każde zadanie",
                     "text": "I suggest ${0} the meeting until next week",
                     "items": [
@@ -165,7 +175,8 @@
                 },
                 {
                     "type": "text_input",
-                    "tags": [],
+                    "tags": ["transformation"],
+                    "topics" : [],
                     "question": "Uzupełnij luki właściwą formą słowa podanego w nawiasie.",
                     "text": "The weather was ${0} (COMPLETE) unpredictable yesterday",
                     "acceptedAnswers": [
@@ -176,7 +187,8 @@
                 },
                 {
                     "type": "text_input",
-                    "tags": [],
+                    "tags": ["transformation"],
+                    "topics" : [],
                     "question": "Uzupełnij luki właściwą formą słowa podanego w nawiasie.",
                     "text": "She made a ${0} (DECIDE) to study abroad.",
                     "acceptedAnswers": [
@@ -187,7 +199,8 @@
                 },
                 {
                     "type": "text_input",
-                    "tags": [],
+                    "tags": ["transformation"],
+                    "topics" : [],
                     "question": "Uzupełnij luki właściwą formą słowa podanego w nawiasie.",
                     "text": "This is one of the most ${0} (BEAUTY) places I've ever visited.",
                     "acceptedAnswers": [
@@ -203,12 +216,15 @@
             "questions": [
                 {
                     "type": "listening",
-                    "tags": [],
+                    "tags": ["listening"],
+                    "topics" : [],
                     "question": "Usłyszysz rozmowę telefoniczną. Wybierz właściwą odpowiedź.",
                     "audioPath": "restaurant_reservation.mp3",
                     "questions": [
                         {
                             "type": "multiple_choice",
+                            "tags": ["listening"],
+                            "topics" : [],
                             "question": "The caller wants to book a table for:",
                             "options": [
                                 "tonight",
@@ -217,11 +233,12 @@
                             ],
                             "correctIndexes": [
                                 1
-                            ],
-                            "tags": []
+                            ]
                         },
                         {
                             "type": "multiple_choice",
+                            "tags": ["listening"],
+                            "topics" : [],
                             "question": "How many people will be dining?",
                             "options": [
                                 "4",
@@ -230,11 +247,12 @@
                             ],
                             "correctIndexes": [
                                 2
-                            ],
-                            "tags": []
+                            ]
                         },
                         {
                             "type": "multiple_choice",
+                            "tags": ["listening"],
+                            "topics" : [],
                             "question": "What time is the reservation?",
                             "options": [
                                 "7:00 PM",
@@ -243,8 +261,7 @@
                             ],
                             "correctIndexes": [
                                 0
-                            ],
-                            "tags": []
+                            ]
                         }
                     ]
                 }

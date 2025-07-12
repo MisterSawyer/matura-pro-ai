@@ -72,6 +72,7 @@ class _ListeningQuestionContentState extends State<ListeningQuestionContent> {
 
   @override
   void dispose() {
+    _player.stop();
     _positionSub?.cancel();
     _durationSub?.cancel();
     _stateSub?.cancel();

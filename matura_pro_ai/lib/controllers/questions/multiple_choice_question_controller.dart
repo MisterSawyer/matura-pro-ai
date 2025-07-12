@@ -6,7 +6,7 @@ class MultipleChoiceQuestionController extends QuestionController {
   final MultipleChoiceQuestion question;
   final Set<int> _answers = {};
 
-  MultipleChoiceQuestionController(this.question) : super(question.type);
+  MultipleChoiceQuestionController(this.question) : super(question);
 
   void addAnswer(int index) {
     _answers.add(index);

@@ -35,10 +35,10 @@ class DropTarget<T extends Object> extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(label, style: theme.textTheme.headlineSmall),
+              Text(label, style: theme.textTheme.bodyMedium),
               const SizedBox(height: 8),
               if (currentData.isEmpty)
-                const Text(AppStrings.dropHere, style: TextStyle(fontStyle: FontStyle.italic)),
+                Text(AppStrings.dropHere, style: theme.textTheme.bodySmall),
               Wrap(
                 spacing: 8,
                 runSpacing: 4,

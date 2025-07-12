@@ -3,61 +3,73 @@
     "cards": [
         {
             "tags" : ["vocabulary"],
+            "topics": [],
             "front": "Synonym of 'happy'",
             "back": "Joyful"
         },
         {
             "tags" : [],
+            "topics": [],
             "front": "Past tense of 'go'",
             "back": "Went"
         },
         {
             "tags" : [],
+            "topics": [],
             "front": "Plural of 'child'",
             "back": "Children"
         },
         {
             "tags" : ["vocabulary"],
+            "topics": [],
             "front": "What's the opposite of 'early'?",
             "back": "Late"
         },
         {
             "tags" : [],
+            "topics": [],
             "front": "Translate to English: 'pies'",
             "back": "Dog"
         },
         {
             "tags" : [],
+            "topics": [],
             "front": "Article before 'apple'",
             "back": "An"
         },
         {
             "tags" : [],
+            "topics": [],
             "front": "What's the comparative of 'fast'?",
             "back": "Faster"
         },
         {
             "tags" : [],
+            "topics": [],
             "front": "What do you call a female 'actor'?",
             "back": "Actress"
         },
         {
             "tags" : [],
+            "topics": [],
             "front": "How do you say 'dziękuję' in English?",
             "back": "Thank you"
         },
         {
             "tags" : [],
+            "topics": [],
             "front": "Verb in 'She is reading a book.'",
             "back": "Reading"
         },
         {
             "tags" : [],
+            "topics": [],
             "front": "Opposite of 'expensive'",
             "back": "Cheap"
         },
         {
             "tags" : [],
+            "topics": [],
             "front": "Which tense? 'He has eaten.'",
             "back": "Present perfect"
         }

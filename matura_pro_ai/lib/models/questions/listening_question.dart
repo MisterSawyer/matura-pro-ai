@@ -1,4 +1,6 @@
 import '../tags.dart';
+import '../topics.dart';
+
 import 'question.dart';
 import 'question_type.dart';
 
@@ -14,6 +16,7 @@ class ListeningQuestion extends Question {
 
   ListeningQuestion({
     required super.type,
+    required super.topics,
     required super.tags,
     required this.question,
     required this.audioPath,
@@ -50,6 +53,7 @@ class ListeningQuestion extends Question {
     return ListeningQuestion(
       type: QuestionType.fromString(json['type']),
       tags: Tags.fromJson(json['tags']),
+      topics: Topics.fromJson(json['topics']),
       question: json['question'],
       audioPath: json['audioPath'],
       questions: questions,

@@ -91,7 +91,6 @@ class _TextInputQuestionContentState extends State<TextInputQuestionContent> {
                       style: theme
                           .textTheme.bodyLarge, // ensure text style matches
                       decoration: const InputDecoration(
-                        labelText: 'write answer',
                         border: OutlineInputBorder(),
                         isDense: true,
                         contentPadding:

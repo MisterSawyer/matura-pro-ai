@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 
 import '../../controllers/questions/category_question_controller.dart';
@@ -36,8 +35,8 @@ class _CategoryQuestionContentState extends State<CategoryQuestionContent> {
   Widget _buildQuestionText() {
     return Text(
       widget.controller.question.question,
-      style: Theme.of(context).textTheme.headlineMedium,
-      textAlign: TextAlign.center,
+      style: Theme.of(context).textTheme.headlineSmall,
+      textAlign: TextAlign.left,
     );
   }
 

@@ -36,5 +36,10 @@ static const TextTheme textTheme = TextTheme(
     fontWeight: FontWeight.bold,
     letterSpacing: 1.0,
   ),
+
+  bodyMedium : TextStyle(
+    fontSize: 22,
+    letterSpacing: 0.0,
+  )
 );
 }

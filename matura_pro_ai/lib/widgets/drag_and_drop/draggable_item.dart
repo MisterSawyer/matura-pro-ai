@@ -24,7 +24,7 @@ class DraggableItem<T extends Object> extends StatelessWidget {
             label,
             softWrap: true,
             overflow: TextOverflow.visible,
-            style: theme.textTheme.bodyMedium,
+            style: theme.textTheme.bodySmall,
           ),
         ),
       ),

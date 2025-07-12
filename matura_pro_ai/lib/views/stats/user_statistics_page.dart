@@ -3,6 +3,7 @@ import '../../models/account.dart';
 import '../../widgets/speedometer_gauge.dart';
 
 import '../../widgets/scrollable_layout.dart';
+import '../../widgets/tags_and_topics_results_view.dart';
 
 class UserStatisticsPage extends StatelessWidget {
   final Account account;
@@ -25,6 +26,8 @@ class UserStatisticsPage extends StatelessWidget {
           const SizedBox(
             height: 32,
           ),
+          TagsAndTopicsResultsView(results: stats.tagsAndTopicsResults),
+          const Divider(),
           if (!stats.placementTestTaken)
             const Text(
               "You have not completed any tests yet.",

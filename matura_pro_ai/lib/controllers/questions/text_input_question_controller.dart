@@ -8,7 +8,7 @@ class TextInputQuestionController extends QuestionController {
   // Stores answers per gap index
   final Map<int, String> _answers = {};
 
-  TextInputQuestionController(this.question) : super(question.type);
+  TextInputQuestionController(this.question) : super(question);
 
   void setAnswer(int gapIndex, String answer) {
     _answers[gapIndex] = answer.trim().toLowerCase();

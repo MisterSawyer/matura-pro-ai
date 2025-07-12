@@ -6,7 +6,7 @@ class MissingWordQuestionController extends QuestionController {
   final MissingWordQuestion question;
   final Map<int, int> _answers = {};
 
-  MissingWordQuestionController(this.question) : super(question.type);
+  MissingWordQuestionController(this.question) : super(question);
 
   void addAnswer(int index, int option) => _answers[index] = option;
 

@@ -1,56 +1,565 @@
 {
-    "name": "Basic Vocabulary",
+    "name": "Vocabulary",
     "cards": [
-      {
-        "tags" : ["vocabulary"],
-        "front": "Synonym of 'happy'",
-        "back": "Joyful"
-      },
-      {
-        "tags" : ["vocabulary"],
-        "front": "Opposite of 'cold'",
-        "back": "Hot"
-      },
-      {
-        "tags" : ["vocabulary"],
-        "front": "Meaning of 'benevolent'",
-        "back": "Well-meaning and kind"
-      },
-      {
-        "tags" : ["vocabulary"],
-        "front": "Synonym of 'fast'",
-        "back": "Quick"
-      },
-      {
-        "tags" : ["vocabulary"],
-        "front": "Meaning of 'fragile'",
-        "back": "Easily broken or damaged"
-      },
-      {
-        "tags" : ["vocabulary"],
-        "front": "Opposite of 'strong'",
-        "back": "Weak"
-      },
-      {
-        "tags" : ["vocabulary"],
-        "front": "What does 'enormous' mean?",
-        "back": "Very large"
-      },
-      {
-        "tags" : ["vocabulary"],
-        "front": "Synonym of 'intelligent'",
-        "back": "Smart"
-      },
-      {
-        "tags" : ["vocabulary"],
-        "front": "Meaning of 'brave'",
-        "back": "Showing courage"
-      },
-      {
-        "tags" : ["vocabulary"],
-        "front": "Opposite of 'begin'",
-        "back": "End"
-      }
+        {
+            "tags": [
+                "vocabulary"
+            ],
+            "topics": [
+                "human"
+            ],
+            "front": "identity",
+            "back": "tożsamość"
+        },
+        {
+            "tags": [
+                "vocabulary"
+            ],
+            "topics": [
+                "human"
+            ],
+            "front": "emotions",
+            "back": "emocje"
+        },
+        {
+            "tags": [
+                "vocabulary"
+            ],
+            "topics": [
+                "human"
+            ],
+            "front": "character",
+            "back": "charakter"
+        },
+        {
+            "tags": [
+                "vocabulary"
+            ],
+            "topics": [
+                "human"
+            ],
+            "front": "gender",
+            "back": "płeć"
+        },
+        {
+            "tags": [
+                "vocabulary"
+            ],
+            "topics": [
+                "human"
+            ],
+            "front": "fragile",
+            "back": "kruchy"
+        },
+        {
+            "tags": [
+                "vocabulary"
+            ],
+            "topics": [
+                "human"
+            ],
+            "front": "appearance",
+            "back": "wygląd"
+        },
+        {
+            "tags": [
+                "vocabulary"
+            ],
+            "topics": [
+                "human"
+            ],
+            "front": "consciousnessous",
+            "back": "świadomość"
+        },
+        {
+            "tags": [
+                "vocabulary"
+            ],
+            "topics": [
+                "human"
+            ],
+            "front": "intelligent",
+            "back": "inteligentny"
+        },
+        {
+            "tags": [
+                "vocabulary"
+            ],
+            "topics": [
+                "human"
+            ],
+            "front": "brave",
+            "back": "odważny"
+        },
+        {
+            "tags": [
+                "vocabulary"
+            ],
+            "topics": [
+                "human"
+            ],
+            "front": "behavior",
+            "back": "zachowanie"
+        },
+        {
+            "tags": [
+                "vocabulary"
+            ],
+            "topics": [
+                "health"
+            ],
+            "front": "symptom",
+            "back": "objaw"
+        },
+        {
+            "tags": [
+                "vocabulary"
+            ],
+            "topics": [
+                "health"
+            ],
+            "front": "disease",
+            "back": "choroba"
+        },
+        {
+            "tags": [
+                "vocabulary"
+            ],
+            "topics": [
+                "health"
+            ],
+            "front": "treatment",
+            "back": "leczenie"
+        },
+        {
+            "tags": [
+                "vocabulary"
+            ],
+            "topics": [
+                "health"
+            ],
+            "front": "diagnosis",
+            "back": "diagnoza"
+        },
+        {
+            "tags": [
+                "vocabulary"
+            ],
+            "topics": [
+                "health"
+            ],
+            "front": "prescription",
+            "back": "recepta"
+        },
+        {
+            "tags": [
+                "vocabulary"
+            ],
+            "topics": [
+                "health"
+            ],
+            "front": "recovery",
+            "back": "powrót do zdrowia"
+        },
+        {
+            "tags": [
+                "vocabulary"
+            ],
+            "topics": [
+                "health"
+            ],
+            "front": "infection",
+            "back": "infekcja"
+        },
+        {
+            "tags": [
+                "vocabulary"
+            ],
+            "topics": [
+                "health"
+            ],
+            "front": "immune system",
+            "back": "układ odpornościowy"
+        },
+        {
+            "tags": [
+                "vocabulary"
+            ],
+            "topics": [
+                "health"
+            ],
+            "front": "injection",
+            "back": "zastrzyk"
+        },
+        {
+            "tags": [
+                "vocabulary"
+            ],
+            "topics": [
+                "health"
+            ],
+            "front": "appointment",
+            "back": "wizyta (u lekarza)"
+        },
+        {
+            "tags": [
+                "vocabulary"
+            ],
+            "topics": [
+                "health"
+            ],
+            "front": "allergy",
+            "back": "alergia"
+        },
+        {
+            "tags": [
+                "vocabulary"
+            ],
+            "topics": [
+                "health"
+            ],
+            "front": "headache",
+            "back": "ból głowy"
+        },
+        {
+            "tags": [
+                "vocabulary"
+            ],
+            "topics": [
+                "health"
+            ],
+            "front": "cold",
+            "back": "przeziębienie"
+        },
+        {
+            "tags": [
+                "vocabulary"
+            ],
+            "topics": [
+                "health"
+            ],
+            "front": "fever",
+            "back": "gorączka"
+        },
+        {
+            "tags": [
+                "vocabulary"
+            ],
+            "topics": [
+                "health"
+            ],
+            "front": "surgery",
+            "back": "operacja"
+        },
+        {
+            "tags": [
+                "vocabulary"
+            ],
+            "topics": [
+                "health"
+            ],
+            "front": "mental health",
+            "back": "zdrowie psychiczne"
+        },
+        {
+            "tags": [
+                "vocabulary"
+            ],
+            "topics": [
+                "health"
+            ],
+            "front": "first aid",
+            "back": "pierwsza pomoc"
+        },
+        {
+            "tags": [
+                "vocabulary"
+            ],
+            "topics": [
+                "health"
+            ],
+            "front": "physician",
+            "back": "lekarz"
+        },
+        {
+            "tags": [
+                "vocabulary"
+            ],
+            "topics": [
+                "health"
+            ],
+            "front": "painkiller",
+            "back": "środek przeciwbólowy"
+        },
+        {
+            "tags": [
+                "vocabulary"
+            ],
+            "topics": [
+                "health"
+            ],
+            "front": "check-up",
+            "back": "badanie kontrolne"
+        },
+        {
+            "tags": [
+                "vocabulary"
+            ],
+            "topics": [
+                "work"
+            ],
+            "front": "occupation",
+            "back": "zawód"
+        },
+        {
+            "tags": [
+                "vocabulary"
+            ],
+            "topics": [
+                "work"
+            ],
+            "front": "employer",
+            "back": "pracodawca"
+        },
+        {
+            "tags": [
+                "vocabulary"
+            ],
+            "topics": [
+                "work"
+            ],
+            "front": "employee",
+            "back": "pracownik"
+        },
+        {
+            "tags": [
+                "vocabulary"
+            ],
+            "topics": [
+                "work"
+            ],
+            "front": "job interview",
+            "back": "rozmowa kwalifikacyjna"
+        },
+        {
+            "tags": [
+                "vocabulary"
+            ],
+            "topics": [
+                "work"
+            ],
+            "front": "salary",
+            "back": "wynagrodzenie"
+        },
+        {
+            "tags": [
+                "vocabulary"
+            ],
+            "topics": [
+                "work"
+            ],
+            "front": "career",
+            "back": "kariera"
+        },
+        {
+            "tags": [
+                "vocabulary"
+            ],
+            "topics": [
+                "work"
+            ],
+            "front": "promotion",
+            "back": "awans"
+        },
+        {
+            "tags": [
+                "vocabulary"
+            ],
+            "topics": [
+                "work"
+            ],
+            "front": "resignation",
+            "back": "rezygnacja (z pracy)"
+        },
+        {
+            "tags": [
+                "vocabulary"
+            ],
+            "topics": [
+                "work"
+            ],
+            "front": "internship",
+            "back": "staż"
+        },
+        {
+            "tags": [
+                "vocabulary"
+            ],
+            "topics": [
+                "work"
+            ],
+            "front": "full-time",
+            "back": "pełny etat"
+        },
+        {
+            "tags": [
+                "vocabulary"
+            ],
+            "topics": [
+                "work"
+            ],
+            "front": "part-time",
+            "back": "niepełny etat"
+        },
+        {
+            "tags": [
+                "vocabulary"
+            ],
+            "topics": [
+                "work"
+            ],
+            "front": "work remotely",
+            "back": "pracować zdalnie"
+        },
+        {
+            "tags": [
+                "vocabulary"
+            ],
+            "topics": [
+                "work"
+            ],
+            "front": "deadline",
+            "back": "termin wykonania"
+        },
+        {
+            "tags": [
+                "vocabulary"
+            ],
+            "topics": [
+                "work"
+            ],
+            "front": "colleague",
+            "back": "współpracownik"
+        },
+        {
+            "tags": [
+                "vocabulary"
+            ],
+            "topics": [
+                "work"
+            ],
+            "front": "boss",
+            "back": "szef"
+        },
+        {
+            "tags": [
+                "vocabulary"
+            ],
+            "topics": [
+                "work"
+            ],
+            "front": "experience",
+            "back": "doświadczenie"
+        },
+        {
+            "tags": [
+                "vocabulary"
+            ],
+            "topics": [
+                "work"
+            ],
+            "front": "responsibility",
+            "back": "odpowiedzialność"
+        },
+        {
+            "tags": [
+                "vocabulary"
+            ],
+            "topics": [
+                "work"
+            ],
+            "front": "skills",
+            "back": "umiejętności"
+        },
+        {
+            "tags": [
+                "vocabulary"
+            ],
+            "topics": [
+                "work"
+            ],
+            "front": "job advertisement",
+            "back": "oferta pracy"
+        },
+        {
+            "tags": [
+                "vocabulary"
+            ],
+            "topics": [
+                "culture"
+            ],
+            "front": "heritage",
+            "back": "dziedzictwo"
+        },
+        {
+            "tags": [
+                "vocabulary"
+            ],
+            "topics": [
+                "culture"
+            ],
+            "front": "tradition",
+            "back": "tradycja"
+        },
+        {
+            "tags": [
+                "vocabulary"
+            ],
+            "topics": [
+                "culture"
+            ],
+            "front": "custom",
+            "back": "zwyczaj"
+        },
+        {
+            "tags": [
+                "vocabulary"
+            ],
+            "topics": [
+                "culture"
+            ],
+            "front": "festival",
+            "back": "festiwal"
+        },
+        {
+            "tags": [
+                "vocabulary"
+            ],
+            "topics": [
+                "culture"
+            ],
+            "front": "ritual",
+            "back": "rytuał"
+        },
+        {
+            "tags": [
+                "vocabulary"
+            ],
+            "topics": [
+                "culture"
+            ],
+            "front": "belief",
+            "back": "przekonanie"
+        },
+        {
+            "tags": [
+                "vocabulary"
+            ],
+            "topics": [
+                "culture"
+            ],
+            "front": "language",
+            "back": "jezyk"
+        }
     ]
-  }
-  
+}

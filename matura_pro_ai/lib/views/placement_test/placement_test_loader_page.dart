@@ -8,10 +8,13 @@ import '../../routes/app_routes.dart';
 import '../../models/account.dart';
 import '../../models/test.dart';
 import '../../models/test_result.dart';
+import '../../models/tags_and_topics_results.dart';
 
 import '../../services/test_loader.dart';
 
+import '../../widgets/scrollable_layout.dart';
 import '../../widgets/test_page.dart';
+
 import 'placement_test_part_result_page.dart';
 
 class PlacementTestLoaderPage extends StatefulWidget {
@@ -20,7 +23,8 @@ class PlacementTestLoaderPage extends StatefulWidget {
   const PlacementTestLoaderPage({super.key, required this.account});
 
   @override
-  State<PlacementTestLoaderPage> createState() => _PlacementTestLoaderPageState();
+  State<PlacementTestLoaderPage> createState() =>
+      _PlacementTestLoaderPageState();
 }
 
 class _PlacementTestLoaderPageState extends State<PlacementTestLoaderPage> {
@@ -28,8 +32,6 @@ class _PlacementTestLoaderPageState extends State<PlacementTestLoaderPage> {
   Test? _test;
 
   bool _loading = true;
-
-  late final TestResult results;
 
   @override
   void initState() {
@@ -42,27 +44,31 @@ class _PlacementTestLoaderPageState extends State<PlacementTestLoaderPage> {
     setState(() {
       _test = test;
       _testController = TestController(test);
-      results = TestResult(_test!.name);
       _loading = false;
     });
   }
 
-  Future<void> _handleTestEnded(BuildContext context) async {
-
-    widget.account.stats.markPlacementTestTaken();
-    widget.account.stats.addTestResult(results);
-
-    await Navigator.pushReplacementNamed(
-      context,
-      AppRoutes.home,
-      arguments: {'account': widget.account},
-    );
+  Future<void> _handleTestStarted(BuildContext context, Test test) async {
+    await Navigator.push(
+          context,
+          MaterialPageRoute(
+              builder: (_) => TestPage(
+                    testController: _testController,
+                    label: 'Test poziomujacy',
+                    account: widget.account,
+                    onTestEnded: (TestResult results,
+                            TagsAndTopicsResults tagsAndTopicsResults) =>
+                        _handleTestEnded(
+                            context, results, tagsAndTopicsResults),
+                    onPartFinished: (part) =>
+                        _handlePartFinished(context, part),
+                  )),
+        ) ??
+        true;
   }
 
-  Future<bool> _handlePartFinished(BuildContext context, TestPartController part) async {
-    results.partNames.add(part.name);
-    results.partResults.add(part.evaluate());
-
+  Future<bool> _handlePartFinished(
+      BuildContext context, TestPartController part) async {
     return await Navigator.push<bool>(
           context,
           MaterialPageRoute(
@@ -73,7 +79,21 @@ class _PlacementTestLoaderPageState extends State<PlacementTestLoaderPage> {
             ),
           ),
         ) ??
-        true;
+        false;
+  }
+
+  Future<void> _handleTestEnded(BuildContext context, TestResult results,
+      TagsAndTopicsResults tagsAndTopicsResults) async {
+    widget.account.stats.markPlacementTestTaken();
+    widget.account.stats.addTestResult(results);
+
+    widget.account.stats.tagsAndTopicsResults += tagsAndTopicsResults;
+
+    await Navigator.pushReplacementNamed(
+      context,
+      AppRoutes.home,
+      arguments: {'account': widget.account},
+    );
   }
 
   @override
@@ -83,13 +103,40 @@ class _PlacementTestLoaderPageState extends State<PlacementTestLoaderPage> {
         body: Center(child: CircularProgressIndicator()),
       );
     }
-
-    return TestPage(
-      testController: _testController,
-      label: 'Test poziomujacy',
-      account: widget.account,
-      onTestEnded: () => _handleTestEnded(context),
-      onPartFinished: (part) => _handlePartFinished(context, part),
+    return Scaffold(
+      appBar: AppBar(
+        automaticallyImplyLeading: false,
+      ),
+      body: ScrollableLayout(maxWidth: 400, children: [
+        Center(
+            child: Text("Sprawdz swoj poziom i ucz sie skuteczniej!",
+                style: Theme.of(context).textTheme.titleLarge,
+                textAlign: TextAlign.center)),
+        const SizedBox(
+          height: 32,
+        ),
+        const SizedBox(height: 16),
+        Center(
+          child: Text(
+            "Zanim zaczniemy wspólną naukę, zróbmy krótki test."
+            "\nDzięki niemu dowiemy się, od czego najlepiej zacząć, żeby nauka była naprawdę skuteczna."
+            "\n\nSkłada się z 3 sekcji:  słuchanie, czytanie, transformacje językowe."
+            "\n\nCałość zajmie około 15 minut, ale spokojnie – po każdej części możesz zrobić przerwę, a Twoje odpowiedzi zostaną zapisane."
+            "\n\nNa końcu zobaczysz swój wynik\nw statystykach, co pozwoli Ci śledzić postępy od samego początku!",
+            style: Theme.of(context).textTheme.bodyMedium,
+            textAlign: TextAlign.left,
+          ),
+        ),
+        const SizedBox(height: 32),
+        Center(
+          child: ElevatedButton(
+            onPressed: () async {
+              await _handleTestStarted(context, _test!);
+            },
+            child: const Text("Zaczynamy!"),
+          ),
+        ),
+      ]),
     );
   }
 }

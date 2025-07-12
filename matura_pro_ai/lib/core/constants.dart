@@ -29,8 +29,9 @@ class AppStrings {
   static const String testResult = 'Test Result';
   static const String welcome = 'Welcome';
   static const String lastTest = 'Last Placement Test';
-  static const String submit = 'Zatwierdź';
-  static const String wellDone = 'Well done';
+  static const String submit = 'Dalej';
+  static const String exitTest = 'Wyjdź z testu';
+  static const String wellDone = 'Brawo!';
 
   static const String categoriesIncomplete = 'Please categorize all items';
 

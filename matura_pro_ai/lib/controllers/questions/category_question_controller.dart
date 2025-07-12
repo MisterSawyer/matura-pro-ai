@@ -8,7 +8,7 @@ class CategoryQuestionController extends QuestionController {
   final CategoryQuestion question;
   final Map<int, int> _answers = {};
 
-  CategoryQuestionController(this.question) : super(question.type);
+  CategoryQuestionController(this.question) : super(question);
 
   void addAnswer(int index, int category) => _answers[index] = category;
 

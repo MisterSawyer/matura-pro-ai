@@ -32,14 +32,14 @@ class _MissingWordQuestionContentState
               const SizedBox(height: 32),
               Text(
                 question.question,
-                style: theme.textTheme.headlineMedium,
-                textAlign: TextAlign.center,
+                style: theme.textTheme.headlineSmall,
+                textAlign: TextAlign.left,
               ),
               const SizedBox(height: 64),
               Wrap(
                 spacing: 8,
                 runSpacing: 16,
-                alignment: WrapAlignment.center,
+                alignment: WrapAlignment.start,
                 crossAxisAlignment: WrapCrossAlignment.center,
                 children: question.segments.map((segment) {
                   if (!segment.isGap) {

@@ -5,7 +5,7 @@ import '../../services/flashcard_loader.dart';
 import '../../models/account.dart';
 
 import '../../widgets/scrollable_layout.dart';
-import 'flashcard_deck_page.dart';
+import 'flashcard_topic_selection_page.dart';
 
 class FlashcardCategorySelectionPage extends StatelessWidget {
   final Account account;
@@ -28,7 +28,7 @@ class FlashcardCategorySelectionPage extends StatelessWidget {
       return;
     }
     final route = MaterialPageRoute(
-      builder: (context) => FlashcardDeckPage(
+      builder: (context) => FlashcardTopicSelectionPage(
         account: account,
         deck: deck,
       ),

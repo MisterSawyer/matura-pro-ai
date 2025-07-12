@@ -17,7 +17,6 @@ class MultipleChoiceQuestionContent extends StatefulWidget {
 
 class _MultipleChoiceQuestionContentState
     extends State<MultipleChoiceQuestionContent> {
-
   @override
   void dispose() {
     super.dispose();
@@ -46,8 +45,8 @@ class _MultipleChoiceQuestionContentState
               const SizedBox(height: 32),
               Text(
                 question.question,
-                style: theme.textTheme.headlineMedium,
-                textAlign: TextAlign.center,
+                style: theme.textTheme.headlineSmall,
+                textAlign: TextAlign.left,
               ),
               const SizedBox(height: 32),
               LayoutBuilder(
@@ -67,11 +66,10 @@ class _MultipleChoiceQuestionContentState
                           child: AnimatedContainer(
                             duration: const Duration(milliseconds: 200),
                             padding: const EdgeInsets.symmetric(
-                                vertical: 32, horizontal: 32),
+                                vertical: 16, horizontal: 16),
                             decoration: BoxDecoration(
                               color: isSelected
-                                  ? theme.colorScheme.primary
-                                      .withOpacity(0.1)
+                                  ? theme.colorScheme.primary.withOpacity(0.1)
                                   : theme.cardColor,
                               borderRadius: BorderRadius.circular(12),
                               border: Border.all(
@@ -89,16 +87,9 @@ class _MultipleChoiceQuestionContentState
                                   ),
                               ],
                             ),
-                            child: Text(
-                              question.options[index],
-                              textAlign: TextAlign.center,
-                              style: TextStyle(
-                                color: isSelected
-                                    ? theme.colorScheme.primary
-                                    : theme.textTheme.bodyMedium?.color,
-                                fontWeight: FontWeight.w500,
-                              ),
-                            ),
+                            child: Text(question.options[index],
+                                textAlign: TextAlign.center,
+                                style: theme.textTheme.bodySmall),
                           ),
                         );
                       },

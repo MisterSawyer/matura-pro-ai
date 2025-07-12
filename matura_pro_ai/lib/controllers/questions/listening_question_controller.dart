@@ -21,7 +21,7 @@ class ListeningQuestionController extends QuestionController {
 
   List<QuestionController> get subControllers => _controllers;
 
-  ListeningQuestionController(this.question) : super(question.type) {
+  ListeningQuestionController(this.question) : super(question) {
     for (final q in question.questions) {
       switch (q.type) {
         case QuestionType.multipleChoice:

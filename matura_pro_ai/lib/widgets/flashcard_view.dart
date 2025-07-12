@@ -1,19 +1,23 @@
 import 'dart:math';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 
 import '../controllers/flashcard_controller.dart';
 import '../../core/theme_defaults.dart';
+import '../../models/questions/question_topic.dart';
+import '../../models/tags_and_topics_results.dart';
 
 class FlashcardView extends StatefulWidget {
   final FlashcardController controller;
-  final Future<void> Function() onFinished;
+  final Future<void> Function(TagsAndTopicsResults) onFinished;
+  final QuestionTopic? topic;
+
 
   const FlashcardView({
     super.key,
     required this.controller,
     required this.onFinished,
+    this.topic,
   });
 
   @override
@@ -23,14 +27,16 @@ class FlashcardView extends StatefulWidget {
 class _FlashcardViewState extends State<FlashcardView>
     with SingleTickerProviderStateMixin {
   late AnimationController _animationController;
-  late TextEditingController _answerController;
+  final TextEditingController _answerController = TextEditingController();
   late Animation<double> _flipAnimation;
   bool _isFront = true;
+
+  final TagsAndTopicsResults _results = TagsAndTopicsResults();
 
   @override
   void initState() {
     super.initState();
-    widget.controller.resetDeck();
+    widget.controller.resetDeck(topic: widget.topic);
 
     _animationController = AnimationController(
       vsync: this,
@@ -39,8 +45,6 @@ class _FlashcardViewState extends State<FlashcardView>
 
     _flipAnimation =
         Tween<double>(begin: 0, end: pi).animate(_animationController);
-
-    _answerController = TextEditingController();
   }
 
   @override
@@ -76,13 +80,17 @@ class _FlashcardViewState extends State<FlashcardView>
 
     if (controller.check(_answerController.text)) {
       controller.markKnown();
+      for (var tag in controller.currentCard.tags){ _results.addTagResult(tag, 1.0); }
+      for(var topic in controller.currentCard.topics){ _results.addTopicResult(topic, 1.0); }
     } else {
       controller.markUnknown();
+      for (var tag in controller.currentCard.tags){ _results.addTagResult(tag, 0.0); }
+      for(var topic in controller.currentCard.topics){ _results.addTopicResult(topic, 0.0); }
     }
     _answerController.clear();
     
     if (controller.isLastCard) {
-      await widget.onFinished();
+      await widget.onFinished(_results);
     } else {
       controller.nextCard();
     }
@@ -108,7 +116,7 @@ class _FlashcardViewState extends State<FlashcardView>
     );
   }
 
-  Widget _buildFlashcard(FlashcardController controller, ThemeData theme) {
+  Widget _buildFlashcard(FlashcardController controller, ThemeData theme) {   
     final card = controller.currentCard;
 
     return ConstrainedBox(
@@ -181,7 +189,7 @@ class _FlashcardViewState extends State<FlashcardView>
           child: TextField(
               controller: _answerController,
               decoration: const InputDecoration(
-                labelText: 'write answer',
+                labelText: 'wpisz odpowiedź',
                 border: OutlineInputBorder(),
                 isDense: true,
                 contentPadding: EdgeInsets.symmetric(vertical: 8, horizontal: 12),
@@ -203,6 +211,17 @@ class _FlashcardViewState extends State<FlashcardView>
 
   @override
   Widget build(BuildContext context) {
+    if(widget.controller.totalCards == 0) 
+    {
+      return 
+      ConstrainedBox(constraints: const BoxConstraints(maxWidth: 400),
+      child: Container(
+        alignment: Alignment.center,
+        child: const Text('Brak kart'),
+      ),
+      );
+    }
+
     return ChangeNotifierProvider.value(
       value: widget.controller,
       child: Consumer<FlashcardController>(
@@ -211,13 +230,6 @@ class _FlashcardViewState extends State<FlashcardView>
 
           return Column(
             children: [
-              Center(
-                child: Text(
-                  controller.deck.name,
-                  style: theme.textTheme.titleLarge,
-                  textAlign: TextAlign.center,
-                ),
-              ),
               const SizedBox(height: 8),
               _buildProgressBar(controller, theme),
               const SizedBox(height: 32),

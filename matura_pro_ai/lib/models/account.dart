@@ -4,10 +4,12 @@ class Account {
   final String username;
 
   String _name;
+  String sex;
   final UserStats _stats = UserStats();
 
   Account({
     required this.username,
+    this.sex = 'male',
   }) : _name = username;  
 
   String get name => _name;

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:matura_pro_ai/core/constants.dart';
 
 import '../../models/account.dart';
 
@@ -25,7 +26,7 @@ class PlacementTestPartResultPage extends StatelessWidget {
           onPressed: () async {
               Navigator.pop(context, false); // Close the part result page and exit the test
           },
-          child: const Text("Exit Test"),
+          child: const Text(AppStrings.wellDone),
         ),
       );
     }
@@ -37,7 +38,7 @@ class PlacementTestPartResultPage extends StatelessWidget {
             onPressed: () {
               Navigator.pop(context, true); // Continue to next part
             },
-            child: const Text("Continue"),
+            child: const Text(AppStrings.submit),
           ),
         ),
         const SizedBox(height: 32),
@@ -46,7 +47,7 @@ class PlacementTestPartResultPage extends StatelessWidget {
             onPressed: () async {
               Navigator.pop(context, false); // Close the part result page
             },
-            child: const Text("Exit Test"),
+            child: const Text(AppStrings.exitTest),
           ),
         )
       ],

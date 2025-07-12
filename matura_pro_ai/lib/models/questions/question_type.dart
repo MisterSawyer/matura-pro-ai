@@ -27,4 +27,24 @@ enum QuestionType
     }
   }
 
+  static String stringDesc(QuestionType type)
+  {
+    switch (type) {
+      case QuestionType.multipleChoice:
+        return "Multiple choice";
+      case QuestionType.reading:
+        return "Reading";
+      case QuestionType.textInput:
+        return "Text input";
+      case QuestionType.category:
+        return "Category";
+      case QuestionType.missingWord:
+        return "Missing word";
+      case QuestionType.listening:
+        return "Listening";
+      default:
+        throw ArgumentError('Invalid QuestionType: $type');
+    }
+  }
+
 }

@@ -1,10 +1,19 @@
+import '../../models/questions/question.dart';
 import '../../models/questions/question_type.dart';
+import '../../models/tags.dart';
+import '../../models/topics.dart';
 
 abstract class QuestionController {
 
-  QuestionType type;
+  final Question _questionBase;
 
-  QuestionController(this.type);
+  QuestionController(this._questionBase);
+
+  QuestionType get type => _questionBase.type;
+
+  Topics get topics => _questionBase.topics;
+
+  Tags get tags => _questionBase.tags;
 
   bool isAnswered();
 

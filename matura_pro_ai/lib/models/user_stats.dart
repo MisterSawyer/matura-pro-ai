@@ -1,9 +1,11 @@
 import 'test_result.dart';
+import 'tags_and_topics_results.dart';
 
 class UserStats 
 {
   bool placementTestTaken = false;
   List<TestResult> placementTestResult = [];
+  TagsAndTopicsResults tagsAndTopicsResults = TagsAndTopicsResults();
 
   UserStats();
 
@@ -11,6 +13,7 @@ class UserStats
   String toString() {
     return 'UserStats( placementTestTaken: $placementTestTaken, placementTestResult: $placementTestResult)';
   }
+
 
   void markPlacementTestTaken() {
     placementTestTaken = true;
@@ -20,4 +23,6 @@ class UserStats
   {
     placementTestResult.add(results);
   }
+
+
 }
