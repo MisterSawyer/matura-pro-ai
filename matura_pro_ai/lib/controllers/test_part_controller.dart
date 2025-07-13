@@ -34,6 +34,28 @@ class TestPartController {
   final List<ListeningQuestionController> _listeningQuestionControllers = [];
   final Map<QuestionType, int> _questionCounters = {};
 
+  List<QuestionController> get questions {
+    final all = <QuestionController>[];
+
+    // Maintain question order using _order and counters
+    final typeIndex = {
+      QuestionType.multipleChoice: 0,
+      QuestionType.textInput: 0,
+      QuestionType.category: 0,
+      QuestionType.reading: 0,
+      QuestionType.missingWord: 0,
+      QuestionType.listening: 0,
+    };
+
+    for (final type in _order) {
+      final index = typeIndex[type]!;
+      all.add(getControllers(type)[index]);
+      typeIndex[type] = index + 1;
+    }
+
+    return all;
+  }
+
   TestPartController({required this.part}) {
     // set up counters
     clear();
@@ -103,6 +125,23 @@ class TestPartController {
     }
     for (final controller in _missingWordQuestionControllers) {
       controller.clear();
+    }
+  }
+
+  List<QuestionController> getControllers(QuestionType type) {
+    switch (type) {
+      case QuestionType.multipleChoice:
+        return _multipleChoiceQuestionControllers;
+      case QuestionType.textInput:
+        return _textInputQuestionControllers;
+      case QuestionType.category:
+        return _categoryQuestionControllers;
+      case QuestionType.reading:
+        return _readingQuestionControllers;
+      case QuestionType.missingWord:
+        return _missingWordQuestionControllers;
+      case QuestionType.listening:
+        return _listeningQuestionControllers;
     }
   }
 

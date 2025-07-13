@@ -1,17 +1,20 @@
 import 'test_result.dart';
 import 'tags_and_topics_results.dart';
 
+import 'test_type.dart';
+
 class UserStats 
 {
   bool placementTestTaken = false;
-  List<TestResult> placementTestResult = [];
+
+  Map<TestType, List<TestResult>> testResults = {};
   TagsAndTopicsResults tagsAndTopicsResults = TagsAndTopicsResults();
 
   UserStats();
 
   @override
   String toString() {
-    return 'UserStats( placementTestTaken: $placementTestTaken, placementTestResult: $placementTestResult)';
+    return 'UserStats( placementTestTaken: $placementTestTaken, testResults: $testResults)';
   }
 
 
@@ -19,10 +22,9 @@ class UserStats
     placementTestTaken = true;
   }
 
-  void addTestResult(TestResult results)
+  void addTestResult(TestType type, TestResult results)
   {
-    placementTestResult.add(results);
+    if(testResults.containsKey(type) == false) testResults[type] = [];
+    testResults[type]!.add(results);
   }
-
-
 }

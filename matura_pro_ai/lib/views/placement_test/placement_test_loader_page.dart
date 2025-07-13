@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:matura_pro_ai/models/test_type.dart';
 
 import '../../controllers/test_controller.dart';
 import '../../controllers/test_part_controller.dart';
@@ -39,7 +40,20 @@ class _PlacementTestLoaderPageState extends State<PlacementTestLoaderPage> {
     _loadTest();
   }
 
-  Future<void> _loadTest() async {
+  Future<void> _loadTest() async 
+  {
+    // restore currently saved test
+    if(widget.account.currentTests[TestType.placement] != null)
+    {
+      setState(() {
+        _test = widget.account.currentTests[TestType.placement]!.test;
+        _testController = widget.account.currentTests[TestType.placement]!;
+        _loading = false;
+      });
+      return;
+    }
+
+    // load new test from file
     final test = await loadTest('placement_test.json');
     setState(() {
       _test = test;
@@ -55,11 +69,9 @@ class _PlacementTestLoaderPageState extends State<PlacementTestLoaderPage> {
               builder: (_) => TestPage(
                     testController: _testController,
                     label: 'Test poziomujacy',
-                    account: widget.account,
-                    onTestEnded: (TestResult results,
-                            TagsAndTopicsResults tagsAndTopicsResults) =>
+                    onTestEnded: () =>
                         _handleTestEnded(
-                            context, results, tagsAndTopicsResults),
+                            context),
                     onPartFinished: (part) =>
                         _handlePartFinished(context, part),
                   )),
@@ -82,12 +94,45 @@ class _PlacementTestLoaderPageState extends State<PlacementTestLoaderPage> {
         false;
   }
 
-  Future<void> _handleTestEnded(BuildContext context, TestResult results,
-      TagsAndTopicsResults tagsAndTopicsResults) async {
-    widget.account.stats.markPlacementTestTaken();
-    widget.account.stats.addTestResult(results);
+  Future<void> _handleTestEnded(BuildContext context) async 
+  {
+    if(_testController.isLastPart == false)
+    {
+      assert(_testController.currentPart.isLastQuestion);
+      _testController.nextPart();
+      widget.account.saveTestState(TestType.placement, _testController);
+    }
+    else
+    {
+      TestResult results = TestResult(_test!.name);
+      TagsAndTopicsResults tagsAndTopicsResults = TagsAndTopicsResults();
 
-    widget.account.stats.tagsAndTopicsResults += tagsAndTopicsResults;
+      for(final part in _testController.parts)
+      {
+        results.partNames.add(part.name);
+        results.partResults.add(part.evaluate());
+
+        for(final question in part.questions)
+        {
+          double currentQuestionScore = question.evaluate();
+          double multipier = 1.0;
+          for (var tag in question.tags) {
+            tagsAndTopicsResults.addTagResult(tag, currentQuestionScore * multipier);
+          }
+          for (var topic in question.topics) {
+            tagsAndTopicsResults.addTopicResult(
+                topic, currentQuestionScore * multipier);
+          }
+        }
+      }
+
+      widget.account.stats.markPlacementTestTaken();
+      widget.account.stats.addTestResult(TestType.placement, results);
+
+      widget.account.stats.tagsAndTopicsResults += tagsAndTopicsResults;
+
+      widget.account.finishCurrentTest(TestType.placement);
+    }
 
     await Navigator.pushReplacementNamed(
       context,

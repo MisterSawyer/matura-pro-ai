@@ -5,10 +5,6 @@ import 'package:matura_pro_ai/core/constants.dart';
 
 import '../core/theme_defaults.dart';
 
-import '../models/account.dart';
-import '../../models/tags_and_topics_results.dart';
-import '../../models/test_result.dart';
-
 import '../controllers/test_controller.dart';
 import '../controllers/test_part_controller.dart';
 
@@ -31,9 +27,8 @@ import 'questions/listening_question_content.dart';
 class TestPage extends StatefulWidget {
   final TestController testController;
   final String label;
-  final Account account;
 
-  final Future<void> Function(TestResult, TagsAndTopicsResults) onTestEnded;
+  final Future<void> Function() onTestEnded;
   final Future<bool> Function(TestPartController) onPartFinished;
 
   const TestPage({
@@ -42,7 +37,6 @@ class TestPage extends StatefulWidget {
     required this.label,
     required this.onTestEnded,
     required this.onPartFinished,
-    required this.account,
   });
 
   @override
@@ -54,13 +48,10 @@ class _TestPageState extends State<TestPage> {
 
   QuestionController? _currentQuestionController;
 
-  late final TestResult results;
-  final tagsAndTopicsResults = TagsAndTopicsResults();
 
   @override
   void initState() {
     super.initState();
-    results = TestResult(widget.testController.test.name);
     WidgetsBinding.instance.addPostFrameCallback((_) {
       _serveQuestion();
     });
@@ -156,22 +147,10 @@ class _TestPageState extends State<TestPage> {
 
     final part = widget.testController.currentPart;
 
-    double currentQuestionScore = _currentQuestionController!.evaluate();
-    double multipier = 1.0;
-    for (var tag in _currentQuestionController!.tags) {
-      tagsAndTopicsResults.addTagResult(tag, currentQuestionScore * multipier);
-    }
-    for (var topic in _currentQuestionController!.topics) {
-      tagsAndTopicsResults.addTopicResult(
-          topic, currentQuestionScore * multipier);
-    }
-
     if (part.isLastQuestion) {
-      results.partNames.add(part.name);
-      results.partResults.add(part.evaluate());
       bool shouldContinue = await widget.onPartFinished(part);
       if (!shouldContinue || widget.testController.isLastPart) {
-        await widget.onTestEnded(results, tagsAndTopicsResults);
+        await widget.onTestEnded();
         return;
       }
 

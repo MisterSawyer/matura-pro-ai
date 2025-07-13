@@ -16,6 +16,7 @@ class TestController
 
   bool get isLastPart => _currentPartID >= _partControllers.length - 1;
   TestPartController get currentPart => _partControllers[_currentPartID];
+  List<TestPartController> get parts => _partControllers;
 
   void clear()
   {
