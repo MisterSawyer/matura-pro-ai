@@ -1,5 +1,5 @@
 import 'test_part_controller.dart';
-import '../models/test.dart';
+import '../../models/test/test.dart';
 
 class TestController 
 {

@@ -4,6 +4,7 @@ import '../../core/theme_defaults.dart';
 
 import '../../models/account.dart';
 import '../../routes/app_routes.dart';
+import '../../models/test/test_type.dart';
 
 import '../../widgets/no_scrollbar.dart';
 import '../../widgets/home_tile.dart';
@@ -26,7 +27,9 @@ class _HomePageState extends State<HomePage> {
     super.initState();
     //Wait until the first frame is rendered before navigating
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      if (!_alreadyRedirected &&!widget.account.stats.placementTestTaken) {
+      if (!_alreadyRedirected &&
+          !widget.account.stats.placementTestTaken &&
+          !widget.account.currentTests.containsKey(TestType.placement)) {
         _alreadyRedirected = true;
         Navigator.pushReplacementNamed(
           context,
@@ -37,6 +40,46 @@ class _HomePageState extends State<HomePage> {
         );
       }
     });
+  }
+
+  Widget _buildActionButtons(BuildContext context) {
+    return Column(children: [
+      SizedBox(
+        width: double.infinity,
+        child: ElevatedButton(
+          style: ElevatedButton.styleFrom(
+            padding: const EdgeInsets.all(ThemeDefaults.padding),
+          ),
+          onPressed: null,
+          child: const Text(
+            "START ➤",
+            overflow: TextOverflow.fade,
+            softWrap: false,
+            maxLines: 1,
+          ),
+        ),
+      ),
+      const SizedBox(
+        height: 16,
+      ),
+      SizedBox(
+        width: double.infinity,
+        child: ElevatedButton(
+          style: ElevatedButton.styleFrom(
+            padding: const EdgeInsets.all(ThemeDefaults.padding),
+          ),
+          onPressed: () {
+            Navigator.pushNamed(context, AppRoutes.raindrop);
+          },
+          child: const Text(
+            "RAINDROP",
+            overflow: TextOverflow.fade,
+            softWrap: false,
+            maxLines: 1,
+          ),
+        ),
+      )
+    ]);
   }
 
   List<Widget> _buildHomeTilesSection(double buttonWidth) {
@@ -53,25 +96,21 @@ class _HomePageState extends State<HomePage> {
         onTap: () => Navigator.pushNamed(context, AppRoutes.flashcards,
             arguments: {'account': widget.account}),
       ),
-      HomeTile(
-        icon: const Icon(Icons.mic, size: 64),
+      const HomeTile(
+        icon: Icon(Icons.mic, size: 64),
         label: 'Mówienie',
-        onTap: () => {},
       ),
-      HomeTile(
-        icon: const Icon(Icons.headset, size: 64),
+      const HomeTile(
+        icon: Icon(Icons.headset, size: 64),
         label: 'Słuchanie',
-        onTap: () => {},
       ),
-      HomeTile(
-        icon: const Icon(Icons.book, size: 64),
+      const HomeTile(
+        icon: Icon(Icons.book, size: 64),
         label: 'Czytanie',
-        onTap: () => {},
       ),
-      HomeTile(
-        icon: const Icon(Icons.edit, size: 64),
+      const HomeTile(
+        icon: Icon(Icons.edit, size: 64),
         label: 'Pisanie',
-        onTap: () => {},
       ),
       HomeTile(
         icon: const Icon(Icons.account_circle, size: 64),
@@ -79,10 +118,9 @@ class _HomePageState extends State<HomePage> {
         onTap: () => Navigator.pushNamed(context, AppRoutes.account,
             arguments: {'account': widget.account}),
       ),
-      HomeTile(
-        icon: const Icon(Icons.supervisor_account, size: 64),
+      const HomeTile(
+        icon: Icon(Icons.supervisor_account, size: 64),
         label: 'Social',
-        onTap: () => {},
       ),
       HomeTile(
         icon: const Icon(Icons.equalizer, size: 64),
@@ -150,47 +188,9 @@ class _HomePageState extends State<HomePage> {
                                   ),
                                 ),
                                 const SizedBox(
-                                  height: ThemeDefaults.padding,
-                                ),
-                                SizedBox(
-                                  width: double.infinity,
-                                  child: ElevatedButton(
-                                    style: ElevatedButton.styleFrom(
-                                      padding: const EdgeInsets.all(
-                                          ThemeDefaults.padding),
-                                    ),
-                                    onPressed: () {
-                                      // DAILY LESSON
-                                    },
-                                    child: const Text(
-                                      "START ➤",
-                                      overflow: TextOverflow.fade,
-                                      softWrap: false,
-                                      maxLines: 1,
-                                    ),
-                                  ),
-                                ),
-                                const SizedBox(
                                   height: 32,
                                 ),
-                                SizedBox(
-                                  width: double.infinity,
-                                  child: ElevatedButton(
-                                    style: ElevatedButton.styleFrom(
-                                      padding: const EdgeInsets.all(
-                                          ThemeDefaults.padding),
-                                    ),
-                                    onPressed: () {
-                                      Navigator.pushNamed(context, AppRoutes.raindrop);
-                                    },
-                                    child: const Text(
-                                      "RAINDROP",
-                                      overflow: TextOverflow.fade,
-                                      softWrap: false,
-                                      maxLines: 1,
-                                    ),
-                                  ),
-                                ),
+                                _buildActionButtons(context),
                                 const SizedBox(
                                   height: 32,
                                 ),

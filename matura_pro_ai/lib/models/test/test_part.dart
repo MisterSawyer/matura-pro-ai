@@ -1,13 +1,13 @@
 
-import 'questions/question.dart';
-import 'questions/question_type.dart';
+import '../questions/question.dart';
+import '../questions/question_type.dart';
 
-import 'questions/multiple_choice_question.dart';
-import 'questions/reading_question.dart';
-import 'questions/text_input_question.dart';
-import 'questions/category_question.dart';
-import 'questions/missing_word_question.dart';
-import 'questions/listening_question.dart';
+import '../questions/multiple_choice_question.dart';
+import '../questions/reading_question.dart';
+import '../questions/text_input_question.dart';
+import '../questions/category_question.dart';
+import '../questions/missing_word_question.dart';
+import '../questions/listening_question.dart';
 
 class TestPart {
   final String name;

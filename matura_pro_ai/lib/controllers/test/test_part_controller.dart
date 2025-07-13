@@ -1,21 +1,21 @@
-import '../../models/questions/question_type.dart';
+import '../../../models/questions/question_type.dart';
 
-import '../../models/test_part.dart';
+import '../../models/test/test_part.dart';
 
-import '../models/questions/category_question.dart';
-import '../models/questions/multiple_choice_question.dart';
-import '../models/questions/reading_question.dart';
-import '../models/questions/text_input_question.dart';
-import '../models/questions/missing_word_question.dart';
-import '../models/questions/listening_question.dart';
+import '../../models/questions/category_question.dart';
+import '../../models/questions/multiple_choice_question.dart';
+import '../../models/questions/reading_question.dart';
+import '../../models/questions/text_input_question.dart';
+import '../../models/questions/missing_word_question.dart';
+import '../../models/questions/listening_question.dart';
 
-import '../controllers/questions/question_controller.dart';
-import '../controllers/questions/multiple_choice_question_controller.dart';
-import '../controllers/questions/text_input_question_controller.dart';
-import '../controllers/questions/category_question_controller.dart';
-import '../controllers/questions/reading_question_controller.dart';
-import '../controllers/questions/missing_word_question_controller.dart';
-import '../controllers/questions/listening_question_controller.dart';
+import '../questions/question_controller.dart';
+import '../questions/multiple_choice_question_controller.dart';
+import '../questions/text_input_question_controller.dart';
+import '../questions/category_question_controller.dart';
+import '../questions/reading_question_controller.dart';
+import '../questions/missing_word_question_controller.dart';
+import '../questions/listening_question_controller.dart';
 
 class TestPartController {
   int _currentQuestion = 0;

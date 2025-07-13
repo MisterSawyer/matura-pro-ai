@@ -2,7 +2,7 @@ import 'dart:convert';
 import 'package:flutter/services.dart';
 
 import '../../core/constants.dart';
-import '../models/flashcard_deck.dart';
+import '../models/flashcard/flashcard_deck.dart';
 
 Future<FlashcardDeck> loadFlashcardDeck(String filename) async {
   final jsonString = await rootBundle.loadString('${AppAssets.flashcardsPath}/$filename');

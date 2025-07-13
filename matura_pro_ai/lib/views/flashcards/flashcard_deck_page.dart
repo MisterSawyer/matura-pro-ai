@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 
-import '../../models/flashcard_deck.dart';
+import '../../models/flashcard/flashcard_deck.dart';
 import '../../models/account.dart';
 
-import '../../controllers/flashcard_controller.dart';
-import '../../widgets/flashcard_view.dart';
+import '../../controllers/flashcard/flashcard_controller.dart';
+import '../../widgets/flashcard/flashcard_view.dart';
 
 import 'flashcard_result_page.dart';
 import '../../widgets/scrollable_layout.dart';

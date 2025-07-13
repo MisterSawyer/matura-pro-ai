@@ -5,13 +5,13 @@ import '../../core/theme_defaults.dart';
 class HomeTile extends StatelessWidget {
   final String label;
   final Icon icon; 
-  final VoidCallback onTap;
+  final VoidCallback? onTap;
 
   const HomeTile({
     super.key,
     required this.label,
     required this.icon,
-    required this.onTap,
+    this.onTap,
   });
 
   @override
@@ -23,7 +23,7 @@ class HomeTile extends StatelessWidget {
           child: Ink(
             padding: const EdgeInsets.all(ThemeDefaults.padding),
             decoration: BoxDecoration(
-              color: theme.colorScheme.secondaryContainer,
+              color: onTap != null ? theme.colorScheme.primaryContainer : theme.colorScheme.secondaryContainer,
               borderRadius: BorderRadius.circular(16),
             ),
             child: Column(

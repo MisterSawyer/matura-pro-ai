@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../models/account.dart';
 import '../../models/questions/question_topic.dart';
-import '../../models/flashcard_deck.dart';
+import '../../models/flashcard/flashcard_deck.dart';
 
 import '../../widgets/scrollable_layout.dart';
 import 'flashcard_deck_page.dart';

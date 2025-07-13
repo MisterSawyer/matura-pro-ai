@@ -1,7 +1,7 @@
-import 'package:matura_pro_ai/models/test_type.dart';
+import 'package:matura_pro_ai/models/test/test_type.dart';
 
 import 'user_stats.dart';
-import '../controllers/test_controller.dart';
+import '../controllers/test/test_controller.dart';
 
 class Account {
   final String username;

@@ -3,7 +3,7 @@ import 'package:matura_pro_ai/core/constants.dart';
 
 import '../../models/account.dart';
 
-import '../../controllers/test_part_controller.dart';
+import '../../controllers/test/test_part_controller.dart';
 import '../../widgets/speedometer_gauge.dart';
 import '../../widgets/scrollable_layout.dart';
 

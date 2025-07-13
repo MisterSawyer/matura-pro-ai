@@ -1,20 +1,20 @@
 import 'package:flutter/material.dart';
-import 'package:matura_pro_ai/models/test_type.dart';
+import 'package:matura_pro_ai/models/test/test_type.dart';
 
-import '../../controllers/test_controller.dart';
-import '../../controllers/test_part_controller.dart';
+import '../../controllers/test/test_controller.dart';
+import '../../controllers/test/test_part_controller.dart';
 
 import '../../routes/app_routes.dart';
 
 import '../../models/account.dart';
-import '../../models/test.dart';
-import '../../models/test_result.dart';
+import '../../models/test/test.dart';
+import '../../models/test/test_result.dart';
 import '../../models/tags_and_topics_results.dart';
 
 import '../../services/test_loader.dart';
 
 import '../../widgets/scrollable_layout.dart';
-import '../../widgets/test_page.dart';
+import '../../widgets/test/test_page.dart';
 
 import 'placement_test_part_result_page.dart';
 

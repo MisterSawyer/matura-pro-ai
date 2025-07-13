@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import '../../models/account.dart';
-import '../../models/test_result.dart';
-import '../../models/test_type.dart';
+import '../../models/test/test_result.dart';
+import '../../models/test/test_type.dart';
 
-import '../../controllers/test_controller.dart';
+import '../../controllers/test/test_controller.dart';
 import '../../widgets/speedometer_gauge.dart';
 
 import '../../widgets/scrollable_layout.dart';
@@ -115,6 +115,7 @@ class UserStatisticsPage extends StatelessWidget {
             const Divider(),
           ],
           TagsAndTopicsResultsView(results: stats.tagsAndTopicsResults),
+          if(results.isNotEmpty)...[
           const Divider(),
           Column(
             children: results.entries.map((entry) {
@@ -129,7 +130,8 @@ class UserStatisticsPage extends StatelessWidget {
                 ],
               );
             }).toList(),
-          ),
+          )
+          ],
         ]));
   }
 }

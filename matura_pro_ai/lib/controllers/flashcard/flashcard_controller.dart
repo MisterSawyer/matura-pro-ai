@@ -1,8 +1,8 @@
 import 'package:flutter/foundation.dart';
 
-import '../models/flashcard.dart';
-import '../models/flashcard_deck.dart';
-import '../models/questions/question_topic.dart';
+import '../../models/flashcard/flashcard.dart';
+import '../../models/flashcard/flashcard_deck.dart';
+import '../../models/questions/question_topic.dart';
 
 class FlashcardController extends ChangeNotifier {
   final FlashcardDeck deck;

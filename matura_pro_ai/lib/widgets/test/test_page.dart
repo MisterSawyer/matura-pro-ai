@@ -1,28 +1,28 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/gestures.dart';
-import 'package:matura_pro_ai/controllers/questions/question_controller.dart';
-import 'package:matura_pro_ai/core/constants.dart';
 
-import '../core/theme_defaults.dart';
+import '../../core/constants.dart';
+import '../../core/theme_defaults.dart';
 
-import '../controllers/test_controller.dart';
-import '../controllers/test_part_controller.dart';
+import '../../controllers/test/test_controller.dart';
+import '../../controllers/test/test_part_controller.dart';
+import '../../controllers/questions/question_controller.dart';
 
-import '../controllers/questions/category_question_controller.dart';
-import '../controllers/questions/multiple_choice_question_controller.dart';
-import '../controllers/questions/text_input_question_controller.dart';
-import '../controllers/questions/reading_question_controller.dart';
-import '../controllers/questions/missing_word_question_controller.dart';
-import '../controllers/questions/listening_question_controller.dart';
+import '../../controllers/questions/category_question_controller.dart';
+import '../../controllers/questions/multiple_choice_question_controller.dart';
+import '../../controllers/questions/text_input_question_controller.dart';
+import '../../controllers/questions/reading_question_controller.dart';
+import '../../controllers/questions/missing_word_question_controller.dart';
+import '../../controllers/questions/listening_question_controller.dart';
 
-import 'no_scrollbar.dart';
+import '../no_scrollbar.dart';
 
-import 'questions/multiple_choice_question_content.dart';
-import 'questions/text_input_question_content.dart';
-import 'questions/category_question_content.dart';
-import 'questions/reading_question_content.dart';
-import 'questions/missing_word_question_content.dart';
-import 'questions/listening_question_content.dart';
+import '../questions/multiple_choice_question_content.dart';
+import '../questions/text_input_question_content.dart';
+import '../questions/category_question_content.dart';
+import '../questions/reading_question_content.dart';
+import '../questions/missing_word_question_content.dart';
+import '../questions/listening_question_content.dart';
 
 class TestPage extends StatefulWidget {
   final TestController testController;

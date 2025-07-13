@@ -9,7 +9,7 @@ import '../../widgets/speedometer_gauge.dart';
 
 import '../../widgets/scrollable_layout.dart';
 
-import '../../controllers/flashcard_controller.dart';
+import '../../controllers/flashcard/flashcard_controller.dart';
 
 import 'flashcard_deck_page.dart';
 

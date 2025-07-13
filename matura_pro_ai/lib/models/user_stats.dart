@@ -1,7 +1,7 @@
-import 'test_result.dart';
+import 'test/test_result.dart';
 import 'tags_and_topics_results.dart';
 
-import 'test_type.dart';
+import 'test/test_type.dart';
 
 class UserStats 
 {

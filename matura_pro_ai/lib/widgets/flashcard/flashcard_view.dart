@@ -2,10 +2,10 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../controllers/flashcard_controller.dart';
-import '../../core/theme_defaults.dart';
-import '../../models/questions/question_topic.dart';
-import '../../models/tags_and_topics_results.dart';
+import '../../controllers/flashcard/flashcard_controller.dart';
+import '../../../core/theme_defaults.dart';
+import '../../../models/questions/question_topic.dart';
+import '../../../models/tags_and_topics_results.dart';
 
 class FlashcardView extends StatefulWidget {
   final FlashcardController controller;

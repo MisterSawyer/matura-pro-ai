@@ -1,6 +1,6 @@
-import 'topics.dart';
+import '../topics.dart';
 
-import 'tags.dart';
+import '../tags.dart';
 
 class Flashcard {
   final Tags tags;

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import '../models/test.dart';
-import '../models/questions/question_type.dart';
+import '../../models/test/test.dart';
+import '../../models/questions/question_type.dart';
 
 class TestSummaryPage extends StatelessWidget {
   final Test test;

@@ -3,7 +3,7 @@ import 'package:flutter/services.dart';
 
 import '../../core/constants.dart';
 
-import '../models/test.dart';
+import '../models/test/test.dart';
 
 Future<Test> loadTest(String filename) async {
   final jsonString = await rootBundle.loadString('${AppAssets.testsPath}/$filename');
