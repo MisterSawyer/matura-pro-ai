@@ -73,3 +73,12 @@ flutter run
 ```bash
 flutter run -d chrome
 ```
+
+### 🧪 Running Tests
+
+Run static analysis and the unit test suite:
+
+```bash
+flutter analyze
+flutter test
+```

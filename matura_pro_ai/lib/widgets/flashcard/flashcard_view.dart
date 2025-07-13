@@ -1,50 +1,52 @@
 import 'dart:math';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../controllers/flashcard/flashcard_controller.dart';
-import '../../../core/theme_defaults.dart';
-import '../../../models/questions/question_topic.dart';
-import '../../../models/tags_and_topics_results.dart';
+import '../../controllers/flashcard/flashcard_state.dart';
+import '../../models/flashcard/flashcard_deck.dart';
+import '../../models/tags_and_topics_results.dart';
+import '../../providers/flashcard_provider.dart';
+import '../../core/theme_defaults.dart';
 
-class FlashcardView extends StatefulWidget {
-  final FlashcardController controller;
+class FlashcardView extends ConsumerStatefulWidget {
+  final FlashcardDeck deck;
   final Future<void> Function(TagsAndTopicsResults) onFinished;
-  final QuestionTopic? topic;
-
 
   const FlashcardView({
     super.key,
-    required this.controller,
+    required this.deck,
     required this.onFinished,
-    this.topic,
   });
 
   @override
-  State<FlashcardView> createState() => _FlashcardViewState();
+  ConsumerState<FlashcardView> createState() => _FlashcardViewState();
 }
 
-class _FlashcardViewState extends State<FlashcardView>
+class _FlashcardViewState extends ConsumerState<FlashcardView>
     with SingleTickerProviderStateMixin {
-  late AnimationController _animationController;
-  final TextEditingController _answerController = TextEditingController();
-  late Animation<double> _flipAnimation;
-  bool _isFront = true;
+  late final AutoDisposeStateNotifierProvider<FlashcardController, FlashcardState> _controllerProvider;
 
+  late final AnimationController _animationController;
+  late final Animation<double> _flipAnimation;
+
+  final TextEditingController _answerController = TextEditingController();
   final TagsAndTopicsResults _results = TagsAndTopicsResults();
+  bool _isFront = true;
 
   @override
   void initState() {
     super.initState();
-    widget.controller.resetDeck(topic: widget.topic);
+
+    // Create provider instance specific to deck
+    _controllerProvider = flashcardControllerProvider(widget.deck);
 
     _animationController = AnimationController(
       vsync: this,
       duration: const Duration(milliseconds: 400),
     );
 
-    _flipAnimation =
-        Tween<double>(begin: 0, end: pi).animate(_animationController);
+    _flipAnimation = Tween<double>(begin: 0, end: pi).animate(_animationController);
   }
 
   @override
@@ -57,57 +59,62 @@ class _FlashcardViewState extends State<FlashcardView>
   void _flipCard(FlashcardController controller) {
     if (_animationController.isAnimating) return;
 
-    setState(() {
-      _isFront = !_isFront;
-    });
+    setState(() => _isFront = !_isFront);
 
-    if (_isFront) {
-      _animationController.reverse();
-    } else {
-      _animationController.forward();
-    }
-
+    _isFront ? _animationController.reverse() : _animationController.forward();
     controller.flipCard();
   }
 
-  Future<void> _handleAnswer(FlashcardController controller) async {
+  Future<void> _handleAnswer(
+    FlashcardState state,
+    FlashcardController controller,
+  ) async {
     if (!_isFront) {
       await _animationController.reverse();
-      setState(() {
-        _isFront = true;
-      });
+      setState(() => _isFront = true);
     }
 
-    if (controller.check(_answerController.text)) {
+    final isCorrect = controller.check(_answerController.text.trim());
+
+    if (isCorrect) {
       controller.markKnown();
-      for (var tag in controller.currentCard.tags){ _results.addTagResult(tag, 1.0); }
-      for(var topic in controller.currentCard.topics){ _results.addTopicResult(topic, 1.0); }
+      for (final tag in state.currentCard.tags) {
+        _results.addTagResult(tag, 1.0);
+      }
+      for (final topic in state.currentCard.topics) {
+        _results.addTopicResult(topic, 1.0);
+      }
     } else {
       controller.markUnknown();
-      for (var tag in controller.currentCard.tags){ _results.addTagResult(tag, 0.0); }
-      for(var topic in controller.currentCard.topics){ _results.addTopicResult(topic, 0.0); }
+      for (final tag in state.currentCard.tags) {
+        _results.addTagResult(tag, 0.0);
+      }
+      for (final topic in state.currentCard.topics) {
+        _results.addTopicResult(topic, 0.0);
+      }
     }
+
     _answerController.clear();
-    
-    if (controller.isLastCard) {
+
+    if (state.isLastCard) {
       await widget.onFinished(_results);
     } else {
       controller.nextCard();
     }
   }
 
-  Widget _buildProgressBar(FlashcardController controller, ThemeData theme) {
+  Widget _buildProgressBar(FlashcardState state, ThemeData theme) {
     return Stack(
       alignment: Alignment.centerLeft,
       children: [
         LinearProgressIndicator(
-          value: controller.fullProgress,
+          value: state.fullProgress,
           color: Colors.grey.shade300,
           backgroundColor: Colors.transparent,
           minHeight: 8,
         ),
         LinearProgressIndicator(
-          value: controller.knownProgress,
+          value: state.knownProgress,
           color: theme.colorScheme.primary,
           backgroundColor: Colors.transparent,
           minHeight: 8,
@@ -116,8 +123,8 @@ class _FlashcardViewState extends State<FlashcardView>
     );
   }
 
-  Widget _buildFlashcard(FlashcardController controller, ThemeData theme) {   
-    final card = controller.currentCard;
+  Widget _buildFlashcard(FlashcardState state, FlashcardController controller, ThemeData theme) {
+    final card = state.currentCard;
 
     return ConstrainedBox(
       constraints: const BoxConstraints(maxWidth: 400, maxHeight: 256),
@@ -125,14 +132,15 @@ class _FlashcardViewState extends State<FlashcardView>
         duration: const Duration(milliseconds: 300),
         transitionBuilder: (child, animation) {
           return SlideTransition(
-            position:
-                Tween<Offset>(begin: const Offset(1.0, 0), end: Offset.zero)
-                    .animate(animation),
+            position: Tween<Offset>(
+              begin: const Offset(1.0, 0),
+              end: Offset.zero,
+            ).animate(animation),
             child: child,
           );
         },
         child: GestureDetector(
-          key: ValueKey(controller.currentIndex),
+          key: ValueKey(state.currentIndex),
           onTap: () => _flipCard(controller),
           child: AnimatedBuilder(
             animation: _flipAnimation,
@@ -181,24 +189,25 @@ class _FlashcardViewState extends State<FlashcardView>
     );
   }
 
-  Widget _buildActionButtons(FlashcardController controller) {
+  Widget _buildActionButtons(FlashcardState state, FlashcardController controller) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceAround,
       children: [
         Expanded(
           child: TextField(
-              controller: _answerController,
-              decoration: const InputDecoration(
-                labelText: 'wpisz odpowiedź',
-                border: OutlineInputBorder(),
-                isDense: true,
-                contentPadding: EdgeInsets.symmetric(vertical: 8, horizontal: 12),
-              )),
+            controller: _answerController,
+            decoration: const InputDecoration(
+              labelText: 'wpisz odpowiedź',
+              border: OutlineInputBorder(),
+              isDense: true,
+              contentPadding: EdgeInsets.symmetric(vertical: 8, horizontal: 12),
+            ),
+          ),
         ),
         const SizedBox(width: 16),
         Expanded(
           child: ElevatedButton(
-            onPressed: () => _handleAnswer(controller),
+            onPressed: () => _handleAnswer(state, controller),
             style: ElevatedButton.styleFrom(
               padding: const EdgeInsets.all(ThemeDefaults.padding),
             ),
@@ -211,35 +220,26 @@ class _FlashcardViewState extends State<FlashcardView>
 
   @override
   Widget build(BuildContext context) {
-    if(widget.controller.totalCards == 0) 
-    {
-      return 
-      ConstrainedBox(constraints: const BoxConstraints(maxWidth: 400),
-      child: Container(
-        alignment: Alignment.center,
-        child: const Text('Brak kart'),
-      ),
+    final state = ref.watch(_controllerProvider);
+    final controller = ref.read(_controllerProvider.notifier);
+
+    if (state.totalCards == 0) {
+      return const Center(
+        child: Text('Brak kart', textAlign: TextAlign.center),
       );
     }
 
-    return ChangeNotifierProvider.value(
-      value: widget.controller,
-      child: Consumer<FlashcardController>(
-        builder: (context, controller, _) {
-          final theme = Theme.of(context);
+    final theme = Theme.of(context);
 
-          return Column(
-            children: [
-              const SizedBox(height: 8),
-              _buildProgressBar(controller, theme),
-              const SizedBox(height: 32),
-              _buildFlashcard(controller, theme),
-              const SizedBox(height: 32),
-              _buildActionButtons(controller),
-            ],
-          );
-        },
-      ),
+    return Column(
+      children: [
+        const SizedBox(height: 8),
+        _buildProgressBar(state, theme),
+        const SizedBox(height: 32),
+        _buildFlashcard(state, controller, theme),
+        const SizedBox(height: 32),
+        _buildActionButtons(state, controller),
+      ],
     );
   }
 }

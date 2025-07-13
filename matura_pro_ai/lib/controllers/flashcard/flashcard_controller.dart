@@ -1,74 +1,60 @@
-import 'package:flutter/foundation.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../../models/flashcard/flashcard.dart';
-import '../../models/flashcard/flashcard_deck.dart';
 import '../../models/questions/question_topic.dart';
+import '../../models/flashcard/flashcard_deck.dart';
 
-class FlashcardController extends ChangeNotifier {
-  final FlashcardDeck deck;
-  FlashcardDeck _workingDeck;
+import 'flashcard_state.dart';
 
-  int _currentIndex = 0;
-  bool _isFrontVisible = true;
-
-  FlashcardController(this.deck) : _workingDeck = deck;
-
-  Flashcard get currentCard => _workingDeck.cards[_currentIndex];
-  bool get isFrontVisible => _isFrontVisible;
-  int get currentIndex => _currentIndex;
-  int get totalCards => _workingDeck.cards.length;
-  bool get isLastCard => _currentIndex == _workingDeck.cards.length - 1;
-  double get knownProgress =>
-      _workingDeck.cards.where((c) => c.isKnown).length / _workingDeck.cards.length;
-  double get fullProgress => _currentIndex / _workingDeck.cards.length;
-  int get correctAnswers => _workingDeck.cards.where((c) => c.isKnown).length;
+class FlashcardController extends StateNotifier<FlashcardState> {
+  FlashcardController(FlashcardDeck deck)
+      : super(FlashcardState(
+          deck: deck,
+          workingDeck: deck,
+          currentIndex: 0,
+          isFrontVisible: true,
+        ));
 
   void flipCard() {
-    _isFrontVisible = !_isFrontVisible;
-    notifyListeners(); // reactive update
+    state = state.copyWith(isFrontVisible: !state.isFrontVisible);
   }
 
   void markKnown() {
-    currentCard.isKnown = true;
-    notifyListeners(); // updates progress
+    state.currentCard.isKnown = true;
+    state = state.copyWith(); // trigger state update
   }
 
   bool check(String value) {
-    return currentCard.back.trim().toLowerCase() == value.trim().toLowerCase();
+    return state.currentCard.back.trim().toLowerCase() ==
+        value.trim().toLowerCase();
   }
 
   void markUnknown() {
-    currentCard.isKnown = false;
-    notifyListeners(); // updates progress
+    state.currentCard.isKnown = false;
+    state = state.copyWith();
   }
 
   void nextCard() {
-    _isFrontVisible = true;
-    if (_currentIndex < deck.cards.length - 1) {
-      _currentIndex++;
-    } else {
-      _currentIndex = 0;
-    }
-    notifyListeners(); // notifies card change
+    final isLast = state.currentIndex >= state.workingDeck.cards.length - 1;
+    final newIndex = isLast ? 0 : state.currentIndex + 1;
+    state = state.copyWith(currentIndex: newIndex, isFrontVisible: true);
   }
 
   void resetDeck({QuestionTopic? topic}) {
-    _currentIndex = 0;
-    _isFrontVisible = true;
-    for (var card in deck.cards) {
+    for (var card in state.deck.cards) {
       card.isKnown = false;
     }
 
-    if (topic != null) {
-      _workingDeck = FlashcardDeck(
-        name: deck.name,
-        cards:
-            deck.cards.where((c) => c.topics.contains(topic)).toList(),
-      );
-    } else {
-      _workingDeck = deck;
-    }
+    final filteredDeck = topic != null
+        ? FlashcardDeck(
+            name: state.deck.name,
+            cards: state.deck.cards.where((c) => c.topics.contains(topic)).toList(),
+          )
+        : state.deck;
 
-    notifyListeners(); // resets everything
+    state = state.copyWith(
+      workingDeck: filteredDeck,
+      currentIndex: 0,
+      isFrontVisible: true,
+    );
   }
 }

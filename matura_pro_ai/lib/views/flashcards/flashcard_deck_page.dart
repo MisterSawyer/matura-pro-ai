@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import '../../models/flashcard/flashcard_deck.dart';
 import '../../models/account.dart';
 
-import '../../controllers/flashcard/flashcard_controller.dart';
 import '../../widgets/flashcard/flashcard_view.dart';
 
 import 'flashcard_result_page.dart';
@@ -25,15 +24,22 @@ class FlashcardDeckPage extends StatefulWidget {
 }
 
 class _FlashcardDeckPageState extends State<FlashcardDeckPage> {
-  late final FlashcardController _controller;
-
+  late final FlashcardDeck _filteredDeck;
   @override
   void initState() {
     super.initState();
-    _controller = FlashcardController(widget.deck);
+
+   _filteredDeck = widget.topic == null
+        ? widget.deck
+        : FlashcardDeck(
+            name: widget.deck.name,
+            cards: widget.deck.cards
+                .where((c) => c.topics.contains(widget.topic!))
+                .toList());
   }
 
-  Future<void> _handleFinished(BuildContext context, TagsAndTopicsResults results) async {
+  Future<void> _handleFinished(
+      BuildContext context, TagsAndTopicsResults results) async {
     widget.account.stats.tagsAndTopicsResults += results;
 
     await Navigator.pushReplacement(
@@ -41,7 +47,7 @@ class _FlashcardDeckPageState extends State<FlashcardDeckPage> {
       MaterialPageRoute(
         builder: (_) => FlashcardResultPage(
           account: widget.account,
-          controller: _controller,
+          deck: _filteredDeck,
         ),
       ),
     );
@@ -53,9 +59,8 @@ class _FlashcardDeckPageState extends State<FlashcardDeckPage> {
         appBar: AppBar(),
         body: ScrollableLayout(maxWidth: 400, children: [
           FlashcardView(
-            controller: _controller,
-            onFinished: (tagsAndTopicsResults) => _handleFinished(context, tagsAndTopicsResults),
-            topic : widget.topic,
+            deck: _filteredDeck,
+            onFinished: (results) => _handleFinished(context, results),
           )
         ]));
   }

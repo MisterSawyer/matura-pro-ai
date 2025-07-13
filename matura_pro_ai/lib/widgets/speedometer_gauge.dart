@@ -57,7 +57,7 @@ class _SpeedometerPainter extends CustomPainter {
     final radius = size.width / 2;
 
     final baseRect = Rect.fromCircle(center: center, radius: radius);
-    final startAngle = pi;
+    const startAngle = pi;
     final sweepAngle = pi * (value / 100);
 
     final backgroundPaint = Paint()

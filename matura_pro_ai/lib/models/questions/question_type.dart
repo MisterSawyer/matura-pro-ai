@@ -42,8 +42,6 @@ enum QuestionType
         return "Missing word";
       case QuestionType.listening:
         return "Listening";
-      default:
-        throw ArgumentError('Invalid QuestionType: $type');
     }
   }
 
