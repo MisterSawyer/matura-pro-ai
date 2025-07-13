@@ -150,7 +150,7 @@ class _PlacementTestLoaderPageState extends State<PlacementTestLoaderPage> {
     }
     return Scaffold(
       appBar: AppBar(
-        automaticallyImplyLeading: false,
+        automaticallyImplyLeading: widget.account.currentTests.containsKey(TestType.placement) == true, 
       ),
       body: ScrollableLayout(maxWidth: 400, children: [
         Center(
