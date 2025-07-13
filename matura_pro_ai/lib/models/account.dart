@@ -1,46 +1,60 @@
-import 'package:matura_pro_ai/models/test/test_type.dart';
+import 'package:flutter/foundation.dart';
 
 import 'user_stats.dart';
-import '../controllers/test/test_controller.dart';
+import 'test/test_type.dart';
+import 'test/test_progress.dart';
 
+@immutable
 class Account {
   final String username;
 
-  String _name;
-  String sex;
+  final String? name;
+  final String? sex;
 
-  final Map<TestType, TestController> _currentTests = {};
+  final Map<TestType, TestProgress> _currentTests = {};
   final UserStats _stats = UserStats();
 
-  Map<TestType, TestController> get currentTests => _currentTests;
+  Map<TestType, TestProgress> get currentTests => _currentTests;
 
   Account({
     required this.username,
-    this.sex = 'male',
-  }) : _name = username;  
+    this.sex,
+    this.name,
+  });
 
-  String get name => _name;
   UserStats get stats => _stats;
-
-  void setName(String name)
-  {
-    _name = name;
-  }
 
   @override
   String toString() {
     final statsStr = _stats.toString();
-    return 'Account(username: $username, name: $_name, stats: $statsStr)';
+    return 'Account(username: $username, name: $name, stats: $statsStr)';
   }
 
-  void saveTestState(TestType type, TestController testController)
-  {
-    _currentTests[type] = testController;
+  Account copyWith({
+    String? username,
+    String? name,
+    String? sex,
+    Map<TestType, TestProgress>? currentTests,
+    UserStats? stats,
+  }) {
+    final newAccount = Account(
+      username: username ?? this.username,
+      name: name ?? this.name,
+      sex: sex ?? this.sex,
+    );
+
+    newAccount._currentTests.addAll(currentTests ?? _currentTests);
+    newAccount._stats
+        .merge(stats ?? _stats);
+
+    return newAccount;
   }
 
-  void finishCurrentTest(TestType type)
-  {
+  void saveTestState(TestType type, TestProgress testProgress) {
+    _currentTests[type] = testProgress;
+  }
+
+  void finishCurrentTest(TestType type) {
     _currentTests.remove(type);
   }
-
 }

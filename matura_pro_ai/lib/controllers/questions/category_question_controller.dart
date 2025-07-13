@@ -6,19 +6,19 @@ import '../../models/questions/category_question.dart';
 
 class CategoryQuestionController extends QuestionController {
   final CategoryQuestion question;
-  final Map<int, int> _answers = {};
+  final CategoryQestionAnswer _ans = CategoryQestionAnswer();
 
   CategoryQuestionController(this.question) : super(question);
 
-  void addAnswer(int index, int category) => _answers[index] = category;
+  void addAnswer(int index, int category) => _ans.data[index] = category;
 
-  void removeAnswer(int index) => _answers.remove(index);
+  void removeAnswer(int index) => _ans.data.remove(index);
 
-  bool containsIndex(int index) => _answers.containsKey(index);
+  bool containsIndex(int index) => _ans.data.containsKey(index);
 
-  bool inCategory(int index, int category) => _answers[index] == category;
+  bool inCategory(int index, int category) => _ans.data[index] == category;
 
-  int? getAnswer(int index) => _answers[index];
+  int? getAnswer(int index) => _ans.data[index];
 
   @override
   bool isAnswered() => true;
@@ -26,12 +26,12 @@ class CategoryQuestionController extends QuestionController {
   @override
   void clear()
   {
-    _answers.clear();
+    _ans.data.clear();
   }
 
   @override
   double evaluate() {
-    if (const MapEquality().equals(_answers, question.correctMatches)) {
+    if (const MapEquality().equals(_ans.data, question.correctMatches)) {
       return 1.0;
     }
     return 0.0;

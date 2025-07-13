@@ -1,31 +1,32 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../../services/theme_notifier.dart';
-import '../../models/account.dart';
+import '../../providers/theme_provider.dart';
 
 import '../../widgets/scrollable_layout.dart';
 
-class SettingsPage extends StatelessWidget {
-  final Account account;
-  const SettingsPage({super.key, required this.account});
+class SettingsPage extends ConsumerWidget {
+  const SettingsPage({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final theme = Theme.of(context);
-    final themeNotifier = Provider.of<ThemeNotifier>(context);
+    final themeNotifier = ref.watch(themeNotifierProvider);
     final isDark = themeNotifier.themeMode == ThemeMode.dark;
 
     return Scaffold(
-        appBar: AppBar(),
-        body: ScrollableLayout(maxWidth: 400, children: [
+      appBar: AppBar(),
+      body: ScrollableLayout(
+        maxWidth: 400,
+        children: [
           Center(
-              child: Text("Ustawienia",
-                  style: theme.textTheme.titleLarge,
-                  textAlign: TextAlign.center)),
-          const SizedBox(
-            height: 32,
+            child: Text(
+              "Ustawienia",
+              style: theme.textTheme.titleLarge,
+              textAlign: TextAlign.center,
+            ),
           ),
+          const SizedBox(height: 32),
           Center(
             child: ListView(
               shrinkWrap: true,
@@ -34,11 +35,15 @@ class SettingsPage extends StatelessWidget {
                 SwitchListTile(
                   title: const Text("Dark Mode"),
                   value: isDark,
-                  onChanged: (value) => themeNotifier.toggleTheme(value),
+                  onChanged: (value) {
+                    ref.read(themeNotifierProvider.notifier).toggleTheme(value);
+                  },
                 ),
               ],
             ),
           ),
-        ]));
+        ],
+      ),
+    );
   }
 }

@@ -27,4 +27,17 @@ class UserStats
     if(testResults.containsKey(type) == false) testResults[type] = [];
     testResults[type]!.add(results);
   }
+
+    void merge(UserStats other) {
+    placementTestTaken = placementTestTaken || other.placementTestTaken;
+
+    // Merge test results
+    for (final entry in other.testResults.entries) {
+      testResults.putIfAbsent(entry.key, () => []);
+      testResults[entry.key]!.addAll(entry.value);
+    }
+
+    // Merge tag/topic stats
+    tagsAndTopicsResults += other.tagsAndTopicsResults;
+  }
 }

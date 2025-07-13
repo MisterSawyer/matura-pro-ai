@@ -1,42 +1,44 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_login/flutter_login.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../core/constants.dart';
 import '../../core/theme_defaults.dart';
 
 import '../../routes/app_routes.dart';
-import '../../controllers/login_controller.dart';
-import '../../controllers/register_controller.dart';
-import '../../models/account.dart';
+import '../../providers/account_provider.dart';
+import '../../providers/auth_provider.dart';
 
-class LoginPage extends StatefulWidget {
+class LoginPage extends ConsumerStatefulWidget {
   const LoginPage({super.key});
 
   @override
-  State<LoginPage> createState() => _LoginPageState();
+  ConsumerState<LoginPage> createState() => _LoginPageState();
 }
 
-class _LoginPageState extends State<LoginPage> {
-  Account? _loggedInAccount;
-
+class _LoginPageState extends ConsumerState<LoginPage> {
   Future<String?> _authUser(LoginData data) async {
-    final account = LoginController().login(data.name, data.password);
+    final auth = ref.read(authServiceProvider);
+    final account = auth.login(data.name, data.password);
+
     if (account == null) return AppStrings.invalidCredentials;
-    _loggedInAccount = account;
+
+    ref.read(accountProvider.notifier).setAccount(account);
     return null;
   }
 
   Future<String?> _signupUser(SignupData data) async {
+    final auth = ref.read(authServiceProvider);
+
     if (data.name == null || data.name!.isEmpty) {
       return AppStrings.usernameMissing;
     }
     if (data.password == null || data.password!.isEmpty) {
       return AppStrings.passwordError;
     }
-    final success = RegisterController.register(
-      data.name!,
-      data.password!,
-    );
+
+    final success = auth.register(data.name!, data.password!);
+
     return success ? null : AppStrings.userExists;
   }
 
@@ -57,19 +59,14 @@ class _LoginPageState extends State<LoginPage> {
           child: ConstrainedBox(
             constraints: const BoxConstraints(maxWidth: 600),
             child: FlutterLogin(
-              title : AppStrings.appTitle,
+              title: AppStrings.appTitle,
               logo: const AssetImage('assets/images/logo2.png'),
               userType: LoginUserType.name,
               onLogin: _authUser,
               onSignup: _signupUser,
               onRecoverPassword: _recoverPassword,
               onSubmitAnimationCompleted: () {
-                if (!mounted || _loggedInAccount == null) return;
-                Navigator.pushReplacementNamed(
-                  context,
-                  AppRoutes.home,
-                  arguments: {'account': _loggedInAccount},
-                );
+                Navigator.pushReplacementNamed(context, AppRoutes.home);
               },
               userValidator: (value) => (value == null || value.isEmpty)
                   ? AppStrings.usernameMissing
@@ -77,7 +74,7 @@ class _LoginPageState extends State<LoginPage> {
               passwordValidator: (value) => (value == null || value.isEmpty)
                   ? AppStrings.passwordError
                   : null,
-              scrollable : false,
+              scrollable: false,
               loginAfterSignUp: false,
               hideForgotPasswordButton: true,
               messages: LoginMessages(
@@ -100,11 +97,11 @@ class _LoginPageState extends State<LoginPage> {
                 errorColor: theme.colorScheme.error,
                 cardTheme: CardTheme(
                   margin: const EdgeInsets.symmetric(horizontal: 0, vertical: 8),
-                  color: theme.scaffoldBackgroundColor, // matches background
+                  color: theme.scaffoldBackgroundColor,
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(16),
                   ),
-                  elevation: 0, // optional: remove shadow
+                  elevation: 0,
                 ),
                 authButtonPadding: const EdgeInsets.all(ThemeDefaults.padding),
                 providerButtonPadding: const EdgeInsets.all(ThemeDefaults.padding),

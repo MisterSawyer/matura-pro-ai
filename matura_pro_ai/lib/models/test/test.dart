@@ -1,10 +1,13 @@
+
+import 'package:flutter/foundation.dart';
 import 'test_part.dart';
 
+@immutable
 class Test {
   final String name;
   final List<TestPart> parts;
 
-  Test({
+  const Test({
     required this.name,
     required this.parts,
   });

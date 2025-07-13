@@ -2,12 +2,12 @@ import 'package:flutter/material.dart';
 
 class DailyChallengeCard extends StatelessWidget {
   final int currentStreak;
-  final VoidCallback onTap;
+  final VoidCallback? onTap;
 
   const DailyChallengeCard({
     super.key,
     required this.currentStreak,
-    required this.onTap,
+    this.onTap,
   });
 
   @override

@@ -4,6 +4,11 @@ import '../topics.dart';
 import 'question.dart';
 import 'question_type.dart';
 
+class CategoryQestionAnswer extends QuestionAnswer
+{
+  final Map<int, int> data = {};
+}
+
 class CategoryQuestion extends Question {
   final String question;
   final List<String> items;

@@ -1,4 +1,6 @@
 
+import 'package:flutter/foundation.dart';
+
 import '../questions/question.dart';
 import '../questions/question_type.dart';
 
@@ -9,11 +11,12 @@ import '../questions/category_question.dart';
 import '../questions/missing_word_question.dart';
 import '../questions/listening_question.dart';
 
+@immutable
 class TestPart {
   final String name;
   final List<Question> questions;
 
-  TestPart({
+  const TestPart({
     required this.name,
     required this.questions,
   });

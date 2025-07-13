@@ -1,16 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../services/flashcard_loader.dart';
-
-import '../../models/account.dart';
+import '../../providers/account_provider.dart';
 
 import '../../widgets/scrollable_layout.dart';
 import 'flashcard_topic_selection_page.dart';
 
-class FlashcardCategorySelectionPage extends StatelessWidget {
-  final Account account;
-
-  const FlashcardCategorySelectionPage({super.key, required this.account});
+class FlashcardCategorySelectionPage extends ConsumerWidget {
+  const FlashcardCategorySelectionPage({super.key});
 
   final List<Map<String, String>> decks = const [
     {'label': 'Sample Deck', 'path': 'sample_deck.json'},
@@ -18,31 +16,34 @@ class FlashcardCategorySelectionPage extends StatelessWidget {
     {'label': 'Vocabulary', 'path': 'vocabulary.json'},
   ];
 
-  void _openDeck(BuildContext context, String path) async {
-    if (context.mounted == false) {
-      return;
-    }
+  Future<void> _openDeck(BuildContext context, WidgetRef ref, String path) async {
+    final account = ref.read(accountProvider);
+    if (account == null) return;
 
     final deck = await loadFlashcardDeck(path);
-    if (context.mounted == false) {
-      return;
-    }
-    final route = MaterialPageRoute(
-      builder: (context) => FlashcardTopicSelectionPage(
-        account: account,
-        deck: deck,
+
+    if (!context.mounted) return;
+
+    await Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (_) => FlashcardTopicSelectionPage(
+          account: account,
+          deck: deck,
+        ),
       ),
     );
-
-    await Navigator.push(context, route);
   }
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final theme = Theme.of(context);
+
     return Scaffold(
-        appBar: AppBar(),
-        body: ScrollableLayout(maxWidth: 400, children: [
+      appBar: AppBar(),
+      body: ScrollableLayout(
+        maxWidth: 400,
+        children: [
           Center(
             child: Text(
               "Kategorie",
@@ -65,10 +66,12 @@ class FlashcardCategorySelectionPage extends StatelessWidget {
                 ),
                 title: Text(deck['label']!),
                 trailing: const Icon(Icons.arrow_forward_ios),
-                onTap: () => _openDeck(context, deck['path']!),
+                onTap: () => _openDeck(context, ref, deck['path']!),
               );
             },
           ),
-        ]));
+        ],
+      ),
+    );
   }
 }

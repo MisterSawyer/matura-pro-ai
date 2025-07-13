@@ -3,6 +3,11 @@ import '../topics.dart';
 
 import 'question_type.dart';
 
+abstract class QuestionAnswer
+{
+
+} 
+
 class Question {
   final QuestionType type;
   final Tags tags;
