@@ -16,7 +16,8 @@ flutter test
 
 These commands must succeed with no errors before you finalize any pull request.
 
-## Do Not Include OpenAI Conversation Links
+## PR instructions
+### Do Not Include OpenAI Conversation Links
 
 To maintain the clarity, privacy, and integrity of this project:
 
@@ -34,3 +35,6 @@ If referencing AI-assisted work, summarize the relevant insight or decision in y
 *Avoid:*
 > See: <https://chat.openai.com/share/xyz>...
 > See: <https://chatgpt.com/codex/tasks>...
+
+### PR Format
+Title format: [<project_name>] <Title>
