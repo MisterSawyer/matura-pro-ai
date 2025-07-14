@@ -8,21 +8,9 @@ import '../../controllers/test/test_controller.dart';
 import '../../controllers/test/test_part_controller.dart';
 import '../../controllers/questions/question_controller.dart';
 
-import '../../controllers/questions/category_question_controller.dart';
-import '../../controllers/questions/multiple_choice_question_controller.dart';
-import '../../controllers/questions/text_input_question_controller.dart';
-import '../../controllers/questions/reading_question_controller.dart';
-import '../../controllers/questions/missing_word_question_controller.dart';
-import '../../controllers/questions/listening_question_controller.dart';
-
 import '../no_scrollbar.dart';
 
-import '../questions/multiple_choice_question_content.dart';
-import '../questions/text_input_question_content.dart';
-import '../questions/category_question_content.dart';
-import '../questions/reading_question_content.dart';
-import '../questions/missing_word_question_content.dart';
-import '../questions/listening_question_content.dart';
+import '../questions/question_widget_factory.dart';
 
 class TestPage extends StatefulWidget {
   final TestController testController;
@@ -48,7 +36,6 @@ class _TestPageState extends State<TestPage> {
 
   QuestionController? _currentQuestionController;
 
-
   @override
   void initState() {
     super.initState();
@@ -65,8 +52,8 @@ class _TestPageState extends State<TestPage> {
 
   void _serveQuestion() async {
     final part = widget.testController.currentPart;
-    final controller = part.currentQuestionController();
-
+    final controller = part.currentQuestion;
+    
     if (controller == null) {
       widget.testController.nextPart();
       _serveQuestion();
@@ -88,59 +75,19 @@ class _TestPageState extends State<TestPage> {
   Widget _buildQuestionWidget() {
     if (_currentQuestionController == null) return Container();
 
-    if (_currentQuestionController is MultipleChoiceQuestionController) {
-      final key = ValueKey(
-          (_currentQuestionController as MultipleChoiceQuestionController)
-              .question);
-      return MultipleChoiceQuestionContent(
-          key: key,
-          controller:
-              _currentQuestionController as MultipleChoiceQuestionController);
-    } else if (_currentQuestionController is CategoryQuestionController) {
-      final key = ValueKey(
-          (_currentQuestionController as CategoryQuestionController).question);
-      return CategoryQuestionContent(
-        key: key,
-        controller: _currentQuestionController as CategoryQuestionController,
-        scrollController: _scrollController,
-      );
-    } else if (_currentQuestionController is TextInputQuestionController) {
-      final key = ValueKey(
-          (_currentQuestionController as TextInputQuestionController).question);
-      return TextInputQuestionContent(
-          key: key,
-          controller:
-              _currentQuestionController as TextInputQuestionController);
-    } else if (_currentQuestionController is ReadingQuestionController) {
-      final key = ValueKey(
-          (_currentQuestionController as ReadingQuestionController).question);
-      return ReadingQuestionContent(
-          key: key,
-          controller: _currentQuestionController as ReadingQuestionController);
-    } else if (_currentQuestionController is MissingWordQuestionController) {
-      final key = ValueKey(
-          (_currentQuestionController as MissingWordQuestionController)
-              .question);
-      return MissingWordQuestionContent(
-          key: key,
-          controller:
-              _currentQuestionController as MissingWordQuestionController);
-    } else if (_currentQuestionController is ListeningQuestionController) {
-      final key = ValueKey(
-          (_currentQuestionController as ListeningQuestionController).question);
-      return ListeningQuestionContent(
-          key: key,
-          controller:
-              _currentQuestionController as ListeningQuestionController);
+    final builder = questionWidgetMap[_currentQuestionController.runtimeType];
+    if (builder != null) {
+      return builder(_currentQuestionController!);
+    } else {
+      throw UnsupportedError(
+          "Unsupported controller: ${_currentQuestionController.runtimeType}");
     }
-    return Container();
   }
 
   void _submitAnswer() async {
     if (_currentQuestionController?.isAnswered() != true) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-            content: Text(AppStrings.enterAllAnswers)),
+        const SnackBar(content: Text(AppStrings.enterAllAnswers)),
       );
       return;
     }

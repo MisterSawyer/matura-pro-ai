@@ -5,18 +5,10 @@ import 'package:audioplayers/audioplayers.dart';
 import '../../core/constants.dart';
 import '../../core/theme_defaults.dart';
 
-import '../../models/questions/question_type.dart';
 import '../../controllers/questions/listening_question_controller.dart';
 import '../../controllers/questions/question_controller.dart';
-import '../../controllers/questions/multiple_choice_question_controller.dart';
-import '../../controllers/questions/text_input_question_controller.dart';
-import '../../controllers/questions/category_question_controller.dart';
-import '../../controllers/questions/missing_word_question_controller.dart';
 
-import 'multiple_choice_question_content.dart';
-import 'text_input_question_content.dart';
-import 'category_question_content.dart';
-import 'missing_word_question_content.dart';
+import 'question_widget_factory.dart';
 
 class ListeningQuestionContent extends StatefulWidget {
   final ListeningQuestionController controller;
@@ -83,14 +75,15 @@ class _ListeningQuestionContentState extends State<ListeningQuestionContent> {
   }
 
   Future<void> _playAudio() async {
-    if(_isLoaded)
-    {
+    if (_isLoaded) {
       return await _player.resume();
     }
     await _player
         .play(AssetSource('audio/${widget.controller.question.audioPath}'));
-    
-    setState(() {_isLoaded = true;});
+
+    setState(() {
+      _isLoaded = true;
+    });
   }
 
   Future<void> _pauseAudio() async {
@@ -98,25 +91,12 @@ class _ListeningQuestionContentState extends State<ListeningQuestionContent> {
   }
 
   Widget _buildSubQuestion(int index, QuestionController subController) {
-    switch (subController.type) {
-      case QuestionType.multipleChoice:
-        return MultipleChoiceQuestionContent(
-          controller: subController as MultipleChoiceQuestionController,
-        );
-      case QuestionType.category:
-        return CategoryQuestionContent(
-          controller: subController as CategoryQuestionController,
-        );
-      case QuestionType.textInput:
-        return TextInputQuestionContent(
-          controller: subController as TextInputQuestionController,
-        );
-      case QuestionType.missingWord:
-        return MissingWordQuestionContent(
-          controller: subController as MissingWordQuestionController,
-        );
-      default:
-        return const SizedBox.shrink();
+    final builder = questionWidgetMap[subController.runtimeType];
+    if (builder != null) {
+      return builder(subController);
+    } else {
+      throw UnsupportedError(
+          "Unsupported controller: ${subController.runtimeType}");
     }
   }
 
@@ -126,10 +106,8 @@ class _ListeningQuestionContentState extends State<ListeningQuestionContent> {
     return '$minutes:$seconds';
   }
 
-  Widget _buildActionButton()
-  {
-    if(!_isLoaded || _position == Duration.zero)
-    {
+  Widget _buildActionButton() {
+    if (!_isLoaded || _position == Duration.zero) {
       return ElevatedButton.icon(
         onPressed: _playAudio,
         icon: const Icon(Icons.play_arrow),
@@ -137,16 +115,13 @@ class _ListeningQuestionContentState extends State<ListeningQuestionContent> {
       );
     }
 
-    if(_isPlaying)
-    {
+    if (_isPlaying) {
       return ElevatedButton.icon(
         onPressed: _pauseAudio,
         icon: const Icon(Icons.pause),
         label: const Text(AppStrings.pauseAudio),
       );
-    }
-    else 
-    {
+    } else {
       return ElevatedButton.icon(
         onPressed: _playAudio,
         icon: const Icon(Icons.play_arrow),

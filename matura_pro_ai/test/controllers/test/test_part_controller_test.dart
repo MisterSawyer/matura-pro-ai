@@ -28,6 +28,6 @@ void main() {
     final c = TestPartController(part: part);
     expect(c.isLastQuestion, isFalse);
     c.nextQuestion();
-    expect(c.currentQuestionController(), isNotNull);
+    expect(c.currentQuestion, isNotNull);
   });
 }
