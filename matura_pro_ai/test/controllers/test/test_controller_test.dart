@@ -1,4 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
+import 'package:matura_pro_ai/controllers/questions/multiple_choice_question_controller.dart';
 import 'package:matura_pro_ai/models/test/test.dart';
 import 'package:matura_pro_ai/models/test/test_part.dart';
 import 'package:matura_pro_ai/controllers/test/test_controller.dart';
@@ -20,7 +21,7 @@ void main() {
     });
     final test = Test(name: 't', parts: [part]);
     final controller = TestController(test);
-    final sub = controller.currentPart.currentQuestionController() as dynamic;
+    final sub = controller.currentPart.currentQuestion as MultipleChoiceQuestionController;
     sub.addAnswer(0);
     final (res, tags) = controller.calculateResults();
     expect(res.partResults.first, 1);
