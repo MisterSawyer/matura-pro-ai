@@ -1,3 +1,5 @@
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+
 import '../../../models/questions/question_type.dart';
 
 import '../../models/test/test_part.dart';
@@ -16,10 +18,9 @@ import '../questions/category_question_controller.dart';
 import '../questions/reading_question_controller.dart';
 import '../questions/missing_word_question_controller.dart';
 import '../questions/listening_question_controller.dart';
+import 'test_part_state.dart';
 
-class TestPartController {
-  int _currentQuestion = 0;
-
+class TestPartController extends StateNotifier<TestPartState> {
   final TestPart part;
 
   final List<QuestionType> _order = [];
@@ -56,7 +57,7 @@ class TestPartController {
     return all;
   }
 
-  TestPartController({required this.part}) {
+  TestPartController({required this.part}) : super(TestPartState(part: part)) {
     // set up counters
     clear();
 
@@ -100,10 +101,10 @@ class TestPartController {
 
   String get name => part.name;
   int get total => part.questions.length;
-  bool get isLastQuestion => _currentQuestion >= _order.length - 1;
+  bool get isLastQuestion => state.currentQuestion >= _order.length - 1;
 
   void clear() {
-    _currentQuestion = 0;
+    state = state.copyWith(currentQuestion: 0);
     _questionCounters[QuestionType.multipleChoice] = 0;
     _questionCounters[QuestionType.textInput] = 0;
     _questionCounters[QuestionType.category] = 0;
@@ -146,47 +147,63 @@ class TestPartController {
   }
 
   QuestionController? currentQuestionController() {
-    if (_currentQuestion >= _order.length) return null;
-    switch (_order[_currentQuestion]) {
+    if (state.currentQuestion >= _order.length) return null;
+    switch (_order[state.currentQuestion]) {
       case QuestionType.multipleChoice:
         if (_questionCounters[QuestionType.multipleChoice] == null) return null;
         if (_questionCounters[QuestionType.multipleChoice]! >=
-            _multipleChoiceQuestionControllers.length) { return null;}
+            _multipleChoiceQuestionControllers.length) {
+          return null;
+        }
         return _multipleChoiceQuestionControllers[
             _questionCounters[QuestionType.multipleChoice]!];
 
       case QuestionType.textInput:
         if (_questionCounters[QuestionType.textInput] == null) return null;
         if (_questionCounters[QuestionType.textInput]! >=
-            _textInputQuestionControllers.length) {return null;}
+            _textInputQuestionControllers.length) {
+          return null;
+        }
         return _textInputQuestionControllers[
             _questionCounters[QuestionType.textInput]!];
 
       case QuestionType.category:
         if (_questionCounters[QuestionType.category] == null) return null;
         if (_questionCounters[QuestionType.category]! >=
-            _categoryQuestionControllers.length) {return null;}
+            _categoryQuestionControllers.length) {
+          return null;
+        }
         return _categoryQuestionControllers[
             _questionCounters[QuestionType.category]!];
 
       case QuestionType.reading:
         if (_questionCounters[QuestionType.reading] == null) return null;
         if (_questionCounters[QuestionType.reading]! >=
-            _readingQuestionControllers.length) {return null;}
+            _readingQuestionControllers.length) {
+          return null;
+        }
         return _readingQuestionControllers[
             _questionCounters[QuestionType.reading]!];
 
       case QuestionType.missingWord:
-        if (_questionCounters[QuestionType.missingWord] == null) {return null;}
+        if (_questionCounters[QuestionType.missingWord] == null) {
+          return null;
+        }
         if (_questionCounters[QuestionType.missingWord]! >=
-            _missingWordQuestionControllers.length) {return null;}
+            _missingWordQuestionControllers.length) {
+          return null;
+        }
         return _missingWordQuestionControllers[
             _questionCounters[QuestionType.missingWord]!];
 
       case QuestionType.listening:
-        if (_questionCounters[QuestionType.listening] == null) {return null;}
+        if (_questionCounters[QuestionType.listening] == null) {
+          return null;
+        }
         if (_questionCounters[QuestionType.listening]! >=
-            _listeningQuestionControllers.length){ return null;}
+            _listeningQuestionControllers.length) {
+          return null;
+        }
         return _listeningQuestionControllers[
             _questionCounters[QuestionType.listening]!];
     }
@@ -198,10 +215,10 @@ class TestPartController {
     }
 
     // update counter of current question
-    _questionCounters[_order[_currentQuestion]] =
-        _questionCounters[_order[_currentQuestion]]! + 1;
+    _questionCounters[_order[state.currentQuestion]] =
+        _questionCounters[_order[state.currentQuestion]]! + 1;
 
-    _currentQuestion++;
+    state = state.copyWith(currentQuestion: state.currentQuestion + 1);
   }
 
   double evaluate() {
