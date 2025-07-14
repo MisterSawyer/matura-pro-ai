@@ -1,8 +1,9 @@
-class TestResult 
+class TestResult
 {
   final String name;
   List<String> partNames = [];
   List<double> partResults = [];
+  List<List<bool>> questionResults = [];
 
   TestResult(this.name);
 

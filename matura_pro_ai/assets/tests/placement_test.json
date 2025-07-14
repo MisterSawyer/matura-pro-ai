@@ -3,6 +3,7 @@
     "parts": [
         {
             "name": "ROZUMIENIE TEKSTÓW PISANYCH",
+            "duration" : 300,
             "questions": [
                 {
                     "type": "reading",
@@ -104,6 +105,7 @@
         },
         {
             "name": "ZNAJOMOŚĆ ŚRODKÓW JĘZYKOWYCH",
+            "duration" : 300,
             "questions": [
                 {
                     "type": "missing_word",
@@ -119,7 +121,7 @@
                         ]
                     ],
                     "correctMatches": {
-                        "0": 0
+                        "0": 1
                     }
                 },
                 {
@@ -136,7 +138,7 @@
                         ]
                     ],
                     "correctMatches": {
-                        "0": 0
+                        "0": 2
                     }
                 },
                 {
@@ -213,6 +215,7 @@
         },
         {
             "name": "ROZUMIENIE ZE SŁUCHU",
+            "duration" : 300,
             "questions": [
                 {
                     "type": "listening",

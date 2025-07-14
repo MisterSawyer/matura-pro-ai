@@ -4,7 +4,7 @@ import '../../models/test/test_result.dart';
 import '../../models/test/test_progress.dart';
 import '../../models/tags_and_topics_results.dart';
 
-class TestController 
+class TestController
 {
   int _currentPartID = 0;
   Test test;
@@ -51,7 +51,12 @@ class TestController
 
     for (int i = 0; i <= currentPartID; i++) {
       results.partNames.add(parts[i].name);
-      results.partResults.add(parts[i].evaluate());
+      final partScore = parts[i].evaluate();
+      results.partResults.add(partScore);
+
+      final qResults =
+          parts[i].questions.map((q) => q.evaluate() == 1).toList();
+      results.questionResults.add(qResults);
 
       for (final question in parts[i].questions) {
         double score = question.evaluate();

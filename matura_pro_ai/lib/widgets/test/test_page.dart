@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/gestures.dart';
+import 'dart:async';
 
 import '../../core/constants.dart';
 import '../../core/theme_defaults.dart';
@@ -36,6 +37,10 @@ class _TestPageState extends State<TestPage> {
 
   QuestionController? _currentQuestionController;
 
+  int _secondsRemaining = 0;
+  int _currentDuration = 0;
+  Timer? _timer;
+
   @override
   void initState() {
     super.initState();
@@ -44,20 +49,43 @@ class _TestPageState extends State<TestPage> {
     });
   }
 
+  void _startTimer() {
+    final part = widget.testController.currentPart;
+    _currentDuration = part.part.duration;
+    _secondsRemaining = _currentDuration;
+    _timer?.cancel();
+    _timer = Timer.periodic(const Duration(seconds: 1), (t) {
+      if (!mounted) return;
+      if (_secondsRemaining <= 0) {
+        t.cancel();
+        setState(() {});
+        return;
+      }
+      setState(() {
+        _secondsRemaining--;
+      });
+    });
+  }
+
   @override
   void dispose() {
     _scrollController.dispose();
+    _timer?.cancel();
     super.dispose();
   }
 
   void _serveQuestion() async {
     final part = widget.testController.currentPart;
     final controller = part.currentQuestion;
-    
+
     if (controller == null) {
       widget.testController.nextPart();
       _serveQuestion();
       return;
+    }
+
+    if (part.currentIndex == 0) {
+      _startTimer();
     }
 
     setState(() {
@@ -97,16 +125,34 @@ class _TestPageState extends State<TestPage> {
     if (part.isLastQuestion) {
       bool shouldContinue = await widget.onPartFinished(part);
       if (!shouldContinue || widget.testController.isLastPart) {
+        _timer?.cancel();
         await widget.onTestEnded();
         return;
       }
 
+      _timer?.cancel();
       widget.testController.nextPart();
     } else {
       part.nextQuestion();
     }
 
     _serveQuestion();
+  }
+
+  Widget _buildTimerWidget(BuildContext context) {
+    if (_currentDuration == 0) return const SizedBox.shrink();
+    final progress =
+        _currentDuration == 0 ? 0.0 : _secondsRemaining / _currentDuration;
+    final minutes = (_secondsRemaining ~/ 60).toString().padLeft(2, '0');
+    final seconds = (_secondsRemaining % 60).toString().padLeft(2, '0');
+    final color = progress < 0.2 ? Colors.red : Theme.of(context).colorScheme.primary;
+    return Column(
+      children: [
+        LinearProgressIndicator(value: progress, color: color),
+        const SizedBox(height: 4),
+        Text('$minutes:$seconds'),
+      ],
+    );
   }
 
   @override
@@ -134,9 +180,9 @@ class _TestPageState extends State<TestPage> {
                     child: Text(widget.label,
                         style: theme.textTheme.titleLarge,
                         textAlign: TextAlign.center)),
-                const SizedBox(
-                  height: 64,
-                ),
+                const SizedBox(height: 16),
+                _buildTimerWidget(context),
+                const SizedBox(height: 48),
                 Padding(
                   padding: const EdgeInsets.all(ThemeDefaults.padding),
                   child: _buildQuestionWidget(),
