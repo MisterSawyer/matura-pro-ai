@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../../core/constants.dart';
 import '../../models/account.dart';
 import '../../models/questions/question_topic.dart';
 import '../../models/flashcard/flashcard_deck.dart';
@@ -29,7 +30,7 @@ class FlashcardTopicSelectionPage extends StatelessWidget {
         children: [
           Center(
             child: Text(
-              "Wybierz temat fiszek",
+              AppStrings.chooseFlashcardsTopic,
               style: theme.textTheme.titleLarge,
               textAlign: TextAlign.center,
             ),

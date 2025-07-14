@@ -1,4 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
+import 'package:matura_pro_ai/core/constants.dart';
 import 'package:matura_pro_ai/models/questions/question_type.dart';
 
 void main() {
@@ -13,8 +14,8 @@ void main() {
   group('QuestionType.stringDesc', () {
     test('returns human readable descriptions', () {
       expect(QuestionType.stringDesc(QuestionType.multipleChoice),
-          'Multiple choice');
-      expect(QuestionType.stringDesc(QuestionType.listening), 'Listening');
+          AppStrings.multipleChoice);
+      expect(QuestionType.stringDesc(QuestionType.listening), AppStrings.listening);
     });
   });
 }

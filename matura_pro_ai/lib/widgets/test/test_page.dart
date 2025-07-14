@@ -140,7 +140,7 @@ class _TestPageState extends State<TestPage> {
     if (_currentQuestionController?.isAnswered() != true) {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
-            content: Text("Please answer the question before submitting.")),
+            content: Text(AppStrings.enterAllAnswers)),
       );
       return;
     }

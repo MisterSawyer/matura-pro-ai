@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+
+import '../../core/constants.dart';
 import '../../models/test/test.dart';
 import '../../models/questions/question_type.dart';
 
@@ -31,7 +33,7 @@ class TestSummaryPage extends StatelessWidget {
                   style: Theme.of(context).textTheme.headlineSmall,
                 ),
                 const SizedBox(height: 8),
-                Text("Questions: ${part.questions.length}"),
+                Text("${AppStrings.question}: ${part.questions.length}"),
                 const SizedBox(height: 8),
                 Wrap(
                   spacing: 6,

@@ -1,3 +1,5 @@
+import '../../core/constants.dart';
+
 enum QuestionType 
 {
   multipleChoice,
@@ -31,17 +33,17 @@ enum QuestionType
   {
     switch (type) {
       case QuestionType.multipleChoice:
-        return "Multiple choice";
+        return AppStrings.multipleChoice;
       case QuestionType.reading:
-        return "Reading";
+        return AppStrings.reading;
       case QuestionType.textInput:
-        return "Text input";
+        return AppStrings.textInput;
       case QuestionType.category:
-        return "Category";
+        return AppStrings.category;
       case QuestionType.missingWord:
-        return "Missing word";
+        return AppStrings.missingWord;
       case QuestionType.listening:
-        return "Listening";
+        return AppStrings.listening;
     }
   }
 

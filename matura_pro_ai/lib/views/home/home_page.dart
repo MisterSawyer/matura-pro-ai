@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../core/constants.dart';
 import '../../core/theme_defaults.dart';
 import '../../models/test/test_type.dart';
 import '../../providers/account_provider.dart';
@@ -47,7 +48,7 @@ class _HomePageState extends ConsumerState<HomePage> {
           ),
           onPressed: null,
           child: const Text(
-            "START ➤",
+            "${AppStrings.start} ➤",
             overflow: TextOverflow.fade,
             softWrap: false,
             maxLines: 1,
@@ -65,7 +66,7 @@ class _HomePageState extends ConsumerState<HomePage> {
             Navigator.pushNamed(context, AppRoutes.raindrop);
           },
           child: const Text(
-            "RAINDROP",
+            AppStrings.raindrop,
             overflow: TextOverflow.fade,
             softWrap: false,
             maxLines: 1,
@@ -79,32 +80,32 @@ class _HomePageState extends ConsumerState<HomePage> {
     return [
       HomeTile(
         icon: const Icon(Icons.insert_drive_file, size: 64),
-        label: 'Matura',
+        label: AppStrings.exam,
         onTap: () => Navigator.pushNamed(context, AppRoutes.placementTest),
       ),
       HomeTile(
         icon: const Icon(Icons.pages, size: 64),
-        label: 'Fiszki',
+        label: AppStrings.flashcards,
         onTap: () => Navigator.pushNamed(context, AppRoutes.flashcards),
       ),
-      const HomeTile(icon: Icon(Icons.mic, size: 64), label: 'Mówienie'),
-      const HomeTile(icon: Icon(Icons.headset, size: 64), label: 'Słuchanie'),
-      const HomeTile(icon: Icon(Icons.book, size: 64), label: 'Czytanie'),
-      const HomeTile(icon: Icon(Icons.edit, size: 64), label: 'Pisanie'),
+      const HomeTile(icon: Icon(Icons.mic, size: 64), label: AppStrings.speaking),
+      const HomeTile(icon: Icon(Icons.headset, size: 64), label: AppStrings.listening),
+      const HomeTile(icon: Icon(Icons.book, size: 64), label: AppStrings.reading),
+      const HomeTile(icon: Icon(Icons.edit, size: 64), label: AppStrings.writing),
       HomeTile(
         icon: const Icon(Icons.account_circle, size: 64),
-        label: 'Konto',
+        label: AppStrings.account,
         onTap: () => Navigator.pushNamed(context, AppRoutes.account),
       ),
-      const HomeTile(icon: Icon(Icons.supervisor_account, size: 64), label: 'Social'),
+      const HomeTile(icon: Icon(Icons.supervisor_account, size: 64), label: AppStrings.social),
       HomeTile(
         icon: const Icon(Icons.equalizer, size: 64),
-        label: 'Stats',
+        label: AppStrings.stats,
         onTap: () => Navigator.pushNamed(context, AppRoutes.stats),
       ),
       HomeTile(
         icon: const Icon(Icons.settings, size: 64),
-        label: 'Ustawienia',
+        label: AppStrings.settings,
         onTap: () => Navigator.pushNamed(context, AppRoutes.settings),
       ),
     ];
@@ -142,7 +143,7 @@ class _HomePageState extends ConsumerState<HomePage> {
                         children: [
                           const SizedBox(height: 64),
                           Text(
-                            'Cześć, ${account?.name ?? account?.username}!'.toUpperCase(),
+                            '${AppStrings.hello}, ${account?.name ?? account?.username}!'.toUpperCase(),
                             style: theme.textTheme.titleLarge,
                             textAlign: TextAlign.center,
                           ),

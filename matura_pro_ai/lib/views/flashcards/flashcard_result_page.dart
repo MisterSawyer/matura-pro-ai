@@ -46,14 +46,14 @@ class FlashcardResultPage extends ConsumerWidget {
           const SizedBox(height: 32),
           Center(
             child: Text(
-              "Great job, ${account.name}!",
+              "${AppStrings.wellDone} ${account.name??account.username}!",
               style: theme.textTheme.headlineMedium,
             ),
           ),
           const SizedBox(height: ThemeDefaults.padding),
           Center(
             child: Text(
-              "You got ${state.correctAnswers} out of ${state.workingDeck.cards.length} cards correct.",
+              "${AppStrings.correct} : ${state.correctAnswers} / ${state.workingDeck.cards.length}",
               style: theme.textTheme.titleSmall,
             ),
           ),
@@ -62,7 +62,7 @@ class FlashcardResultPage extends ConsumerWidget {
           const SizedBox(height: 32),
           Center(
             child: ElevatedButton(
-              child: const Text('Retry'),
+              child: const Text(AppStrings.retry),
               onPressed: () {
                 Navigator.pushReplacement(
                   context,
@@ -85,7 +85,6 @@ class FlashcardResultPage extends ConsumerWidget {
                   context,
                   AppRoutes.home,
                   (route) => false,
-                  arguments: {'account': account},
                 );
               },
             ),

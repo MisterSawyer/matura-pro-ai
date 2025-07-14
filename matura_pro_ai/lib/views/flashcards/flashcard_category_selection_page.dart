@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../core/constants.dart';
+
 import '../../services/flashcard_loader.dart';
 import '../../providers/account_provider.dart';
 
@@ -46,7 +48,7 @@ class FlashcardCategorySelectionPage extends ConsumerWidget {
         children: [
           Center(
             child: Text(
-              "Kategorie",
+              AppStrings.categories,
               style: theme.textTheme.titleLarge,
               textAlign: TextAlign.center,
             ),
