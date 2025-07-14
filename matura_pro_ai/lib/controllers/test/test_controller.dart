@@ -10,12 +10,6 @@ class TestController
   Test test;
   final List<TestPartController> _partControllers = [];
 
-  static const Map<String, String> _partSkillMap = {
-    'ROZUMIENIE TEKSTÓW PISANYCH': 'reading',
-    'ZNAJOMOŚĆ ŚRODKÓW JĘZYKOWYCH': 'grammar',
-    'ROZUMIENIE ZE SŁUCHU': 'listening',
-  };
-
   TestController(this.test) 
   {
     for (final part in test.parts) {
@@ -60,10 +54,9 @@ class TestController
       final partScore = parts[i].evaluate();
       results.partResults.add(partScore);
 
-      final skill = _partSkillMap[parts[i].name];
-      if (skill != null) {
-        results.skillBreakdown[skill] = partScore;
-      }
+      final qResults =
+          parts[i].questions.map((q) => q.evaluate() == 1).toList();
+      results.questionResults.add(qResults);
 
       for (final question in parts[i].questions) {
         double score = question.evaluate();

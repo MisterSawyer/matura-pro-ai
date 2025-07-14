@@ -6,6 +6,7 @@ void main() {
   test('nextQuestion advances order', () {
       final part = TestPart.fromJson(const {
       'name': 'p',
+      'duration': 0,
         'questions': [
           {
             'type': 'multiple_choice',

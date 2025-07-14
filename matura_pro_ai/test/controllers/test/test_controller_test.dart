@@ -8,6 +8,7 @@ void main() {
   test('calculateResults aggregates parts', () {
     final part = TestPart.fromJson(const {
       'name': 'p',
+      'duration': 0,
       'questions': [
         {
           'type': 'multiple_choice',
@@ -25,5 +26,6 @@ void main() {
     sub.addAnswer(0);
     final (res, tags) = controller.calculateResults();
     expect(res.partResults.first, 1);
+    expect(res.questionResults.first.first, isTrue);
   });
 }

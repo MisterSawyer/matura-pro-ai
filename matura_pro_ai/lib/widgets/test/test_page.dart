@@ -36,11 +36,6 @@ class _TestPageState extends State<TestPage> {
   final ScrollController _scrollController = ScrollController();
 
   QuestionController? _currentQuestionController;
-  static const Map<String, int> _partDurations = {
-    'ROZUMIENIE TEKSTÓW PISANYCH': 300,
-    'ZNAJOMOŚĆ ŚRODKÓW JĘZYKOWYCH': 300,
-    'ROZUMIENIE ZE SŁUCHU': 300,
-  };
 
   int _secondsRemaining = 0;
   int _currentDuration = 0;
@@ -55,8 +50,8 @@ class _TestPageState extends State<TestPage> {
   }
 
   void _startTimer() {
-    final name = widget.testController.currentPart.name;
-    _currentDuration = _partDurations[name] ?? 300;
+    final part = widget.testController.currentPart;
+    _currentDuration = part.part.duration;
     _secondsRemaining = _currentDuration;
     _timer?.cancel();
     _timer = Timer.periodic(const Duration(seconds: 1), (t) {

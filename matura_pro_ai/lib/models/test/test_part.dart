@@ -15,10 +15,12 @@ import '../questions/listening_question.dart';
 class TestPart {
   final String name;
   final List<Question> questions;
+  final int duration;
 
   const TestPart({
     required this.name,
     required this.questions,
+    required this.duration,
   });
 
   factory TestPart.fromJson(Map<String, dynamic> json) {
@@ -51,7 +53,8 @@ class TestPart {
 
     return TestPart(
       name: json['name'] as String,
-      questions: questions
+      questions: questions,
+      duration: json['duration'] as int
     );
   }
 }

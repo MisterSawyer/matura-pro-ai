@@ -40,27 +40,31 @@ class UserStatisticsPage extends ConsumerWidget {
               itemBuilder: (context, index) {
                 final label = testResult.partNames[index];
                 final score = testResult.partResults[index];
-                return ListTile(
+                final questions = index < testResult.questionResults.length
+                    ? testResult.questionResults[index]
+                    : const <bool>[];
+                return ExpansionTile(
                   title: Text(label),
                   trailing: Text(
                     "${(score * 100).toStringAsFixed(1)}%",
                     style: theme.textTheme.bodyLarge,
                   ),
+                  children: questions.asMap().entries.map((e) {
+                    final correct = e.value;
+                    return ListTile(
+                      dense: true,
+                      visualDensity: VisualDensity.compact,
+                      contentPadding: const EdgeInsets.only(left: 16),
+                      title: Text('${AppStrings.question} ${e.key + 1}'),
+                      trailing: Icon(
+                        correct ? Icons.check : Icons.close,
+                        color: correct ? Colors.green : Colors.red,
+                      ),
+                    );
+                  }).toList(),
                 );
               },
             ),
-            if (testResult.skillBreakdown.isNotEmpty) ...[
-              const Divider(height: 24),
-              ...testResult.skillBreakdown.entries.map(
-                (e) => ListTile(
-                  title: Text(e.key),
-                  trailing: Text(
-                    "${(e.value * 100).toStringAsFixed(1)}%",
-                    style: theme.textTheme.bodyLarge,
-                  ),
-                ),
-              ),
-            ],
             const SizedBox(height: 12),
             Center(
               child: SpeedometerGauge(
