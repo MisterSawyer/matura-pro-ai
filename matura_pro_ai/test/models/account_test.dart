@@ -17,7 +17,7 @@ void main() {
 
     test('save and finish test', () {
       final acc = Account(username: 'user');
-      final test = Test(name: 't1', parts: const []);
+      const test = Test(name: 't1', parts: []);
       final progress = TestProgress(
           test: test,
           partID: 0,
