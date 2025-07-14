@@ -84,8 +84,6 @@ enum QuestionTopic
         return "Świat przyrody";
       case QuestionTopic.politcs:
         return "Państwo i społeczeństwo";
-      default:
-        throw ArgumentError('Invalid QuestionType: $type');
     }
   }
 

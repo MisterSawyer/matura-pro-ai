@@ -10,8 +10,6 @@ enum TestType
         return "Test poziomujący";
       case TestType.normal:
         return "Test zwykły";
-      default:
-        throw ArgumentError('Invalid TestType: $type');
     }
   }
 

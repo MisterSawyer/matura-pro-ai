@@ -69,7 +69,8 @@ class _MultipleChoiceQuestionContentState
                                 vertical: 16, horizontal: 16),
                             decoration: BoxDecoration(
                               color: isSelected
-                                  ? theme.colorScheme.primary.withOpacity(0.1)
+                                  ? theme.colorScheme.primary.withValues(
+                                      alpha: 0.1)
                                   : theme.cardColor,
                               borderRadius: BorderRadius.circular(12),
                               border: Border.all(
@@ -81,7 +82,7 @@ class _MultipleChoiceQuestionContentState
                                 if (isSelected)
                                   BoxShadow(
                                     color: theme.colorScheme.primary
-                                        .withOpacity(0.3),
+                                        .withValues(alpha : 0.3),
                                     blurRadius: 6,
                                     offset: const Offset(0, 2),
                                   ),

@@ -151,46 +151,44 @@ class TestPartController {
       case QuestionType.multipleChoice:
         if (_questionCounters[QuestionType.multipleChoice] == null) return null;
         if (_questionCounters[QuestionType.multipleChoice]! >=
-            _multipleChoiceQuestionControllers.length) return null;
+            _multipleChoiceQuestionControllers.length) { return null;}
         return _multipleChoiceQuestionControllers[
             _questionCounters[QuestionType.multipleChoice]!];
 
       case QuestionType.textInput:
         if (_questionCounters[QuestionType.textInput] == null) return null;
         if (_questionCounters[QuestionType.textInput]! >=
-            _textInputQuestionControllers.length) return null;
+            _textInputQuestionControllers.length) {return null;}
         return _textInputQuestionControllers[
             _questionCounters[QuestionType.textInput]!];
 
       case QuestionType.category:
         if (_questionCounters[QuestionType.category] == null) return null;
         if (_questionCounters[QuestionType.category]! >=
-            _categoryQuestionControllers.length) return null;
+            _categoryQuestionControllers.length) {return null;}
         return _categoryQuestionControllers[
             _questionCounters[QuestionType.category]!];
 
       case QuestionType.reading:
         if (_questionCounters[QuestionType.reading] == null) return null;
         if (_questionCounters[QuestionType.reading]! >=
-            _readingQuestionControllers.length) return null;
+            _readingQuestionControllers.length) {return null;}
         return _readingQuestionControllers[
             _questionCounters[QuestionType.reading]!];
 
       case QuestionType.missingWord:
-        if (_questionCounters[QuestionType.missingWord] == null) return null;
+        if (_questionCounters[QuestionType.missingWord] == null) {return null;}
         if (_questionCounters[QuestionType.missingWord]! >=
-            _missingWordQuestionControllers.length) return null;
+            _missingWordQuestionControllers.length) {return null;}
         return _missingWordQuestionControllers[
             _questionCounters[QuestionType.missingWord]!];
 
       case QuestionType.listening:
-        if (_questionCounters[QuestionType.listening] == null) return null;
+        if (_questionCounters[QuestionType.listening] == null) {return null;}
         if (_questionCounters[QuestionType.listening]! >=
-            _listeningQuestionControllers.length) return null;
+            _listeningQuestionControllers.length){ return null;}
         return _listeningQuestionControllers[
             _questionCounters[QuestionType.listening]!];
-      default:
-        return null;
     }
   }
 
