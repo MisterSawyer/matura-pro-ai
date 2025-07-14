@@ -4,11 +4,17 @@ import '../../models/test/test_result.dart';
 import '../../models/test/test_progress.dart';
 import '../../models/tags_and_topics_results.dart';
 
-class TestController 
+class TestController
 {
   int _currentPartID = 0;
   Test test;
   final List<TestPartController> _partControllers = [];
+
+  static const Map<String, String> _partSkillMap = {
+    'ROZUMIENIE TEKSTÓW PISANYCH': 'reading',
+    'ZNAJOMOŚĆ ŚRODKÓW JĘZYKOWYCH': 'grammar',
+    'ROZUMIENIE ZE SŁUCHU': 'listening',
+  };
 
   TestController(this.test) 
   {
@@ -51,7 +57,13 @@ class TestController
 
     for (int i = 0; i <= currentPartID; i++) {
       results.partNames.add(parts[i].name);
-      results.partResults.add(parts[i].evaluate());
+      final partScore = parts[i].evaluate();
+      results.partResults.add(partScore);
+
+      final skill = _partSkillMap[parts[i].name];
+      if (skill != null) {
+        results.skillBreakdown[skill] = partScore;
+      }
 
       for (final question in parts[i].questions) {
         double score = question.evaluate();

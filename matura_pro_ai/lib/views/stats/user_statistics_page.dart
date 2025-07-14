@@ -49,6 +49,18 @@ class UserStatisticsPage extends ConsumerWidget {
                 );
               },
             ),
+            if (testResult.skillBreakdown.isNotEmpty) ...[
+              const Divider(height: 24),
+              ...testResult.skillBreakdown.entries.map(
+                (e) => ListTile(
+                  title: Text(e.key),
+                  trailing: Text(
+                    "${(e.value * 100).toStringAsFixed(1)}%",
+                    style: theme.textTheme.bodyLarge,
+                  ),
+                ),
+              ),
+            ],
             const SizedBox(height: 12),
             Center(
               child: SpeedometerGauge(
