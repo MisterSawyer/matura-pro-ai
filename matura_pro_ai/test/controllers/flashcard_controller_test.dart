@@ -2,8 +2,8 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:matura_pro_ai/models/flashcard/flashcard.dart';
 import 'package:matura_pro_ai/models/flashcard/flashcard_deck.dart';
 import 'package:matura_pro_ai/controllers/flashcard/flashcard_controller.dart';
-import "package:matura_pro_ai/models/tags.dart" as model_tags;
-import "package:matura_pro_ai/models/topics.dart";
+import 'package:matura_pro_ai/models/tags.dart' as model_tags;
+import 'package:matura_pro_ai/models/topics.dart';
 
 void main() {
   test('flip and nextCard', () {

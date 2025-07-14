@@ -2,6 +2,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:audioplayers/audioplayers.dart';
 
+import '../../core/constants.dart';
 import '../../core/theme_defaults.dart';
 
 import '../../models/questions/question_type.dart';
@@ -132,7 +133,7 @@ class _ListeningQuestionContentState extends State<ListeningQuestionContent> {
       return ElevatedButton.icon(
         onPressed: _playAudio,
         icon: const Icon(Icons.play_arrow),
-        label: const Text("Odtwórz"),
+        label: const Text(AppStrings.playAudio),
       );
     }
 
@@ -141,7 +142,7 @@ class _ListeningQuestionContentState extends State<ListeningQuestionContent> {
       return ElevatedButton.icon(
         onPressed: _pauseAudio,
         icon: const Icon(Icons.pause),
-        label: const Text("Pauza"),
+        label: const Text(AppStrings.pauseAudio),
       );
     }
     else 
@@ -149,7 +150,7 @@ class _ListeningQuestionContentState extends State<ListeningQuestionContent> {
       return ElevatedButton.icon(
         onPressed: _playAudio,
         icon: const Icon(Icons.play_arrow),
-        label: const Text("Wznów"),
+        label: const Text(AppStrings.resumeAudio),
       );
     }
   }

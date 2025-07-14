@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../core/theme.dart';
+import '../core/constants.dart';
 import '../providers/theme_provider.dart';
 
 import '../routes/app_routes.dart';
@@ -23,7 +24,7 @@ class App extends ConsumerWidget {
     final themeMode = themeNotifier.themeMode;
 
     return MaterialApp(
-      title: 'Matura Pro AI',
+      title: AppStrings.appTitle,
       debugShowCheckedModeBanner: false,
       theme: AppTheme.light,
       darkTheme: AppTheme.dark,

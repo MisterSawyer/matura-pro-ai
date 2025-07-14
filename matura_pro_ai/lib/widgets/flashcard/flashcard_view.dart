@@ -1,6 +1,7 @@
 import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:matura_pro_ai/core/constants.dart';
 
 import '../../controllers/flashcard/flashcard_controller.dart';
 import '../../controllers/flashcard/flashcard_state.dart';
@@ -197,7 +198,7 @@ class _FlashcardViewState extends ConsumerState<FlashcardView>
           child: TextField(
             controller: _answerController,
             decoration: const InputDecoration(
-              labelText: 'wpisz odpowiedź',
+              labelText: AppStrings.enterAnswer,
               border: OutlineInputBorder(),
               isDense: true,
               contentPadding: EdgeInsets.symmetric(vertical: 8, horizontal: 12),
@@ -225,7 +226,7 @@ class _FlashcardViewState extends ConsumerState<FlashcardView>
 
     if (state.totalCards == 0) {
       return const Center(
-        child: Text('Brak kart', textAlign: TextAlign.center),
+        child: Text(AppStrings.noCards, textAlign: TextAlign.center),
       );
     }
 

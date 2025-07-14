@@ -66,7 +66,7 @@ class PlacementTestPartResultPage extends ConsumerWidget {
         children: [
           Center(
             child: Text(
-              "Podsumowanie",
+              AppStrings.summary,
               style: theme.textTheme.titleLarge,
               textAlign: TextAlign.center,
             ),

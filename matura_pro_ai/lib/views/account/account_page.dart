@@ -93,7 +93,7 @@ class _AccountPageState extends ConsumerState<AccountPage> {
             children: [
               Center(
                 child: Text(
-                  "Konto",
+                  AppStrings.account,
                   style: theme.textTheme.titleLarge,
                   textAlign: TextAlign.center,
                 ),

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:matura_pro_ai/core/constants.dart';
 import '../../models/raindrop_word.dart';
 import '../../services/raindrop_loader.dart';
 import '../../widgets/scrollable_layout.dart';
@@ -24,7 +25,7 @@ class RaindropPage extends StatelessWidget {
             children: [
               Center(
                 child: Text(
-                  "Raindrop",
+                  AppStrings.raindrop,
                   style: theme.textTheme.titleLarge,
                   textAlign: TextAlign.center,
                 ),

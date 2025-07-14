@@ -1,3 +1,4 @@
+import '../../core/constants.dart';
 import 'package:flutter/material.dart';
 
 enum QuestionTopic
@@ -56,34 +57,34 @@ enum QuestionTopic
   static String stringDesc(QuestionTopic type)
   {
     switch (type) {
-      case QuestionTopic.human:
-        return "Człowiek";
+      case QuestionTopic.human: 
+        return AppStrings.topicHuman;
       case QuestionTopic.home:
-        return "Dom";
+        return AppStrings.topicHome;
       case QuestionTopic.school:
-        return "Szkoła";
+        return AppStrings.topicSchool;
       case QuestionTopic.work:
-        return "Praca";
+        return AppStrings.topicWork;
       case QuestionTopic.social:
-        return "Życie rodzinne i towarzyskie";
+         return AppStrings.topicSocial;
       case QuestionTopic.food:
-        return "Żywienie";
+         return AppStrings.topicFood;
       case QuestionTopic.services:
-        return "Zakupy i usługi";
+         return AppStrings.topicServices;
       case QuestionTopic.travel:
-        return "Podróżowanie i turystyka";
+         return AppStrings.topicTravel;
       case QuestionTopic.culture:
-        return "Kultura";
+         return AppStrings.topicCulture;
       case QuestionTopic.sport:
-        return "Sport";
+         return AppStrings.topicSport;
       case QuestionTopic.health:
-        return "Zdrowie";
+         return AppStrings.topicHealth;
       case QuestionTopic.science:
-        return "Nauka";
+         return AppStrings.topicScience;
       case QuestionTopic.nature:
-        return "Świat przyrody";
+         return AppStrings.topicNature;
       case QuestionTopic.politcs:
-        return "Państwo i społeczeństwo";
+         return AppStrings.topicPolitcs;
     }
   }
 

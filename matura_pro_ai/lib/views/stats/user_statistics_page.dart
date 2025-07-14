@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../core/constants.dart';
+
 import '../../models/test/test_result.dart';
 import '../../models/test/test_type.dart';
 import '../../models/test/test_progress.dart';
@@ -97,7 +99,7 @@ Widget _buildOngoingTestCard(
               itemBuilder: (context, index) {
                 final partName = index < completedPartNames.length
                     ? completedPartNames[index]
-                    : 'Sekcja ${index + 1}';
+                    : '${AppStrings.section} ${index + 1}';
                 final score = index < completedScores.length
                     ? "${(completedScores[index] * 100).toStringAsFixed(1)}%"
                     : '-';
@@ -114,7 +116,7 @@ Widget _buildOngoingTestCard(
             const Divider(height: 32),
           ],
 
-          Text("Aktualna część:", style: theme.textTheme.bodyLarge),
+          Text("${AppStrings.currentPart}:", style: theme.textTheme.bodyLarge),
           const SizedBox(height: 8),
           Center(
             child: Text(
@@ -147,14 +149,14 @@ Widget _buildOngoingTestCard(
         children: [
           Center(
             child: Text(
-              "Statystyki",
+              AppStrings.stats,
               style: theme.textTheme.titleLarge,
               textAlign: TextAlign.center,
             ),
           ),
           const SizedBox(height: 32),
           if (account?.currentTests.isNotEmpty ?? false) ...[
-            Text("Trwające testy:", style: theme.textTheme.titleMedium),
+            Text("${AppStrings.ongoingTests}:", style: theme.textTheme.titleMedium),
             const SizedBox(height: 12),
             ...account!.currentTests.entries.map(
               (entry) => _buildOngoingTestCard(context, entry.key, entry.value),

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../core/constants.dart';
 import '../../providers/theme_provider.dart';
 
 import '../../widgets/scrollable_layout.dart';
@@ -21,7 +22,7 @@ class SettingsPage extends ConsumerWidget {
         children: [
           Center(
             child: Text(
-              "Ustawienia",
+              AppStrings.settings,
               style: theme.textTheme.titleLarge,
               textAlign: TextAlign.center,
             ),
@@ -33,7 +34,7 @@ class SettingsPage extends ConsumerWidget {
               physics: const NeverScrollableScrollPhysics(),
               children: [
                 SwitchListTile(
-                  title: const Text("Dark Mode"),
+                  title: const Text(AppStrings.darkMode),
                   value: isDark,
                   onChanged: (value) {
                     ref.read(themeNotifierProvider.notifier).toggleTheme(value);

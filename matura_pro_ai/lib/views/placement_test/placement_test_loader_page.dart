@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:matura_pro_ai/core/constants.dart';
 import 'package:matura_pro_ai/models/test/test_progress.dart';
 
 import '../../controllers/test/test_controller.dart';
@@ -62,7 +63,7 @@ class _PlacementTestLoaderPageState
       MaterialPageRoute(
         builder: (_) => TestPage(
           testController: _testController,
-          label: 'Test poziomujący',
+          label: AppStrings.placementTest,
           onTestEnded: () => _handleTestEnded(context),
           onPartFinished: (part) => _handlePartFinished(context, part),
         ),
@@ -155,7 +156,7 @@ class _PlacementTestLoaderPageState
         Center(
           child: ElevatedButton(
             onPressed: () => _handleTestStarted(context, _test!),
-            child: const Text("Zaczynamy!"),
+            child: const Text("${AppStrings.letsBegin}!"),
           ),
         ),
       ]),

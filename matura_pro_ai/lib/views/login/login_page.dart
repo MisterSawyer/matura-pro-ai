@@ -9,6 +9,7 @@ import '../../routes/app_routes.dart';
 import '../../providers/account_provider.dart';
 import '../../providers/auth_provider.dart';
 
+
 class LoginPage extends ConsumerStatefulWidget {
   const LoginPage({super.key});
 
@@ -43,6 +44,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
   }
 
   Future<String?> _recoverPassword(String name) async {
+    assert(false);
     return 'Password recovery not supported.';
   }
 
@@ -60,7 +62,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
             constraints: const BoxConstraints(maxWidth: 600),
             child: FlutterLogin(
               title: AppStrings.appTitle,
-              logo: const AssetImage('assets/images/logo2.png'),
+              logo: const AssetImage(AppAssets.logoPath),
               userType: LoginUserType.name,
               onLogin: _authUser,
               onSignup: _signupUser,
