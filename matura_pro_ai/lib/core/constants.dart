@@ -55,6 +55,7 @@ class AppStrings {
   static const String playAudio = 'Odtwórz';
   static const String pauseAudio = 'Pauza';
   static const String resumeAudio = 'Wznów';
+  static const String replayOnce = 'Powtórz nagranie';
 
   static const String categories = 'Kategorie';
   static const String categoriesIncomplete = 'Please categorize all items';

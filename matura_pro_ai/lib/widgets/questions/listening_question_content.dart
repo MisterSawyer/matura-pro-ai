@@ -20,12 +20,16 @@ class ListeningQuestionContent extends StatefulWidget {
       _ListeningQuestionContentState();
 }
 
-class _ListeningQuestionContentState extends State<ListeningQuestionContent> {
+class _ListeningQuestionContentState extends State<ListeningQuestionContent>
+    with SingleTickerProviderStateMixin {
   final AudioPlayer _player = AudioPlayer();
   Duration _position = Duration.zero;
   Duration _duration = Duration.zero;
   bool _isLoaded = false;
   bool _isPlaying = false;
+  bool _replayOnce = false;
+  bool _hasReplayed = false;
+  late AnimationController _waveController;
 
   StreamSubscription? _positionSub;
   StreamSubscription? _durationSub;
@@ -35,6 +39,11 @@ class _ListeningQuestionContentState extends State<ListeningQuestionContent> {
   @override
   void initState() {
     super.initState();
+
+    _waveController = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 700),
+    );
 
     _positionSub = _player.onPositionChanged.listen((pos) {
       setState(() {
@@ -51,14 +60,27 @@ class _ListeningQuestionContentState extends State<ListeningQuestionContent> {
     _stateSub = _player.onPlayerStateChanged.listen((state) {
       setState(() {
         _isPlaying = state == PlayerState.playing;
+        if (_isPlaying) {
+          _waveController.repeat(reverse: true);
+        } else {
+          _waveController.stop();
+        }
       });
     });
 
     _completeSub = _player.onPlayerComplete.listen((_) {
       setState(() {
         _position = Duration.zero;
-        _isPlaying = false;
-        _isLoaded = false;
+        if (_replayOnce && !_hasReplayed) {
+          _hasReplayed = true;
+          _player.seek(Duration.zero);
+          _player.resume();
+        } else {
+          _isPlaying = false;
+          _isLoaded = false;
+          _waveController.stop();
+          _hasReplayed = false;
+        }
       });
     });
   }
@@ -71,6 +93,7 @@ class _ListeningQuestionContentState extends State<ListeningQuestionContent> {
     _stateSub?.cancel();
     _completeSub?.cancel();
     _player.dispose();
+    _waveController.dispose();
     super.dispose();
   }
 
@@ -106,28 +129,47 @@ class _ListeningQuestionContentState extends State<ListeningQuestionContent> {
     return '$minutes:$seconds';
   }
 
+  Widget _buildWave() {
+    return Padding(
+      padding: const EdgeInsets.only(left: 16),
+      child: ScaleTransition(
+        scale: Tween(begin: 0.7, end: 1.2).animate(_waveController),
+        child: const Icon(Icons.graphic_eq, color: Colors.green),
+      ),
+    );
+  }
+
   Widget _buildActionButton() {
+    Widget button;
+
     if (!_isLoaded || _position == Duration.zero) {
-      return ElevatedButton.icon(
+      button = ElevatedButton.icon(
         onPressed: _playAudio,
         icon: const Icon(Icons.play_arrow),
         label: const Text(AppStrings.playAudio),
       );
-    }
-
-    if (_isPlaying) {
-      return ElevatedButton.icon(
+    } else if (_isPlaying) {
+      button = ElevatedButton.icon(
         onPressed: _pauseAudio,
         icon: const Icon(Icons.pause),
         label: const Text(AppStrings.pauseAudio),
       );
     } else {
-      return ElevatedButton.icon(
+      button = ElevatedButton.icon(
         onPressed: _playAudio,
         icon: const Icon(Icons.play_arrow),
         label: const Text(AppStrings.resumeAudio),
       );
     }
+
+    if (_isPlaying) {
+      return Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [button, _buildWave()],
+      );
+    }
+
+    return button;
   }
 
   @override
@@ -146,6 +188,15 @@ class _ListeningQuestionContentState extends State<ListeningQuestionContent> {
               textAlign: TextAlign.center),
           const SizedBox(height: 24),
           _buildActionButton(),
+          SwitchListTile(
+            title: const Text(AppStrings.replayOnce),
+            value: _replayOnce,
+            onChanged: (val) {
+              setState(() {
+                _replayOnce = val;
+              });
+            },
+          ),
           const SizedBox(width: 32),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 32),
