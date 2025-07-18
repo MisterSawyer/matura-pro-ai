@@ -222,22 +222,8 @@
                     "tags": ["listening"],
                     "topics" : [],
                     "question": "Usłyszysz rozmowę telefoniczną. Wybierz właściwą odpowiedź.",
-                    "audioPath": "restaurant_reservation.mp3",
+                    "audioPath": "restaurant_reservation0.mp3",
                     "questions": [
-                        {
-                            "type": "multiple_choice",
-                            "tags": ["listening"],
-                            "topics" : [],
-                            "question": "The caller wants to book a table for:",
-                            "options": [
-                                "tonight",
-                                "tomorrow evening",
-                                "next weekend"
-                            ],
-                            "correctIndexes": [
-                                1
-                            ]
-                        },
                         {
                             "type": "multiple_choice",
                             "tags": ["listening"],
@@ -249,7 +235,7 @@
                                 "8"
                             ],
                             "correctIndexes": [
-                                2
+                                1
                             ]
                         },
                         {
@@ -263,7 +249,29 @@
                                 "8:00 PM"
                             ],
                             "correctIndexes": [
-                                0
+                                1
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "type": "listening",
+                    "tags": ["listening"],
+                    "topics" : [],
+                    "question": "Usłyszysz rozmowę telefoniczną. Wybierz właściwą odpowiedź.",
+                    "audioPath": "restaurant_reservation1.mp3",
+                    "questions": [
+                        {
+                            "type": "text_input",
+                            "tags": ["listening"],
+                            "topics" : [],
+                            "question": "Uzupełnij luki.",
+                            "text": "The library will be closed for ${0} days",
+                            "acceptedAnswers": [
+                                [
+                                "three",
+                                "3"
+                                ]
                             ]
                         }
                     ]
