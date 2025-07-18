@@ -1,5 +1,5 @@
 class AppStrings {
-  static const String appTitle = 'Matura Pro AI';
+  static const String appTitle = 'MaturaPro.ai';
   static const String error = 'Błąd';
   static const String success = 'Sukces';
   static const String passwordMismatch = 'Hasła nie pasują';
@@ -45,7 +45,7 @@ class AppStrings {
   static const String hello = 'Cześć';
   static const String yes = 'Tak';
   static const String no = 'Nie';
-  static const String start = 'Start';
+  static const String lessonOfTheDay = 'Lekcja na dziś';
   static const String letsBegin = 'Zaczynamy';
   static const String next = 'Dalej';
   static const String retry = 'Powtórz';

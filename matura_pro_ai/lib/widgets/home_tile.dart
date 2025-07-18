@@ -23,7 +23,7 @@ class HomeTile extends StatelessWidget {
           child: Ink(
             padding: const EdgeInsets.all(ThemeDefaults.padding),
             decoration: BoxDecoration(
-              color: onTap != null ? theme.colorScheme.primaryContainer : theme.colorScheme.secondaryContainer,
+              color: theme.colorScheme.primaryContainer,
               borderRadius: BorderRadius.circular(16),
             ),
             child: Column(

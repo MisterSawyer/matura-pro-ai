@@ -46,9 +46,9 @@ class _HomePageState extends ConsumerState<HomePage> {
           style: ElevatedButton.styleFrom(
             padding: const EdgeInsets.all(ThemeDefaults.padding),
           ),
-          onPressed: null,
+          onPressed: () => {},
           child: const Text(
-            "${AppStrings.start} ➤",
+            "${AppStrings.lessonOfTheDay} ➤",
             overflow: TextOverflow.fade,
             softWrap: false,
             maxLines: 1,
@@ -56,23 +56,6 @@ class _HomePageState extends ConsumerState<HomePage> {
         ),
       ),
       const SizedBox(height: 16),
-      SizedBox(
-        width: double.infinity,
-        child: ElevatedButton(
-          style: ElevatedButton.styleFrom(
-            padding: const EdgeInsets.all(ThemeDefaults.padding),
-          ),
-          onPressed: () {
-            Navigator.pushNamed(context, AppRoutes.raindrop);
-          },
-          child: const Text(
-            AppStrings.raindrop,
-            overflow: TextOverflow.fade,
-            softWrap: false,
-            maxLines: 1,
-          ),
-        ),
-      ),
     ]);
   }
 
